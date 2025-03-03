@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-// import { Geist, Geist_Mono, Syne_Mono, Jost } from "next/font/google";
+import { Geist, Geist_Mono, Syne_Mono, Jost } from "next/font/google";
 import "./globals.css";
 
 // const geistSans = Geist({
@@ -18,23 +18,10 @@ import "./globals.css";
 //   weight: "400"
 // });
 
-// const jostFont = Jost({
-//   variable: "--font-jost",
-//   subsets: ["latin"],
-// });
-
-// const libreBaskerville = Libre_Baskerville({
-//   variable: "--font-libre-baskerville",
-//   subsets: ["latin"],
-//   weight: "400"
-// });
-
-// const montserratAlternates = Montserrat_Alternates({
-//   variable: "--font-montserrat",
-//   subsets: ["latin"],
-//   weight: "400"
-// });
-
+const jostFont = Jost({
+  variable: "--font-jost",
+  subsets: ["latin"],
+});
 
 export const metadata: Metadata = {
   title: "Grant Dong",
