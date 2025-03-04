@@ -16,6 +16,9 @@ export default {
         nav_text: "#6A615C",
         nav_border: "#AB9B94",
       },
+      fontFamily: {
+        jost: ["Jost", "sans-serif"],
+      },
     },
   },
   plugins: [],
