@@ -9,15 +9,17 @@ export default {
   theme: {
     extend: {
       colors: {
-        background: "#E3D5CA",
+        background: "#ffffff",
         foreground: "#000000",
         // dark_background: "#E3D5CA",
         nav_background: "#F5EBE0",
         nav_text: "#6A615C",
         nav_border: "#AB9B94",
       },
+      // This is where you need to include imported fonts in order to reference via tailwind.css
       fontFamily: {
         jost: ["Jost", "sans-serif"],
+        arial: ["Arial", "sans-serif"],
       },
     },
   },
