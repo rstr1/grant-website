@@ -1,6 +1,9 @@
 ### README
 
-hello
+## Tabs
+- photography
+- resume
+- music recommendations
 
 
 
