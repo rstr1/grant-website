@@ -23,12 +23,12 @@ export default function RootLayout({
     <html lang="en">
       <body className={jostFont.variable}>
         {/* Navigation Toolbar */}
-        <nav className="w-full bg-nav_background text-nav_text p-3 fixed top-0 border border-nav_border z-50">
-          <div className="flex flex-wrap pl-3 gap-4">
+        <nav className="w-full px-4 h-12 justify-between bg-nav_background text-nav_text p-3 fixed border border-nav_border z-50">
+          <div className="flex flex-nowrap pl-3 gap-4">
             {/* GRANT DONG */}
             <div
               style={{ letterSpacing: "0.4em" }}
-              className="font-bold flex gap-4"
+              className="font-bold gap-4 whitespace-nowrap"
             >
               <Link href="/">GRANT DONG</Link>
             </div>
@@ -36,12 +36,12 @@ export default function RootLayout({
             {/* NAVIGATION LINKS */}
             <div
               style={{ letterSpacing: "0.2em" }}
-              className="flex gap-6 ml-auto text-xs items-center"
+              className="flex gap-6 ml-auto text-xs items-center overflow-x-auto whitespace-nowrap scrollbar-hide [direction:rtl]"
             >
-              <Link href="/testing" className="hover:text-blue-400 transition duration-200">TESTING</Link>
-              <Link href="#" className="hover:text-blue-400 transition duration-200">RESUME</Link>
-              <Link href="#" className="hover:text-blue-400 transition duration-200">ARTICLES</Link>
+              <Link href="/resume" className="hover:text-blue-400 transition duration-200">RESUME</Link>
+              <Link href="/articles" className="hover:text-blue-400 transition duration-200">ARTICLES</Link>
               <Link href="/photography" className="hover:text-blue-400 transition duration-200">PHOTOGRAPHY</Link>
+              <Link href="/testing" className="hover:text-blue-400 transition duration-200">TESTING</Link>
             </div>
           </div>
         </nav>
