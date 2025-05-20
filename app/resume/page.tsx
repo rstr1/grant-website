@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-export default function Photography() {
+export default function Resume() {
     return (
         <div className="flex justify-center items-center min-h-screen p-8 sm:p-20 bg-background font-jost text-black">
 

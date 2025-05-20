@@ -25,11 +25,6 @@ export default function Photography() {
 
             </div>
 
-
-
         </div>
-
-
-
     );
 }
