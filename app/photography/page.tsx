@@ -9,7 +9,7 @@ export default function Photography() {
 
                 <Image
                     src="/photography/DSCF1616.jpeg"
-                    alt="test"
+                    alt="Lake Como Waterfront"
                     width="4896"
                     height="3264"
                     className="rounded-lg shadow-lg"
@@ -17,7 +17,7 @@ export default function Photography() {
 
                 <Image
                     src="/photography/DSCF1745.png"
-                    alt="test"
+                    alt="Bellagio Alley"
                     width="4528"
                     height="2547"
                     className="rounded-lg shadow-lg"

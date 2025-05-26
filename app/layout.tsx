@@ -3,6 +3,7 @@ import { Jost } from "next/font/google";
 import "./globals.css";
 import React from "react";
 import Link from "next/link";
+import Trail from "./trail";
 
 const jostFont = Jost({
   variable: "--font-jost",
@@ -22,6 +23,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={jostFont.variable}>
+        <div className="cursor-none z-999">
+          <Trail />
+        </div>
         {/* Navigation Toolbar */}
         <nav className="w-full px-4 h-12 justify-between bg-nav_background text-nav_text p-3 fixed border border-nav_border z-50">
           <div className="flex flex-nowrap pl-3 gap-4">
@@ -41,7 +45,7 @@ export default function RootLayout({
               <Link href="/resume" className="hover:text-blue-400 transition duration-200">RESUME</Link>
               <Link href="/articles" className="hover:text-blue-400 transition duration-200">ARTICLES</Link>
               <Link href="/photography" className="hover:text-blue-400 transition duration-200">PHOTOGRAPHY</Link>
-              <Link href="/testing" className="hover:text-blue-400 transition duration-200">TESTING</Link>
+              <Link href="/tierlist" className="hover:text-blue-400 transition duration-200">MUSIC</Link>
             </div>
           </div>
         </nav>

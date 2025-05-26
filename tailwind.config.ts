@@ -11,8 +11,7 @@ export default {
       colors: {
         background: "#ffffff",
         foreground: "#000000",
-        // dark_background: "#E3D5CA",
-        // nav_background: "#F5EBE0",
+        dark_background: "#1e1d18",
         nav_background: "#FFBC59",
         nav_text: "#6A615C",
         nav_border: "#AB9B94",
