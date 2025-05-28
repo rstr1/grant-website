@@ -3,7 +3,6 @@
 import { useEffect, useRef } from 'react';
 
 
-
 export default function Trail() {
 
     // Initialise coordinates for the circles
@@ -13,7 +12,7 @@ export default function Trail() {
     });
 
     const cursorSizePx = 8;
-    const cursorArguments = "h-" + cursorSizePx/2 + " w-" + cursorSizePx/2;
+    // const cursorArguments = "h-" + cursorSizePx/2 + " w-" + cursorSizePx/2;
 
     // Create a ref to store the circle elements
     const circlesRef = useRef<HTMLElement[]>([]);
