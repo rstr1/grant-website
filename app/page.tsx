@@ -11,7 +11,7 @@ export default function Home() {
       {/* Testing */}
 
       <Image
-        src="/photography/DSCF1616.jpeg"
+        src="/photography/DSCF1616.png"
         alt="test"
         width="4896"
         height="3264"

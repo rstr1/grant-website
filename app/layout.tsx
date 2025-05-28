@@ -10,6 +10,8 @@ const jostFont = Jost({
   subsets: ["latin"],
 });
 
+const linkStyle = "cursor-none hover:text-blue-400 transition duration-200";
+
 export const metadata: Metadata = {
   title: "Grant Dong",
   description: "Personal website",
@@ -21,9 +23,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className={jostFont.variable}>
-        <div className="cursor-none z-999">
+    <html lang="en" className="cursor-none">
+      <body className={`${jostFont.variable}`}>
+        <div>
           <Trail />
         </div>
         {/* Navigation Toolbar */}
@@ -34,7 +36,7 @@ export default function RootLayout({
               style={{ letterSpacing: "0.4em" }}
               className="font-bold gap-4 whitespace-nowrap"
             >
-              <Link href="/">GRANT DONG</Link>
+              <Link href="/"className={`${linkStyle}`}>GRANT DONG</Link>
             </div>
 
             {/* NAVIGATION LINKS */}
@@ -42,16 +44,16 @@ export default function RootLayout({
               style={{ letterSpacing: "0.2em" }}
               className="flex gap-6 ml-auto text-xs items-center overflow-x-auto whitespace-nowrap scrollbar-hide [direction:rtl]"
             >
-              <Link href="/resume" className="hover:text-blue-400 transition duration-200">RESUME</Link>
-              <Link href="/articles" className="hover:text-blue-400 transition duration-200">ARTICLES</Link>
-              <Link href="/photography" className="hover:text-blue-400 transition duration-200">PHOTOGRAPHY</Link>
-              <Link href="/tierlist" className="hover:text-blue-400 transition duration-200">MUSIC</Link>
+              <Link href="/resume" className={`${linkStyle}`}>RESUME</Link>
+              <Link href="/articles" className={`${linkStyle}`}>ARTICLES</Link>
+              <Link href="/photography" className={`${linkStyle}`}>PHOTOGRAPHY</Link>
+              <Link href="/tierlist" className={`${linkStyle}`}>MUSIC</Link>
             </div>
           </div>
         </nav>
 
         {/* Main Page Content */}
-        <div>{children}</div>
+        <div className="">{children}</div>
       </body>
     </html>
   );

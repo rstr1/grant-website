@@ -17,7 +17,6 @@ export default function Tierlist() {
         
         <div className="cursor-none min-h-screen p-8 sm:p-20 bg-dark_background font-jost text-black">
             <div>
-                
                 <Card>Hello</Card>
             </div>
         </div>

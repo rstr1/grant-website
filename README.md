@@ -11,6 +11,12 @@
 - Gallery view for the photography page
 - About Me feature on the main page
 - Fix the colour palette on the page
+- New icon
+- Fix images on actual website
+
+## Nav Bar
+- Edit the mouse cursor selection icons
+
 
 ## Music Tierlist
 - Want to be able to sort by genre, year, artist, colour (maybe)

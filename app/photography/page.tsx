@@ -8,7 +8,7 @@ export default function Photography() {
             <div className="grid  gap-6">
 
                 <Image
-                    src="/photography/DSCF1616.jpeg"
+                    src="/photography/DSCF1616.png"
                     alt="Lake Como Waterfront"
                     width="4896"
                     height="3264"
