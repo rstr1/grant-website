@@ -2,6 +2,8 @@
 
 import { useEffect, useRef } from 'react';
 
+
+
 export default function Trail() {
 
     // Initialise coordinates for the circles
@@ -78,7 +80,7 @@ export default function Trail() {
                     ref={(el) => {
                         if (el) circlesRef.current[i] = el;
                     }}
-                    className={`circle fixed z-[9999999] rounded-full bg-white ${cursorArguments} pointer-events-none`}
+                    className="circle fixed w-4 h-4 z-[9999999] rounded-full bg-white pointer-events-none"
                     style={{ left: 0, top: 0 }}
                 />
             ))}
