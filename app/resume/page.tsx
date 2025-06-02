@@ -11,7 +11,7 @@ export default function Resume() {
                         alt="Download"
                         width="850"
                         height="1100"
-                        className="cursor-pointer hover:opacity-80 body-center"
+                        className="cursor-none hover:opacity-80 body-center"
                     />
                 </a>
 

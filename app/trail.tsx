@@ -11,8 +11,7 @@ export default function Trail() {
         y: typeof window !== "undefined" ? window.innerHeight / 2 : 0,
     });
 
-    const cursorSizePx = 8;
-    // const cursorArguments = "h-" + cursorSizePx/2 + " w-" + cursorSizePx/2;
+    const cursorSizePx = 24;
 
     // Create a ref to store the circle elements
     const circlesRef = useRef<HTMLElement[]>([]);
@@ -33,6 +32,13 @@ export default function Trail() {
             coords.current.x = e.clientX;
             coords.current.y = e.clientY;
         };
+        // const checkCursorStyle = (e: MouseEvent) => {
+        //     const element = document.elementFromPoint(e.clientX, e.clientY);
+        //     if (element) {
+        //         const computedStyle = window.getComputedStyle(element);
+        //         console.log("Cursor under mouse:", computedStyle.cursor, "on", element);
+        //     }
+        // };
 
         window.addEventListener("mousemove", handleMouseMove);
 
@@ -48,8 +54,8 @@ export default function Trail() {
                 const element = circlesRef.current[i];
                 if (element) {
                     // Set the position of the circle
-                    element.style.left = pos.x - cursorSizePx + "px";
-                    element.style.top = pos.y - cursorSizePx + "px";
+                    element.style.left = pos.x - cursorSizePx/2 + "px";
+                    element.style.top = pos.y - cursorSizePx/2 + "px";
                     
                     element.style.scale = (positions.current.length - i) / positions.current.length + "";
                     element.style.backgroundColor = colours[i % colours.length];
@@ -79,8 +85,14 @@ export default function Trail() {
                     ref={(el) => {
                         if (el) circlesRef.current[i] = el;
                     }}
-                    className="circle fixed w-4 h-4 z-[9999999] rounded-full bg-white pointer-events-none"
-                    style={{ left: 0, top: 0 }}
+                    className="circle fixed z-[9999999] rounded-full mixed-blend-mode pointer-events-none display-block border-radius-0 position-fixed"
+                    style={{
+                    left: 0,
+                    top: 0,
+                    width: `${cursorSizePx}px`,
+                    height: `${cursorSizePx}px`,
+                    backgroundColor: colours[i % colours.length],
+                    }}
                 />
             ))}
         </>

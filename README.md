@@ -14,6 +14,9 @@
 - New icon
 - Fix images on actual website
 
+## Trail
+- Doesn't align with cursors sometimes
+
 ## Nav Bar
 - Edit the mouse cursor selection icons
 

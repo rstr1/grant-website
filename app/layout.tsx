@@ -23,18 +23,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="cursor-none">
+    <html lang="en">
       <body className={`${jostFont.variable}`}>
-        <div>
+        <div className="">
           <Trail />
         </div>
         {/* Navigation Toolbar */}
-        <nav className="w-full px-4 h-12 justify-between bg-nav_background text-nav_text p-3 fixed border border-nav_border z-50">
-          <div className="flex flex-nowrap pl-3 gap-4">
+        <nav className="cursor-none w-full px-4 h-12 justify-between bg-nav_background text-nav_text p-3 fixed border border-nav_border z-50">
+          <div className="cursor-none flex flex-nowrap pl-3 gap-4">
             {/* GRANT DONG */}
             <div
               style={{ letterSpacing: "0.4em" }}
-              className="font-bold gap-4 whitespace-nowrap"
+              className="cursor-none font-bold gap-4 whitespace-nowrap"
             >
               <Link href="/"className={`${linkStyle}`}>GRANT DONG</Link>
             </div>
@@ -42,7 +42,7 @@ export default function RootLayout({
             {/* NAVIGATION LINKS */}
             <div
               style={{ letterSpacing: "0.2em" }}
-              className="flex gap-6 ml-auto text-xs items-center overflow-x-auto whitespace-nowrap scrollbar-hide [direction:rtl]"
+              className="cursor-none flex gap-6 ml-auto text-xs items-center overflow-x-auto whitespace-nowrap scrollbar-hide [direction:rtl]"
             >
               <Link href="/resume" className={`${linkStyle}`}>RESUME</Link>
               <Link href="/articles" className={`${linkStyle}`}>ARTICLES</Link>
@@ -53,7 +53,7 @@ export default function RootLayout({
         </nav>
 
         {/* Main Page Content */}
-        <div className="">{children}</div>
+        <div className="cursor-none">{children}</div>
       </body>
     </html>
   );
