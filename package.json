@@ -9,10 +9,15 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@heroui/card": "^2.2.19",
+    "@heroui/react": "^2.7.10",
+    "@heroui/system": "^2.4.16",
+    "@heroui/theme": "^2.4.16",
     "@vercel/blob": "^1.1.1",
+    "framer-motion": "^12.16.0",
     "next": "^15.3.2",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

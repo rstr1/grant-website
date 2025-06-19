@@ -75,7 +75,7 @@ export default function Trail() {
         return () => {
             window.removeEventListener("mousemove", handleMouseMove);
         };
-    }, []);
+    });
 
     return (
         <>
