@@ -33,21 +33,27 @@ export default function Navbar() {
         {/* Hamburger Button */}
         <button
           type="button"
-          className="sm:hidden ml-auto text-xl font-bold"
+          className={`sm:hidden ml-auto text-xl font-bold transition-transform duration-300`}
           aria-label="Toggle navigation"
           onClick={() => setMenuOpen(prev => !prev)}
         >
-          ☰
+            <div className={`relative w-6 h-6 flex flex-col justify-center items-center`}>
+              <span className={`absolute left-0 h-0.5 bg-nav_text transition-all duration-300 ${menuOpen ? 'top-3 left-2 w-2 opacity-0' : 'top-1 left-0 w-6 opacity-100'}`}></span>
+              <span className={`absolute left-0 w-6 h-0.5 bg-nav_text transition-all duration-200 ${menuOpen ? 'top-3 rotate-45' : 'top-3'}`}></span>
+              <span className={`absolute left-0 w-6 h-0.5 bg-nav_text transition-all duration-200 ${menuOpen ? 'top-3 -rotate-45' : 'top-3'}`}></span>
+              <span className={`absolute left-0 h-0.5 bg-nav_text transition-all duration-300 ${menuOpen ? 'top-3 left-2 w-2 opacity-0' : 'top-5 left-0 w-6 opacity-100'}`}></span>
+            </div>
         </button>
+
       </div>
 
       {/* Mobile Menu */}
       {menuOpen && (
         <div className="sm:hidden bg-sky_blue border border-nav_border flex flex-col gap-4 p-4 text-xs">
-          <Link href="/resume" className={linkStyleMobile} onClick={() => setMenuOpen(false)}>RESUME</Link>
-          <Link href="/articles" className={linkStyleMobile} onClick={() => setMenuOpen(false)}>ARTICLES</Link>
-          <Link href="/photography" className={linkStyleMobile} onClick={() => setMenuOpen(false)}>PHOTOGRAPHY</Link>
           <Link href="/tierlist" className={linkStyleMobile} onClick={() => setMenuOpen(false)}>MUSIC</Link>
+          <Link href="/photography" className={linkStyleMobile} onClick={() => setMenuOpen(false)}>PHOTOGRAPHY</Link>
+          <Link href="/articles" className={linkStyleMobile} onClick={() => setMenuOpen(false)}>ARTICLES</Link>
+          <Link href="/resume" className={linkStyleMobile} onClick={() => setMenuOpen(false)}>RESUME</Link>
         </div>
       )}
     </nav>

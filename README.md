@@ -1,6 +1,7 @@
 ### README
 
 ## Tabs
+- home page
 - photography
 - resume
 - articles
@@ -11,11 +12,10 @@
 - Gallery view for the photography page
 - About Me feature on the main page
 - Fix the colour palette on the page
-- New icon
 - Fix images on actual website
 
 ## Trail
-- Doesn't align with cursors sometimes
+
 
 ## Nav Bar
 - Edit the mouse cursor selection icons
@@ -36,9 +36,10 @@
 - Title
 - Date
 - Location
-- 
 
 ## Colour Palette
+
+- Make a colour palette dictionary
 
 #E3D5CA
 
