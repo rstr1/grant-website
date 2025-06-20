@@ -1,8 +1,8 @@
 'use client';
 
 // import { ReactNode } from 'react';
-import {Card, CardBody,} from '@heroui/react';
-import {Image} from '@heroui/react';
+import {Card, CardBody} from '@heroui/react';
+import Image from 'next/image';
 import React from 'react';
 
 const cards = [
@@ -12,24 +12,24 @@ const cards = [
                 <Image
                     src="/album covers/Kid A.png"
                     alt="Kid A Album Cover"
-                    className="object-cover"
-                    shadow="lg"
+                    className="w-full h-auto object-cover rounded-2xl shadow-lg"
                     height={200}
+                    width={200}
                 >
                 </Image>
             </div>
         </CardBody>
     </Card>,
 
-    <Card key="">
-        <CardBody>
-            <div>
-                <Image>
+    // <Card key="">
+    //     <CardBody>
+    //         <div>
+    //             <Image>
 
-                </Image>
-            </div>
-        </CardBody>
-    </Card>
+    //             </Image>
+    //         </div>
+    //     </CardBody>
+    // </Card>
 ]
 
 export default function Tierlist() {
