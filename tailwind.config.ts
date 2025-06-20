@@ -11,16 +11,24 @@ export default {
   theme: {
     extend: {
       colors: {
-        background: "#ffffff",
-        foreground: "#000000",
-        dark_background: "#1e1d18",
-        nav_background: "#FFBC59",
-        nav_text: "#6A615C",
-        nav_border: "#AB9B94",
-        eggshell: "#F0EAD6",
-        cadmium_orange: "#F28C28",
-        sky_blue: "#87CEEB",
+        foreground: "#000000",      // black
+        dark_background: "#1e1d18", // dark grey
+        nav_border: "#AB9B94",      // brown/grey
+        eggshell: "#F0EAD6",        // eggshell white
+        cadmium_orange: "#F28C28",  // cadmium orange
+        sky_blue: "#87CEEB",        // sky blue
+        other_blue: "#69C3FF",      // other blue
 
+        background: "#1e1d18",      // dark background
+        nav_background: "#1e1d18",  // dark background
+        nav_text: "#ffffff",
+
+        absolutely: "#c7b69c",
+        kid_a: "#422a27",
+        dawn: "#4f5b48",
+        eusexua: "#b8c2c1",
+        forever_howlong: "#da3331",
+        heaven_or_las_vegas: "#4a4871",
       },
       // This is where you need to include imported fonts in order to reference via tailwind.css
       fontFamily: {
@@ -30,7 +38,7 @@ export default {
     },
     screens: {
       'xs': '480px',
-      'sm': '640px',
+      'sm': '675px',
       'md': '768px',
       'lg': '1024px',
       'xl': '1280px',
