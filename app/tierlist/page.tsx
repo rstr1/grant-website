@@ -54,8 +54,8 @@ const cards = [
         <CardBody className="grid grid-cols-2 text-center">
             <div className="p-2">
                 <Image
-                    src="/album covers/Eusexua.png"
-                    alt="Eusexua Album Cover"
+                    src="/album covers/EUSEXUA.png"
+                    alt="EUSEXUA Album Cover"
                     className="w-full h-auto object-cover rounded-2xl shadow-lg"
                     height={200}
                     width={200}
