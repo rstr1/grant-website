@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import "./globals.css";
 import React from "react";
 import Navbar from "./navbar";
-// import Trail from "./trail";
 
 
 export const metadata: Metadata = {
@@ -16,12 +15,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="overflow-hidden">
+    <html lang="en" className="overflow-auto bg-background">
       <body className="">
-
-        <div className="">
-          {/* <Trail /> */}
-        </div>
 
         <div className="">
           <Navbar></Navbar>

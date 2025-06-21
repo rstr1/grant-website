@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import './globals.css';
 
-const linkStyle = 'hover:text-blue-400 transition duration-200';
+const linkStyle = 'hover:text-cadmium_orange transition duration-200';
 const linkStyleMobile = `${linkStyle} border rounded-full border-nav_border p-1`;
 const navBackground = '#1e1d18';
 const navBorder = '#AB9B94'; 

@@ -4,6 +4,7 @@
 import {Card, CardBody} from '@heroui/react';
 import Image from 'next/image';
 import React from 'react';
+import Trail from "../trail";
 
 const cardStyle = 'max-w-[900px] mx-auto shadow-lg';
 
@@ -97,6 +98,8 @@ export default function Tierlist() {
     return (
         
         <div className="min-h-screen p-20 bg-dark_background font-jost text-black overflow-hidden">
+
+            <Trail></Trail>
             <div className="gap-6 grid grid-cols-1 sm:grid-cols-2 justify-items-center">
                 
                 {cards.find((card) => card.key == "KID_A")}
