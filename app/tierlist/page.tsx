@@ -5,94 +5,12 @@ import {Card, CardBody} from '@heroui/react';
 import Image from 'next/image';
 import React from 'react';
 import Trail from "../trail";
+import { albumData } from '../data/albums';
 
 const cardStyle = 'max-w-[900px] mx-auto shadow-lg';
 
-const cards = [
-    <Card key="KID_A" className={`${cardStyle} bg-kid_a`}>
-        <CardBody className="grid grid-cols-2 text-center">
-            <div className="p-2">
-                <Image
-                    src="/album covers/Kid A.png"
-                    alt="Kid A Album Cover"
-                    className="w-full h-auto object-cover rounded-2xl shadow-lg"
-                    height={200}
-                    width={200}
-                ></Image>
-            </div>
-        </CardBody>
-    </Card>,
-
-    <Card key="ABSOLUTELY" className={`${cardStyle} bg-absolutely`}>
-        <CardBody className="grid grid-cols-2 text-center">
-            <div className="p-2">
-                <Image
-                    src="/album covers/Absolutely.png"
-                    alt="Absolutely Album Cover"
-                    className="w-full h-auto object-cover rounded-2xl shadow-lg"
-                    height={200}
-                    width={200}
-                ></Image>
-            </div>
-        </CardBody>
-    </Card>,
-
-    <Card key="DAWN" className={`${cardStyle} bg-dawn`}>
-        <CardBody className="grid grid-cols-2 text-center">
-            <div className="p-2">
-                <Image
-                    src="/album covers/Dawn.png"
-                    alt="Dawn Album Cover"
-                    className="w-full h-auto object-cover rounded-2xl shadow-lg"
-                    height={200}
-                    width={200}
-                ></Image>
-            </div>
-        </CardBody>
-    </Card>,
-
-    <Card key="EUSEXUA" className={`${cardStyle} bg-eusexua`}>
-        <CardBody className="grid grid-cols-2 text-center">
-            <div className="p-2">
-                <Image
-                    src="/album covers/EUSEXUA.png"
-                    alt="EUSEXUA Album Cover"
-                    className="w-full h-auto object-cover rounded-2xl shadow-lg"
-                    height={200}
-                    width={200}
-                ></Image>
-            </div>
-        </CardBody>
-    </Card>,
-
-    <Card key="FOREVER HOWLONG" className={`${cardStyle} bg-forever_howlong`}>
-        <CardBody className="grid grid-cols-2 text-center">
-            <div className="p-2">
-                <Image
-                    src="/album covers/Forever Howlong.png"
-                    alt="Forever Howlong Album Cover"
-                    className="w-full h-auto object-cover rounded-2xl shadow-lg"
-                    height={200}
-                    width={200}
-                ></Image>
-            </div>
-        </CardBody>
-    </Card>,
-
-    <Card key="HEAVEN OR LAS VEGAS" className={`${cardStyle} bg-heaven_or_las_vegas`}>
-        <CardBody className="grid grid-cols-2 text-center">
-            <div className="p-2">
-                <Image
-                    src="/album covers/Heaven or Las Vegas.png"
-                    alt="Heaven or Las Vegas Album Cover"
-                    className="w-full h-auto object-cover rounded-2xl shadow-lg"
-                    height={200}
-                    width={200}
-                ></Image>
-            </div>
-        </CardBody>
-    </Card>,
-]
+// var color = 0x320ae3;
+// var complement = 0xffffff ^ color;
 
 export default function Tierlist() {
     return (
@@ -100,15 +18,26 @@ export default function Tierlist() {
         <div className="min-h-screen p-20 bg-dark_background font-jost text-black overflow-hidden">
 
             <Trail></Trail>
-            <div className="gap-6 grid grid-cols-1 sm:grid-cols-2 justify-items-center">
-                
-                {cards.find((card) => card.key == "KID_A")}
-                {cards.find((card) => card.key == "ABSOLUTELY")}
-                {cards.find((card) => card.key == "DAWN")}
-                {cards.find((card) => card.key == "EUSEXUA")}
-                {cards.find((card) => card.key == "FOREVER HOWLONG")}
-                {cards.find((card) => card.key == "HEAVEN OR LAS VEGAS")}
-                
+            <div className="gap-6 grid grid-cols- sm:grid-cols-2 justify-items-center">
+
+                {albumData.map(({ key, title, filename, background }) => (
+
+                    <Card key={key} className={`${cardStyle} bg-#${background}`}>
+                        <CardBody className="grid grid-cols-2 text-center">
+                            <div className="p-2">
+                                <Image
+                                src={`/album covers/${filename}`}
+                                alt={`${title} Album Cover`}
+                                className="w-full h-auto object-cover rounded-lg shadow-lg"
+                                height={200}
+                                width={200}
+                                >
+                                </Image>
+                            </div>
+                        </CardBody>
+                    </Card>
+                ))}
+     
             </div>
         </div>
     );

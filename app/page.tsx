@@ -10,10 +10,6 @@ export default function Home() {
       
       {/* Testing */}
 
-      <p className="test-white">
-        Herro Miche
-      </p>
-
       <Image
         priority={true}
         src="/photography/DSCF1616.png"
