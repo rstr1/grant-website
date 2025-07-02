@@ -15,7 +15,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="overflow-auto bg-background">
+    <html lang="en" className="overflow-auto bg-background scrollbar-hide">
       <body className="">
 
         <div className="">

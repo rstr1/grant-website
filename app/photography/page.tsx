@@ -5,7 +5,7 @@ export default function Photography() {
         <div className="min-h-screen p-20 bg-background font-jost">
             <h1 className="text-4xl font-bold mb-12 text-center">Photography</h1>
 
-            <div className="grid  gap-6">
+            <div className="grid gap-6">
 
                 <Image
                     src="/photography/DSCF1616.png"
