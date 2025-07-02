@@ -15,7 +15,7 @@ export const albumData = [
     key: "DAWN",
     title: "Dawn",
     filename: "Dawn.png",
-    background: "bg-dawn",
+    background: 0x242f1e,
   },
   {
     key: "EUSEXUA",
