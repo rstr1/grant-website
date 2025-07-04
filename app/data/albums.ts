@@ -21,24 +21,24 @@ export const albumData = [
     key: "EUSEXUA",
     title: "EUSEXUA",
     filename: "EUSEXUA.png",
-    background: "bg-eusexua",
+    background: 0xd8d4d3,
   },
   {
     key: "FOREVER HOWLONG",
     title: "Forever Howlong",
     filename: "Forever Howlong.png",
-    background: "bg-forever_howlong",
+    background: 0xee8432,
   },
   {
     key: "HEAVEN OR LAS VEGAS",
     title: "Heaven or Las Vegas",
     filename: "Heaven or Las Vegas.png",
-    background: "bg-heaven_or_las_vegas",
+    background: 0x394572,
   },
   {
     key: "IN RAINBOWS",
     title: "In Rainbows",
     filename: "In Rainbows.png",
-    background: "bg-in_rainbows"
+    background: 0x031725
   }
 ];

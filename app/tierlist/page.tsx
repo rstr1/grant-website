@@ -56,7 +56,9 @@ export default function Tierlist() {
                                     >
                                     </Image>
                                 </div>
-                                hello
+                                <div className="items-center justify-center text-xl font-bold p-2">
+                                    {title}
+                                </div>
                             </CardBody>
                         </Card>
                     );
