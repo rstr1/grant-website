@@ -4,7 +4,7 @@
 import {Card, CardBody} from '@heroui/react';
 import Image from 'next/image';
 import React from 'react';
-import Trail from "../trail";
+// import Trail from "../trail";
 import { albumData } from '../data/albums';
 
 const cardStyle = 'max-w-[900px] mx-auto shadow-lg';
