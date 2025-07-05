@@ -33,8 +33,8 @@ export default {
       },
       // This is where you need to include imported fonts in order to reference via tailwind.css
       fontFamily: {
-        jost: ["Jost", "sans-serif"],
-        arial: ["Arial", "sans-serif"],
+        jost: ['Jost', 'sans-serif'],
+        arial: ['Arial', 'sans-serif'],
       },
     },
     screens: {

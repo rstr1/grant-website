@@ -14,7 +14,7 @@ export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <nav className="w-full h-12 justify-between bg-nav_background text-nav_text fixed border border-nav_border z-50">
+    <nav className="w-full h-12 justify-between bg-nav_background text-nav_text fixed border border-nav_border z-50 font-jost">
       <div className="mx-auto flex items-center h-full">
 
         {/* Home Link */}

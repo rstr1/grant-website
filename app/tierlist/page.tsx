@@ -56,8 +56,14 @@ export default function Tierlist() {
                                     >
                                     </Image>
                                 </div>
-                                <div className="items-center justify-center text-xl font-bold p-2">
-                                    {title}
+                                <div className="pt-2 sm:pt-4 md:pt-6 lg:pt-8 items-center justify-center text-xl font-bold p-2 font-jost">
+                                    <div style={{ letterSpacing: '0.2em' }}>
+                                        {title}
+                                    </div>
+                                    <div className="text-md font-normal pt-2">
+                                        need description here
+                                    </div>
+                                    
                                 </div>
                             </CardBody>
                         </Card>
