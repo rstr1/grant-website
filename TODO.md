@@ -1,54 +1,52 @@
-### README
+# README
 
-## Tabs
+## TABS
 - home page
 - photography
 - resume
 - articles
 - music tierlist
 
-## To Implement
-- Music Tierlist on the testing page
+## TO DO
+- Music Review? on the testing page
+    - Maybe just do a tierlist sometimes.
 - Gallery view for the photography page
 - About Me feature on the main page
-- Fix the colour palette on the page
-- Fix images on actual website
 
-## Trail
+## ARTICLES
+- Do I actually want an articles tab?
 
+## RESUME
+- Implement something that displays a thumbnail of the actual PDF file instead of manually needing a .png
 
-## Nav Bar
-- Edit the mouse cursor selection icons
+## NAV BAR
+- Unsure if this should be the final visual design or not.
 
-
-## Music Tierlist
+## TIERLIST
 - Want to be able to sort by genre, year, artist, colour (maybe)
 - Make sure to cite the album artworks
 
 
-## Database
-- Using Vercel Blob
-    - ! Has a 4.5 MB upload cap
-    - Put this on the backburner, blob is only necessary if uploading from an admin page.
-
-
-### Database Attributes
-- Title
-- Date
-- Location
-
 ## Colour Palette
-
 - Make a colour palette dictionary
 
 #E3D5CA
-
 #F5EBE0
-
 #AB9B94
-
 #6A615C
-
 #FFBC59
-
 #69C3FF
+
+
+### //////////////////////////////////////////////////////////////////////////////////////////////
+
+## Trail
+- Put this on pause for now, was fun to learn but probably not important for the actual website
+
+## DATABASE
+- Using Vercel Blob
+    - ! Has a 4.5 MB upload cap
+    - Put this on the backburner, blob is only necessary if uploading from an admin page.
+- Title
+- Date
+- Location

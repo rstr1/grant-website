@@ -56,8 +56,8 @@ export default function Tierlist() {
                                     >
                                     </Image>
                                 </div>
-                                <div className="pt-2 sm:pt-4 md:pt-6 lg:pt-8 items-center justify-center text-xl font-bold p-2 font-jost">
-                                    <div style={{ letterSpacing: '0.2em' }}>
+                                <div className="pt-2 items-center justify-center text-xl font-bold p-2 font-jost">
+                                    <div style={{ letterSpacing: '0.2em' }} className='whitespace-nowrap'>
                                         {title}
                                     </div>
                                     <div className="text-md font-normal pt-2">
