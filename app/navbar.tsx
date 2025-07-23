@@ -53,7 +53,7 @@ export default function Navbar() {
             onClick={() => setMenuOpen(prev => !prev)}
           >
               <div className={`relative w-6 h-6 flex flex-col justify-center items-center`}>
-                <span className={`absolute left-0 h-[2] bg-nav_text transition-all duration-300 ${menuOpen ? 'top-3 left-2 w-2 opacity-0' : 'top-1 left-0 w-6 opacity-100'}`}></span>
+                <span className={`absolute left-0 h-[2px] bg-nav_text transition-all duration-300 ${menuOpen ? 'top-3 left-2 w-2 opacity-0' : 'top-1 left-0 w-6 opacity-100'}`}></span>
                 <span className={`absolute left-0 w-6 h-[2px] bg-nav_text transition-all duration-200 ${menuOpen ? 'top-3 rotate-45' : 'top-3'}`}></span>
                 <span className={`absolute left-0 w-6 h-[2px] bg-nav_text transition-all duration-200 ${menuOpen ? 'top-3 -rotate-45' : 'top-3'}`}></span>
                 <span className={`absolute left-0 h-[2px] bg-nav_text transition-all duration-300 ${menuOpen ? 'top-3 left-2 w-2 opacity-0' : 'top-5 left-0 w-6 opacity-100'}`}></span>
