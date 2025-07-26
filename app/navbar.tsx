@@ -27,7 +27,7 @@ export default function Navbar() {
         
         {/* Zebra Stripes */}
         <div
-          className="hidden sm:flex flex-grow h-8 mx-2"
+          className="flex-grow h-8 mx-2" // hidden sm:flex
           style={{ backgroundImage: zebraStyle }}
         ></div>
 

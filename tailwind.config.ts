@@ -22,14 +22,6 @@ export default {
         background: "#1e1d18",      // dark background
         nav_background: "#1e1d18",  // dark background
         nav_text: "#ffffff",
-
-        // absolutely: "#c7b69c",
-        // dawn: "#4f5b48",
-        // eusexua: "#b8c2c1",
-        // forever_howlong: "#da3331",
-        // heaven_or_las_vegas: "#4a4871",
-        // in_rainbows: "#030305",
-
       },
       // This is where you need to include imported fonts in order to reference via tailwind.css
       fontFamily: {
