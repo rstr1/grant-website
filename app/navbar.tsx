@@ -35,7 +35,17 @@ export default function Navbar() {
         {/* Desktop Nav */}
         <div
           style={{ letterSpacing: '0.2em' }}
-          className="hidden sm:flex gap-6 ml-auto text-xs items-center whitespace-nowrap scrollbar-hide px-6 py-4 border-l border-nav_border [direction:rtl]"
+          className="hidden sm:flex
+          gap-6
+          ml-auto 
+          text-xs 
+          items-center 
+          whitespace-nowrap 
+          scrollbar-hide 
+          px-6 py-4 
+          border-l 
+          border-nav_border 
+          [direction:rtl]"
         >
           <Link href="/resume" className={linkStyle}>RESUME</Link>
           <Link href="/articles" className={linkStyle}>ARTICLES</Link>

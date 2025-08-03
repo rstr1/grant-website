@@ -12,7 +12,7 @@ export default {
     extend: {
       colors: {
         foreground: "#000000",      // black
-        dark_background: "#1e1d18", // dark grey
+        dark_background: "#1e1b18", // dark grey
         nav_border: "#AB9B94",      // brown/grey
         eggshell: "#F0EAD6",        // eggshell white
         cadmium_orange: "#F28C28",  // cadmium orange

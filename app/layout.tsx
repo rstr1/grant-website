@@ -3,9 +3,9 @@ import "./globals.css";
 import React from "react";
 import Navbar from "./navbar";
 
-// import { Jost } from "next/font/google";
+import { Jost } from "next/font/google";
 
-// const jost = Jost({})
+const jost = Jost({ subsets: ["latin"], weight: ["400", "700"] });
 
 export const metadata: Metadata = {
   title: "Grant Dong",
@@ -22,14 +22,14 @@ export default function RootLayout({
       <head>
         <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;700&display=swap" rel="stylesheet"/>
       </head>
-      <body className="">
+      <body className={jost.className}>
 
-        <div className="">
+        <div>
           <Navbar></Navbar>
         </div>
         
 
-        <div className="">{children}</div>
+        <div>{children}</div>
       </body>
     </html>
   );
