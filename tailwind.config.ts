@@ -15,14 +15,18 @@ export default {
       colors: {
         // foreground: "#000000",      // black
         // dark_background: "#1e1d18", // dark grey
-        nav_border: "#AB9B94",      // brown/grey
+        // nav_border: "#AB9B94",      // brown/grey
         eggshell: "#F0EAD6",        // eggshell white
         cadmium_orange: "#F28C28",  // cadmium orange
         sky_blue: "#87CEEB",        // sky blue
         other_blue: "#69C3FF",      // other blue
 
-        background: "#202020",      // dark background
-        nav_background: "#202020",  // dark background
+        background: "#222831",
+        nav_background: "#393E46",
+        nav_border: "#ffffff",      // dark background
+
+        // background: "#2A2727",      // dark background
+        // nav_background: "#181716",  // dark background
         nav_text: "#ffffff",
       },
       // This is where you need to include imported fonts in order to reference via tailwind.css

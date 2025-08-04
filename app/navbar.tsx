@@ -2,12 +2,13 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import tailwindConfig from '@/tailwind.config'; 
 import './globals.css';
 
 const linkStyle = 'hover:text-cadmium_orange transition duration-200';
 const linkStyleMobile = `${linkStyle} border rounded-full border-nav_border p-1`;
-const navBackground = '#1e1d18';
-const navBorder = '#AB9B94'; 
+const navBackground = tailwindConfig.theme.extend.colors.nav_background;
+const navBorder = tailwindConfig.theme.extend.colors.nav_border; 
 const zebraStyle = `repeating-linear-gradient(170deg, ${navBorder} 0, ${navBorder} 10px, ${navBackground} 30px, ${navBackground} 40px)`;
 
 export default function Navbar() {
