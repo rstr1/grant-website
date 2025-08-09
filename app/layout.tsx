@@ -18,7 +18,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="overflow-auto bg-background scrollbar-hide">
+    <html lang="en" className="overflow-auto overscroll-none bg-background scrollbar-hide">
       <head>
         <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;700&display=swap" rel="stylesheet"/>
       </head>

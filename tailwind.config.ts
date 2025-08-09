@@ -21,13 +21,43 @@ export default {
         sky_blue: "#87CEEB",        // sky blue
         other_blue: "#69C3FF",      // other blue
 
+
+        // PALETTE 1
+        // background: "#fbf5ed",     
+        // nav_background: "#889063",  
+        // nav_border: "#4C3D19",
+        // nav_text: "#845b43",
+        // text: "#845b43",
+
+        // PALETTE 2
         background: "#222831",
         nav_background: "#393E46",
-        nav_border: "#ffffff",      // dark background
-
-        // background: "#2A2727",      // dark background
-        // nav_background: "#181716",  // dark background
+        nav_border: "#ffffff",
         nav_text: "#ffffff",
+        text: "#ffffff",
+        
+
+        // PALETTE 3
+        // background: "#2A2727",
+        // nav_background: "#181716",  
+        // nav_border: "#ffffff",
+        // nav_text: "#ffffff",
+        // text: "#ffffff",
+
+        // PALETTE 4
+        // background: "#586b41",     
+        // nav_background: "#90a16a",  
+        // nav_border: "#ffffff",
+        // nav_text: "#ffffff",
+        // text: "#ffffff",
+
+        // PALETTE 5
+        // background1: "#AE431E",  
+        // background2: "#D08224",   
+        // nav_background: "#8A8635",  
+        // nav_border: "#E5D7C4",
+        // nav_text: "#E5D7C4",
+        // text: "#E5D7C4",
       },
       // This is where you need to include imported fonts in order to reference via tailwind.css
       fontFamily: {

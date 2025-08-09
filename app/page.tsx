@@ -12,7 +12,7 @@ export default function Home() {
       row-start-2 
       items-center 
       sm:items-start 
-      text-nav_text 
+      text-text 
       font-jost
       max-w-7xl
       ">
@@ -21,7 +21,7 @@ export default function Home() {
         Welcome
       </h1>
 
-      <hr className="w-full"></hr>
+      <hr className="w-full border-text"></hr>
 
       <p 
       className="text-lg font-jost text-left w-11/12 pl-32"
