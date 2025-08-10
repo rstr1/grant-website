@@ -26,7 +26,7 @@ function hexNumberComplement(hexNumber: number) {
 
 export default function Tierlist() {
     return (
-        <div className="min-h-screen p-20 bg-background font-jost text-black overflow-hidden">
+        <div className="pt-6">
 
             {/* <Trail></Trail> */}
             <div className="gap-6 grid grid-cols- sm:grid-cols-2 justify-items-center">

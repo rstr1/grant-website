@@ -1,8 +1,15 @@
 // import Image from "next/image"
 
+//bg-gradient-to-b from-background2 to-background1
+
 export default function Home() {
   return (
-    <div className="grid grid-rows-[0px_1fr_20px] justify-items-center min-h-screen p-20 gap-2 bg-background font-jost">
+    <div className="
+    grid 
+    grid-rows-[0px_1fr_20px] 
+    justify-items-center 
+    gap-2
+    "> 
       
       <main className="
       flex 
@@ -11,20 +18,18 @@ export default function Home() {
       gap-12 
       row-start-2 
       items-center 
-      sm:items-start 
-      text-text 
-      font-jost
+      sm:items-start
       max-w-7xl
       ">
 
-      <h1 className="text-6xl mx-auto font-bold row-start-3">
+      <h1 className="text-6xl mx-auto font-bold row-start-3 text-shadow-lg">
         Welcome
       </h1>
 
-      <hr className="w-full border-text"></hr>
+      <hr className="w-full border-text dark:border-dark_text"></hr>
 
       <p 
-      className="text-lg font-jost text-left w-11/12 pl-32"
+      className="text-lg font-jost text-left w-11/12 pl-32 text-shadow-2xs"
       style={{ letterSpacing: '0.08em' }}
       >
         <br/>
@@ -47,7 +52,7 @@ export default function Home() {
         <br/><br/>
       </p>
 
-      <hr className="w-full"></hr>
+      <hr className="w-full border-text dark:border-dark_text"></hr>
 
       </main>
      

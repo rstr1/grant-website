@@ -18,18 +18,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="overflow-auto overscroll-none bg-background scrollbar-hide">
+    <html lang="en" className="overflow-auto bg-background dark:bg-dark_background  text-text  dark:text-dark_text  scrollbar-hide">
       <head>
         <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;700&display=swap" rel="stylesheet"/>
       </head>
-      <body className={jost.className}>
+      <body className={`${jost.className} bg-background dark:bg-dark_background text-text  dark:text-dark_text`}>
 
         <div>
           <Navbar></Navbar>
         </div>
-        
-
-        <div>{children}</div>
+        <div className="min-h-screen p-20">
+          {children}
+        </div>
       </body>
     </html>
   );

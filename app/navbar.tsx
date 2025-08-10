@@ -6,7 +6,7 @@ import tailwindConfig from '@/tailwind.config';
 import './globals.css';
 
 const linkStyle = 'hover:text-cadmium_orange transition duration-200';
-const linkStyleMobile = `${linkStyle} border rounded-full border-nav_border p-1`;
+const linkStyleMobile = `${linkStyle} border rounded-full border-nav_border dark:border-dark_nav_border p-1`;
 const navBackground = tailwindConfig.theme.extend.colors.nav_background;
 const navBorder = tailwindConfig.theme.extend.colors.nav_border; 
 const zebraStyle = `repeating-linear-gradient(170deg, ${navBorder} 0, ${navBorder} 10px, ${navBackground} 30px, ${navBackground} 40px)`;
@@ -15,7 +15,22 @@ export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <nav className="w-full h-12 justify-between bg-nav_background text-nav_text fixed border border-nav_border z-50 font-jost">
+    <nav className="
+    w-full 
+    h-12 
+    justify-between 
+    bg-nav_background 
+    text-nav_text
+    border-nav_border  
+    fixed border 
+    dark:bg-dark_nav_background
+    dark:text-dark_nav_text
+    dark:border-dark_nav_border
+    z-50 
+    font-jost 
+    shadow-xl 
+    text-shadow-2xs
+    ">
       <div className="mx-auto flex items-center h-full">
 
         {/* Home Link */}
@@ -46,6 +61,7 @@ export default function Navbar() {
           px-6 py-4 
           border-l 
           border-nav_border 
+          dark:border-dark_nav_border
           [direction:rtl]"
         >
           <Link href="/resume" className={linkStyle}>RESUME</Link>
