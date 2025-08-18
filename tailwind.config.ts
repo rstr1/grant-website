@@ -7,8 +7,8 @@ export default {
   content: [
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./app/**/*.{js,ts,jsx,tsx,mdx}",
-    "./node_modules/@heroui/theme/dist/components/(card|ripple).js"
+    "./app/**/*.{js,ts,jsx,tsx,mdx,css}",
+    "./node_modules/@heroui/theme/dist/components/(card|ripple).js",
   ],
   theme: {
     extend: {

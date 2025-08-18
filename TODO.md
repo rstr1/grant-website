@@ -6,8 +6,14 @@
 - Gallery view for the photography page
 - About Me feature on the main page
 
+## HOME
+- Need to add some scroll animations.
+- Split the content into a grid and centre items
+- fireship has a video on this
+
 ## ARTICLES
 - Add the book review
+- Write a second review to help plan the format
 
 ## RESUME
 - Implement something that displays a thumbnail of the actual PDF file instead of manually needing a .png
@@ -28,6 +34,7 @@
 
 ## Font
 - Figure out the font importing issues
+- Run npm run build for the warning i am talking about
 
 
 

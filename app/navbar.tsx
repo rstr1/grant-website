@@ -15,22 +15,7 @@ export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <nav className="
-    w-full 
-    h-12 
-    justify-between 
-    bg-nav_background 
-    text-nav_text
-    border-nav_border  
-    fixed border 
-    dark:bg-dark_nav_background
-    dark:text-dark_nav_text
-    dark:border-dark_nav_border
-    z-50 
-    font-jost 
-    shadow-xl 
-    text-shadow-2xs
-    ">
+    <nav className="">
       <div className="mx-auto flex items-center h-full">
 
         {/* Home Link */}
