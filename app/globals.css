@@ -1,6 +1,6 @@
-@import "tailwindcss/base";
-@import "tailwindcss/components";
-@import "tailwindcss/utilities";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root {
   --background: #ffffff;
@@ -16,7 +16,7 @@
 
 @layer base {
   nav {
-    @apply 
+    @apply
     w-full 
     h-12 
     justify-between 

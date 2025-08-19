@@ -6,6 +6,7 @@
 - Gallery view for the photography page
 - About Me feature on the main page
 
+
 ## HOME
 - Need to add some scroll animations.
 - Split the content into a grid and centre items
