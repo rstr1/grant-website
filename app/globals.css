@@ -32,6 +32,15 @@
     shadow-xl 
     text-shadow-2xs;
   }
+  section {
+    @apply
+    grid
+    items-center
+    align-middle
+    min-h-screen
+    justify-center
+    text-3xl
+  }
 }
 
 @layer utilities {

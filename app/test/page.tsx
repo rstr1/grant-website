@@ -1,9 +1,13 @@
-export default function Articles() {
+export default function Test() {
     return (
-        
-        <div className="">
-
-            testing
+        <div>
+            <section>
+                <p className="text-9xl font-">WELCOME</p>
+            </section>
+            <section>
+                <p>Test content</p>
+            </section>
         </div>
+        
     );
 }
