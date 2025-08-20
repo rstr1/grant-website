@@ -14,7 +14,7 @@ export default function Home() {
       <main className="
       flex 
       flex-col 
-      pt-10 
+      pt-20 
       gap-12 
       row-start-2 
       items-center 
@@ -22,15 +22,15 @@ export default function Home() {
       max-w-7xl
       ">
 
-      <h1 className="text-6xl mx-auto font-bold row-start-3 text-shadow-lg">
+      <h1 className="text-6xl mx-auto font-bold row-start-3 text-shadow-md">
         Welcome
       </h1>
 
       <hr className="w-full border-text dark:border-dark_text"></hr>
 
       <p 
-      className="text-lg font-jost text-left w-11/12 pl-32 text-shadow-2xs"
-      style={{ letterSpacing: '0.08em' }}
+      className="text-lg text-center w-11/12 pl-20 pr-20 text-shadow-2xs"
+      // style={{ letterSpacing: '0.08em' }}
       >
         <br/>
         Hi! I&apos;m <b>Grant</b>, a fifth year student at the University of Sydney. 

@@ -2,10 +2,10 @@ import Image from "next/image";
 
 export default function Photography() {
     return (
-        <div className="">
-            <h1 className="text-4xl font-bold mb-12 text-center">Photography</h1>
+        <div className="p-10 pt-24">
+            <h1 className="text-4xl font-bold mb-12 font-playfair">Photography</h1>
 
-            <div className="grid gap-6">
+            <div className="grid gap-12">
 
                 <Image
                     src="/photography/DSCF1616.png"

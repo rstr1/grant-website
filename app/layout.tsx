@@ -11,7 +11,7 @@ const playfair = Playfair_Display({ subsets: ["latin"], variable: "--font-playfa
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
 export const metadata: Metadata = {
-  title: "Grant Dong",
+  title: "Grant's Website",
   description: "Personal website",
 };
 
@@ -39,7 +39,7 @@ export default function RootLayout({
         <div>
           <Navbar></Navbar>
         </div>
-        <div className="min-h-screen p-20">
+        <div className="min-h-screen">
           {children}
         </div>
       </body>

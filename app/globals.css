@@ -28,8 +28,8 @@
     dark:text-dark_nav_text
     dark:border-dark_nav_border
     z-50 
-    font-jost 
-    shadow-xl 
+    font-jost
+    shadow-md
     text-shadow-2xs;
   }
   section {

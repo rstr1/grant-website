@@ -12,10 +12,18 @@ export default {
   ],
   theme: {
     extend: {
+      keyframes: {
+        'appearance-in': {
+          '0%': { opacity: '0', filter: 'blur(5px)' },
+          '100%': { opacity: '1', filter: 'blur(0)'},
+        },
+      },
+      animation: {
+        'appearance-in': 'appearance-in 0.5s forwards',
+      },
       colors: {
-        // foreground: "#000000",      // black
-        // dark_background: "#1e1d18", // dark grey
-        // nav_border: "#AB9B94",      // brown/grey
+
+        // MISC COLOURS / HIGHLIGHTS
         eggshell: "#F0EAD6",        // eggshell white
         cadmium_orange: "#F28C28",  // cadmium orange
         sky_blue: "#87CEEB",        // sky blue
@@ -23,40 +31,24 @@ export default {
 
         // FINAL PALETTE W/ LIGHT AND DARK MODES
         background: "#ffffff",
-        nav_background: "#AB9B94",
-        nav_border: "#F0EAD6",
-        nav_text: "#F0EAD6",
-        text: "#1e1d18",
+        nav_background: "#dddddd",
+        nav_border: "#444444",
+        nav_text: "#444444",
+        text: "#444444",
 
         dark_background: "#313131",
         dark_nav_background: "#000000",
-        dark_nav_border: "#F0EAD6",
-        dark_nav_text: "#F0EAD6",
-        dark_text: "#F0EAD6",
+        dark_nav_border: "#eeeeee",
+        dark_nav_text: "#eeeeee",
+        dark_text: "#eeeeee",
 
-        
-
+      
         // PALETTE 1 --> earthy tones
         // background: "#F0EAD6",     
         // nav_background: "#889063",  
         // nav_border: "#4C3D19",
         // nav_text: "#4C3D19",
         // text: "#845b43",
-
-        // PALETTE 2 --> cool greyscale
-        // background: "#222831",
-        // nav_background: "#393E46",
-        // nav_border: "#ffffff",
-        // nav_text: "#ffffff",
-        // text: "#ffffff",
-        
-
-        // PALETTE 3 --> warm greyscale
-        // background: "#2A2727",
-        // nav_background: "#181716",  
-        // nav_border: "#ffffff",
-        // nav_text: "#ffffff",
-        // text: "#ffffff",
 
         // PALETTE 4 --> green and light green
         // background: "#586b41",     
@@ -76,9 +68,9 @@ export default {
       },
       // This is where you need to include imported fonts in order to reference via tailwind.css
       fontFamily: {
-        jost: "var(--font-jost)",
+        jost: ["jost", "sans-serif"],
         arial: "var(--font-arial)",
-        poppins: "var(--font-poppins)",
+        poppins: ["poppins", "sans-serif"],
         playfair: "var(--font-playfair)",
         inter: "var(--font-inter)",
       },
