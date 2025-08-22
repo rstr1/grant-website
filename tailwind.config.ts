@@ -19,7 +19,8 @@ export default {
         },
       },
       animation: {
-        'appearance-in': 'appearance-in 0.5s forwards',
+        'appearance-in': 'appearance-in 0.5s forwards ease-in-out 200ms',
+        'show': 'show 0.5s forwards',
       },
       colors: {
 
@@ -33,11 +34,11 @@ export default {
         background: "#ffffff",
         nav_background: "#dddddd",
         nav_border: "#444444",
-        nav_text: "#444444",
+        nav_text: "#333333",
         text: "#444444",
 
         dark_background: "#313131",
-        dark_nav_background: "#000000",
+        dark_nav_background: 'rgba(0, 0, 0, 0.7)',
         dark_nav_border: "#eeeeee",
         dark_nav_text: "#eeeeee",
         dark_text: "#eeeeee",
@@ -65,6 +66,15 @@ export default {
         // nav_border: "#E5D7C4",
         // nav_text: "#E5D7C4",
         // text: "#E5D7C4",
+      },
+      blur: {
+        'xs': '2px',
+        'sm': '4px',
+        'md': '6px',
+        'lg': '8px',
+        'xl': '12px',
+        '2xl': '16px',
+        '3xl': '24px',
       },
       // This is where you need to include imported fonts in order to reference via tailwind.css
       fontFamily: {

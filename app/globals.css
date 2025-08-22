@@ -20,17 +20,23 @@
     w-full 
     h-12 
     justify-between 
-    bg-nav_background 
-    text-nav_text
+    bg-nav_background
+    bg-opacity-0
+    text-white
     border-nav_border  
     fixed border 
     dark:bg-dark_nav_background
     dark:text-dark_nav_text
     dark:border-dark_nav_border
+    /* mix-blend-overlay */
+    /* mix-blend-difference  */
+    mix-blend-color-dodge
+    dark:mix-blend-plus-lighter
+    /* dark:mix-blend-lighten */
     z-50 
     font-jost
     shadow-md
-    text-shadow-2xs;
+    text-shadow-2xs
   }
   section {
     @apply

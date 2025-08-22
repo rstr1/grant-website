@@ -1,61 +1,97 @@
-// import Image from "next/image"
+'use client';
 
-//bg-gradient-to-b from-background2 to-background1
+import { useEffect, useRef, useState } from 'react';
+import Image from 'next/image';
 
-export default function Home() {
-  return (
-    <div className="
-    grid 
-    grid-rows-[0px_1fr_20px] 
-    justify-items-center 
-    gap-2
-    "> 
-      
-      <main className="
-      flex 
-      flex-col 
-      pt-20 
-      gap-12 
-      row-start-2 
-      items-center 
-      sm:items-start
-      max-w-7xl
-      ">
 
-      <h1 className="text-6xl mx-auto font-bold row-start-3 text-shadow-md">
-        Welcome
-      </h1>
+export default function Test() {
+    const imgRef = useRef<HTMLImageElement>(null);
+    const [imgHeight, setImgHeight] = useState(0);
 
-      <hr className="w-full border-text dark:border-dark_text"></hr>
+    useEffect(() => {
+        function updateHeight() {
+            if (imgRef.current) {
+                setImgHeight(imgRef.current.clientHeight);
+            }
+        }
+        updateHeight();
+        window.addEventListener('resize', updateHeight);
 
-      <p 
-      className="text-lg text-center w-11/12 pl-20 pr-20 text-shadow-2xs"
-      // style={{ letterSpacing: '0.08em' }}
-      >
-        <br/>
-        Hi! I&apos;m <b>Grant</b>, a fifth year student at the University of Sydney. 
-        <br/>
+        // Intersection Observer
+        if (typeof window !== 'undefined' && 'IntersectionObserver' in window) {
+            const observer = new IntersectionObserver(
+                (entries) => {
+                    entries.forEach((entry) => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('animate-appearance-in');
+                            console.log('Element is intersecting, adding animation');
+                            observer.unobserve(entry.target); // Stop observing after animation
+                        } 
+                        // else {
+                        //     entry.target.classList.remove('animate-appearance-in');
+                        //     console.log('Element is not intersecting, removing animation');
+                        // }
+                    });
+                },
+                {
+                threshold: 0.7,
+                }
+            );
 
-        <span className="text-xs">Bachelor of Advanced Computing [<b>Computer Science</b>] & Bachelor of Commerce [<b>Finance</b>]</span>
-        <br/><br/><br/>
+            const elements = document.querySelectorAll('.look-at-me');
+            elements.forEach((el) => observer.observe(el));
+
+            return () => {
+                observer.disconnect();
+                window.removeEventListener('resize', updateHeight);
+            };
+        }
+    }, []);
+    return (
+        <div className="">
+            <section className="">
+                <div className="
+                font-playfair
+                font-bold
+                text-eggshell
+                dark:text-dark_nav_text
+                relative
+                h-[100vh] 
+                ">
+                {/* pt-[48px] */}
+                    <Image 
+                    ref={imgRef}
+                    src="/photography/flower.png"
+                    alt="Granada Flower"
+                    width = "4896"
+                    height = "3264"
+                    className="shadow-lg opacity-80 mask-y-to-90%"
+                    priority={true}
+                    />
+                    <div 
+                        className="absolute pt-[5%] pl-[5%] pb-8 look-at-me opacity-0 mix-blend-hard-light dark:mix-blend-normal"
+                        style={{
+                            top: `${imgHeight * 0.27}px`,
+                            left: '10%',
+                            fontSize: 'min(8vw, 10rem)',
+                        }}
+                    >
+                        Welcome
+                    </div>
+                    
+                </div>
+            </section>
+            
+            <section className="">
+                <p className="font-playfair look-at-me opacity-0">Test content</p>
+            </section>
+            <section className="look-at-me opacity-0">
+                <p className="font-jost">This is a test</p>
+            </section>
+            <section className="look-at-me opacity-0">
+                <p className="font-playfair">This is another test</p>
+            </section>
+        </div>
         
-        Over the past few years, I&apos;ve developed a strong affinity for my studies in both computer science and finance.
-        <br/>
-
-        <span className="text-xs">Interests include: Algorithms, Cybersecurity, Machine Learning, Risk Mitigation and Portfolio Management</span>
-        <br/><br/><br/>
-
-        In my spare time I enjoy being outdoors either <b>fishing</b> or going on walks. Aside from that, I also enjoy discovering new music, photography, weightlifting, creative projects and taking up new skills.
-        <br/><br/><br/>
-
-        This website is more of a personal project than anything else. I started work on it while on exchange in Edinburgh (early 2025). <b>Have a look around if you like!</b>
-        <br/><br/>
-      </p>
-
-      <hr className="w-full border-text dark:border-dark_text"></hr>
-
-      </main>
-     
-    </div>
-  );
+    );
 }
