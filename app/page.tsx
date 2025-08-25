@@ -61,11 +61,11 @@ export default function Test() {
                 {/* pt-[48px] */}
                     <Image 
                     ref={imgRef}
-                    src="/photography/flower.png"
+                    src="/photography/faded_flower.png"
                     alt="Granada Flower"
                     width = "4896"
                     height = "3264"
-                    className="shadow-lg opacity-80 mask-y-to-90%"
+                    className="opacity-80 mask-y-to-90%"
                     priority={true}
                     />
                     <div 
