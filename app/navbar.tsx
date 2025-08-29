@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 // import tailwindConfig from '@/tailwind.config'; 
 import './globals.css';
@@ -15,11 +15,34 @@ const linkStyleMobile = `${linkStyle} border rounded-full border-nav_border dark
 // const zebraStyleDark = `repeating-linear-gradient(170deg, ${navBorderDark} 0, ${navBorderDark} 10px, ${navBackgroundDark} 30px, ${navBackgroundDark} 40px)`;
 
 export default function Navbar() {
+
   const [menuOpen, setMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 100); // px for boundary
+    };
+
+  
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+// div classname
+// bg-nav_background 
+//       dark:bg-dark_nav_background
+
+// nav classname
+// backdrop-blur-sm
 
   return (
-    <div className="bg-nav_background dark:bg-dark_nav_background">
-      <nav className="backdrop-blur-sm">
+    <div className={""}>
+      <nav className={`
+        backdrop-blur-sm
+        transition-[padding,height] duration-300 ease-in-out
+        ${scrolled ? 'h-12': 'lg:h-20'}
+      `}>
         <div className="mx-auto flex items-center h-full">
 
           {/* Home Link */}

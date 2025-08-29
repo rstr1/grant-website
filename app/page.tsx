@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 
 
-export default function Test() {
+export default function Page() {
     const imgRef = useRef<HTMLImageElement>(null);
     const [imgHeight, setImgHeight] = useState(0);
 
@@ -48,7 +48,10 @@ export default function Test() {
         }
     }, []);
     return (
+        
+        
         <div className="">
+            
             <section className="">
                 <div className="
                 font-playfair
@@ -61,15 +64,15 @@ export default function Test() {
                 {/* pt-[48px] */}
                     <Image 
                     ref={imgRef}
-                    src="/photography/faded_flower.png"
+                    src="/photography/faded_flower_extended_sky.png"
                     alt="Granada Flower"
                     width = "4896"
-                    height = "3264"
+                    height = "3054"
                     className="opacity-80 mask-y-to-90%"
-                    priority={true}
+                    priority
                     />
                     <div 
-                        className="absolute pt-[5%] pl-[5%] pb-8 look-at-me opacity-0 mix-blend-hard-light dark:mix-blend-normal"
+                        className="absolute pt-[5%] pl-[5%] pb-8 look-at-me"
                         style={{
                             top: `${imgHeight * 0.27}px`,
                             left: '10%',

@@ -21,17 +21,26 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="overflow-auto bg-background dark:bg-dark_background  text-text  dark:text-dark_text  scrollbar-hide">
-      {/* <head>
-        <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;700&display=swap" rel="stylesheet"/>
-      </head> */}
+    
+    <html lang="en" className="
+    overscroll-x-none
+    overscroll-y-none
+    overflow-auto
+    bg-background
+    dark:bg-dark_background  
+    text-text  
+    dark:text-dark_text
+    scrollbar-hide
+    
+    ">
+      {/* bg-[url('/photography/faded_flower_extended_sky.png')] */}
       <body className={`
           ${jost} 
           ${poppins} 
           ${playfair.variable} 
           ${inter.variable} 
           bg-background 
-          dark:bg-dark_background 
+          dark:bg-dark_nav_background
           text-text  
           dark:text-dark_text
           font-jost

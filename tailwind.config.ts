@@ -29,6 +29,8 @@ export default {
         cadmium_orange: "#F28C28",  // cadmium orange
         sky_blue: "#87CEEB",        // sky blue
         other_blue: "#69C3FF",      // other blue
+        flower_background: 'rgba(174, 181, 168, 1)',
+        test_background: 'rgba(255, 255, 255, 0)',
 
         // FINAL PALETTE W/ LIGHT AND DARK MODES
         background: "#ffffff",
@@ -38,7 +40,7 @@ export default {
         text: "#444444",
 
         dark_background: "#313131",
-        dark_nav_background: 'rgba(0, 0, 0, 0.7)',
+        dark_nav_background:'rgba(0, 0, 0, 0.1)',
         dark_nav_border: "#eeeeee",
         dark_nav_text: "#eeeeee",
         dark_text: "#eeeeee",

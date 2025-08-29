@@ -15,23 +15,44 @@
 }
 
 @layer base {
+  /* html {
+    @apply m-0 h-full;
+  } */
+
+  /* html::before {
+    content: "";
+    @apply
+    fixed
+    top-0
+    left-0
+    w-full
+    h-full
+    bg-[url('/photography/faded_flower_extended_sky.png')]
+    bg-cover
+    bg-no-repeat
+    -z-10
+    pointer-events-none
+    transition-opacity
+    duration-1000
+    background-image: url('/photography/faded_flower_extended_sky.png');
+    filter: blur(8px);
+  } */
+
   nav {
     @apply
     w-full 
     h-12 
     justify-between 
     bg-nav_background
-    bg-opacity-0
     text-white
     border-white
     fixed border 
-    dark:bg-dark_nav_background
+    dark:bg-test_background
+    /* dark:bg-dark_nav_background */
     dark:text-dark_nav_text
     dark:border-dark_nav_border
     mix-blend-overlay
-    /* mix-blend-difference  */
-    dark:mix-blend-plus-lighter
-    /* dark:mix-blend-lighten */
+    dark:mix-blend-lighten
     z-50 
     font-jost
     shadow-md
