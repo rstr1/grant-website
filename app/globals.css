@@ -51,8 +51,8 @@
     /* dark:bg-dark_nav_background */
     dark:text-dark_nav_text
     dark:border-dark_nav_border
-    mix-blend-overlay
-    dark:mix-blend-lighten
+    /* mix-blend-overlay */
+    /* dark:mix-blend-lighten */
     z-50 
     font-jost
     shadow-md
