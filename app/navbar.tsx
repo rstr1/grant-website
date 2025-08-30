@@ -41,20 +41,21 @@ export default function Navbar() {
       <nav className={`
         backdrop-blur-sm
         transition-[padding,height] duration-300 ease-in-out
-        ${scrolled ? 'h-12': 'lg:h-20'}
+        ${scrolled ? 'h-12': 'h-12 lg:h-20'}
       `}>
         <div className="mx-auto flex items-center h-full">
 
           {/* Home Link */}
           <div
             style={{ letterSpacing: '0.4em' }}
-            className="
+            className={`
+            text-md lg:text-xl
             font-bold 
             whitespace-nowrap 
             px-6 py-3 
             border-nav_border 
-            dark:border-dark_nav_border"
-          >
+            dark:border-dark_nav_border
+          `}>
           {/* border-r  */}
             <Link href="/" className={linkStyle}>GRANT DONG</Link>
           </div>
@@ -73,19 +74,20 @@ export default function Navbar() {
           {/* Desktop Nav */}
           <div
             style={{ letterSpacing: '0.2em' }}
-            className="hidden sm:flex
+            className={`hidden sm:flex
             gap-6
+            lg:gap-8
             ml-auto 
-            text-xs 
+            text-xs
             items-center 
             whitespace-nowrap 
             scrollbar-hide 
-            px-6 py-4 
+            px-6 py-4
 
             border-nav_border 
             dark:border-dark_nav_border
-            [direction:rtl]"
-          >
+            [direction:rtl]
+            `}>
           {/* border-l */}
 
             <Link href="/resume" className={linkStyle}>RESUME</Link>
