@@ -27,7 +27,7 @@ export default function RootLayout({
     overscroll-y-none
     overflow-auto
     bg-background
-    dark:bg-dark_background  
+    dark:bg-dithered_background  
     text-text  
     dark:text-dark_text
     scrollbar-hide
@@ -40,7 +40,7 @@ export default function RootLayout({
           ${playfair.variable} 
           ${inter.variable} 
           bg-background 
-          dark:bg-dark_nav_background
+          dark:bg-dithered_background
           text-text  
           dark:text-dark_text
           font-jost

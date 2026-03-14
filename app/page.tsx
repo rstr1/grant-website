@@ -59,16 +59,16 @@ export default function Page() {
                 text-eggshell
                 dark:text-dark_nav_text
                 relative
-                h-[100vh] 
+                h-[100vh]
                 ">
                 {/* pt-[48px] */}
                     <Image 
                     ref={imgRef}
-                    src="/photography/faded_flower_extended_sky.png"
+                    src="/photography/dither_it_faded_flower_extended_sky_transp2.png"
                     alt="Granada Flower"
                     width = "4896"
                     height = "3054"
-                    className="opacity-80 mask-y-to-90%"
+                    className=""
                     priority
                     />
                     <div 

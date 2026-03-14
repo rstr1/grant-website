@@ -31,6 +31,7 @@ export default {
         other_blue: "#69C3FF",      // other blue
         flower_background: 'rgba(174, 181, 168, 1)',
         test_background: 'rgba(255, 255, 255, 0)',
+        dithered_background: 'rgba(48, 43, 29, 1)', // image background believes its 49, 42, 28
 
         // FINAL PALETTE W/ LIGHT AND DARK MODES
         background: "#ffffff",
