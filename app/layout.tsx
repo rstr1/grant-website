@@ -26,10 +26,8 @@ export default function RootLayout({
     overscroll-x-none
     overscroll-y-none
     overflow-auto
-    bg-background
-    dark:bg-dithered_background  
-    text-text  
-    dark:text-dark_text
+    bg-dithered_background  
+    text-dark_text
     scrollbar-hide
     
     ">
@@ -39,10 +37,8 @@ export default function RootLayout({
           ${poppins} 
           ${playfair.variable} 
           ${inter.variable} 
-          bg-background 
-          dark:bg-dithered_background
-          text-text  
-          dark:text-dark_text
+          bg-dithered_background 
+          text-dark_text
           font-jost
         `}>
         <div>

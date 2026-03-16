@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
+/* :root {
   --background: #ffffff;
   --foreground: #E3D5CA;
 }
@@ -12,7 +12,7 @@
     --background: #ffffff;
     --foreground: #ededed;
   }
-}
+} */
 
 @layer base {
   /* html {
@@ -43,14 +43,14 @@
     w-full 
     h-12 
     justify-between 
-    bg-nav_background
-    text-white
-    border-white
+    /* bg-nav_background */
+    /* text-white */
+    /* border-white */
     fixed border 
-    dark:bg-test_background
+    bg-test_background
     /* dark:bg-dark_nav_background */
-    dark:text-dark_nav_text
-    dark:border-dark_nav_border
+  text-dark_nav_text
+  border-dark_nav_border
     /* mix-blend-overlay */
     /* dark:mix-blend-lighten */
     z-50 

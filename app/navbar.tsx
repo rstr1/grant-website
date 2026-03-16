@@ -2,17 +2,10 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-// import tailwindConfig from '@/tailwind.config'; 
 import './globals.css';
 
 const linkStyle = 'hover:text-cadmium_orange transition duration-200';
 const linkStyleMobile = `${linkStyle} border rounded-full border-nav_border dark:border-dark_nav_border p-1`;
-// const navBackground = tailwindConfig.theme.extend.colors.nav_background;
-// const navBackgroundDark = tailwindConfig.theme.extend.colors.dark_nav_background;
-// const navBorder = tailwindConfig.theme.extend.colors.nav_border; 
-// const navBorderDark = tailwindConfig.theme.extend.colors.dark_nav_border;
-// const zebraStyleLight = `repeating-linear-gradient(170deg, ${navBorder} 0, ${navBorder} 10px, ${navBackground} 30px, ${navBackground} 40px)`;
-// const zebraStyleDark = `repeating-linear-gradient(170deg, ${navBorderDark} 0, ${navBorderDark} 10px, ${navBackgroundDark} 30px, ${navBackgroundDark} 40px)`;
 
 export default function Navbar() {
 
@@ -28,13 +21,6 @@ export default function Navbar() {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-
-// div classname
-// bg-nav_background 
-//       dark:bg-dark_nav_background
-
-// nav classname
-// backdrop-blur-sm
 
   return (
     <div className={""}>
@@ -53,8 +39,7 @@ export default function Navbar() {
             font-bold 
             whitespace-nowrap 
             px-6 py-3 
-            border-nav_border 
-            dark:border-dark_nav_border
+            border-dark_nav_border
           `}>
           {/* border-r  */}
             <Link href="/" className={linkStyle}>GRANT DONG</Link>
@@ -83,13 +68,10 @@ export default function Navbar() {
             whitespace-nowrap 
             scrollbar-hide 
             px-6 py-4
-
             border-nav_border 
             dark:border-dark_nav_border
             [direction:rtl]
             `}>
-          {/* border-l */}
-
             <Link href="/resume" className={linkStyle}>RESUME</Link>
             <Link href="/articles" className={linkStyle}>ARTICLES</Link>
             <Link href="/photography" className={linkStyle}>PHOTOGRAPHY</Link>
@@ -113,8 +95,6 @@ export default function Navbar() {
                 </div>
             </button>
           </div>
-          
-
         </div>
 
         {/* Mobile Menu */}
