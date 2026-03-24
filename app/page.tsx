@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import Footer from './footer';
+import { dithered_background, gradient_background } from './lib/constants';
 
 export default function Page() {
     const imgRef = useRef<HTMLImageElement>(null);
@@ -49,12 +50,12 @@ export default function Page() {
         
         // START OF PAGE
 
-        <div className="">  
-            <section className="">
+        <div id="scroll-container" className="snap-y snap-mandatory overflow-y-scroll h-screen">
+            <section className="snap-center">
                 <div className="font-playfair font-bold relative h-[100vh]">
                     <Image 
                     ref={imgRef}
-                    src="/photography/faded_flower_extended_sky_dithered_2_atkinson_bordered.png"
+                    src="/photography/granada_flower_dithered_bordered.png"
                     alt="Granada Flower"
                     width = "4896"
                     height = "3054"
@@ -74,14 +75,14 @@ export default function Page() {
                 </div>
             </section>
             
-            <div className="h-[70vh]" />
+            <div className="h-[120vh]" />
 
-            <section className="">
+            <section className="snap-center">
                 <div className="font-playfair font-bold relative h-[100vh]">
                     <Image 
                     ref={imgRef}
                     src="/photography/lobster_flowerish_2_dithered_bordered.png"
-                    alt="resume"
+                    alt="projects"
                     width = "4896"
                     height = "3264"
                     priority
@@ -95,16 +96,16 @@ export default function Page() {
                         }}
                     >
                         <span className="relative bg-gradient-to-r bg-clip-text group-hover:font-extrabold group-hover:from-eggshell/100 group-hover:to-eggshell/80 from-eggshell/80  to-eggshell/60 text-transparent transition-all duration-300">
-                            <Link href="/resume">Resume</Link>
+                            <Link href="/projects">Projects</Link>
                         </span>
                     </div>
                     
                 </div>
             </section>
 
-            <div className="h-[40vh]"/>
+            <div className="h-[120vh]" />
  
-            <section className="">
+            <section className="snap-center">
                 <div className="font-playfair font-bold relative h-[100vh]">
                     <Image 
                     ref={imgRef}
@@ -130,16 +131,46 @@ export default function Page() {
                 </div>
             </section>
 
-            <div className="h-[20vh]"/>
+            <div className="h-[120vh]" />
+
+            <section className="snap-center">
+                <div className="font-playfair font-bold relative h-[100vh]">
+                    <Image 
+                    ref={imgRef}
+                    src="/photography/me_studying.png"
+                    alt="resume"
+                    width = "4896"
+                    height = "3264"
+                    priority
+                    />
+                    <div 
+                        className="group opacity-0 absolute p-[2%] pb-20 look-at-me cursor-pointer"
+                        style={{
+                            top: `${imgHeight * 0.27}px`,
+                            right: '10%',
+                            fontSize: 'min(8vw, 10rem)',
+                        }}
+                    >
+                        <span className="relative bg-gradient-to-r bg-clip-text group-hover:font-extrabold group-hover:from-eggshell/100 group-hover:to-eggshell/80 from-eggshell/80  to-eggshell/60 text-transparent transition-all duration-300">
+                            <Link href="/resume">Resume</Link>
+                        </span>
+                    </div>
+                    
+                </div>
+            </section>
+
+            <div className="h-[40vh]"/>
 
             <div
                 className="h-[60vh]"
                 style={{
-                    background: 'linear-gradient(to bottom, rgba(48, 43, 29, 1), rgb(10, 10, 10))',
+                        background: `linear-gradient(to bottom, ${dithered_background}, ${gradient_background})`, 
                 }}
             />
-
-            <Footer/>
+            
+            <div className="snap-center">
+                <Footer/>
+            </div>
         </div>
         
     );

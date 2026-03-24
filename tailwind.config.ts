@@ -32,7 +32,8 @@ export default {
         other_blue: "#69C3FF",      // other blue
         flower_background: 'rgba(174, 181, 168, 1)',
         test_background: 'rgba(255, 255, 255, 0)',
-        dithered_background: 'rgba(48, 43, 29, 1)', // image background believes its 49, 42, 28
+        dithered_background: 'rgba(49, 43, 29, 1)', // image background believes its 49, 42, 28
+        gradient_background: 'rgb(25, 19, 13)', // header and footer gradients
 
         // FINAL PALETTE W/ LIGHT AND DARK MODES
         background: "#ffffff",
@@ -46,30 +47,7 @@ export default {
         dark_nav_border: "#eeeeee",
         dark_nav_text: "#eeeeee",
         dark_text: "#eeeeee",
-
-      
-        // PALETTE 1 --> earthy tones
-        // background: "#F0EAD6",     
-        // nav_background: "#889063",  
-        // nav_border: "#4C3D19",
-        // nav_text: "#4C3D19",
-        // text: "#845b43",
-
-        // PALETTE 4 --> green and light green
-        // background: "#586b41",     
-        // nav_background: "#90a16a",  
-        // nav_border: "#ffffff",
-        // nav_text: "#ffffff",
-        // text: "#ffffff",
-
-        // PALETTE 5 --> green & orange
-        // background: "#0d0d0d",
-        // background1: "#AE431E",  
-        // background2: "#D08224",   
-        // nav_background: "#8A8635",  
-        // nav_border: "#E5D7C4",
-        // nav_text: "#E5D7C4",
-        // text: "#E5D7C4",
+        
       },
       blur: {
         'xs': '2px',

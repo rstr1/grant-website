@@ -30,13 +30,6 @@
     - for each tier, have an x-scroll to see the album covers, which open to the respective album's review
 - Have separate pages for each tier
 
-## Colour Palette
-- Make a colour palette 
-
-## Font
-- Figure out the font importing issues
-- Run npm run build for the warning i am talking about
-
 
 
 ### //////////////////////////////////////////////////////////////////////////////////////////////

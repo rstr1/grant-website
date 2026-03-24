@@ -29,7 +29,6 @@ export default function RootLayout({
     bg-dithered_background  
     text-dark_text
     scrollbar-hide
-    
     ">
       {/* bg-[url('/photography/faded_flower_extended_sky.png')] */}
       <body className={`

@@ -7,7 +7,9 @@ export default function Photography() {
 
             <div className="grid gap-12">
 
-                <Image
+                Work In Progress
+
+                {/* <Image
                     src="/photography/DSCF1616.png"
                     alt="Lake Como Waterfront"
                     width="4896"
@@ -21,7 +23,7 @@ export default function Photography() {
                     width="4528"
                     height="2547"
                     className="rounded-lg shadow-lg"
-                />
+                /> */}
 
             </div>
 
