@@ -156,7 +156,7 @@ export default function RpicamMjpegPage() {
                         className={`${body_text_classname}`}
                         style={{ fontSize: 'clamp(0.75rem, 2vw, 1rem)' }}
                     >
-                        rpicam-mjpeg works best when in combination with silvanmelchior's 
+                        rpicam-mjpeg works best when in combination with silvanmelchior&apos;s 
                         <Link href="https://github.com/consiliumsolutions/RPi_Cam_Web_Interface/tree/p05c/install-changes" className="text-eggshell/80"> RPi_Cam_Web_Interface</Link>
                         , but can also work as a standalone app.
                     </p>

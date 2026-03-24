@@ -93,7 +93,7 @@ export default function HexDungeonPage() {
                                 Overview
                             </h2>
                             <p className={`${body_text_classname}`} style={{ fontSize: 'clamp(0.75rem, 2vw, 1rem)' }}>
-                            I'm currently in the process of designing and implementing the procedural generation process for
+                            I&apos;m currently in the process of designing and implementing the procedural generation process for
                             an <span className="text-eggshell/70">underground, cavernous environment.</span>
                             </p>
                             <p className={`${body_text_classname}`} style={{ fontSize: 'clamp(0.75rem, 2vw, 1rem)' }}>
