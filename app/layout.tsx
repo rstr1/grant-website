@@ -23,7 +23,6 @@ export default function RootLayout({
   return (
     
     <html lang="en" className="
-    overscroll-x-none
     overscroll-y-none
     overflow-auto
     bg-dithered_background  
