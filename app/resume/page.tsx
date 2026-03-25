@@ -19,9 +19,9 @@ export default function Resume() {
             />
             
             <div className="flex justify-center items-center px-10 pb-10 ">
-                <a href="/files/Grant_2025_Resume.pdf" download>
+                <a href="/files/Grant_2026_Resume.pdf" download>
                     <Image
-                        src="/images/Grant_2025_Resume.png"
+                        src="/images/Grant_2026_Resume.png"
                         alt="Download"
                         width="850"
                         height="1100"
