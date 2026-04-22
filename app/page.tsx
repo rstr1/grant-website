@@ -1,25 +1,15 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import Footer from './footer';
 import { dithered_background, gradient_background } from './lib/constants';
 
 export default function Page() {
-    const imgRef = useRef<HTMLImageElement>(null);
-    const [imgHeight, setImgHeight] = useState(0);
 
     // Transition In
     useEffect(() => {
-        function updateHeight() {
-            if (imgRef.current) {
-                setImgHeight(imgRef.current.clientHeight);
-            }
-        }
-        updateHeight();
-        window.addEventListener('resize', updateHeight);
-
         // Intersection Observer
         if (typeof window !== 'undefined' && 'IntersectionObserver' in window) {
             const observer = new IntersectionObserver(
@@ -42,30 +32,29 @@ export default function Page() {
 
             return () => {
                 observer.disconnect();
-                window.removeEventListener('resize', updateHeight);
             };
         }
     }, []);
+
     return (
         
         // START OF PAGE
 
         <div id="scroll-container" className="snap-y snap-mandatory overflow-y-scroll h-screen">
             <section className="snap-center">
-                <div className="font-playfair font-bold relative h-[100vh]">
+                <div className="font-playfair font-bold relative h-[100vh] overflow-hidden">
                     <Image 
-                    ref={imgRef}
                     src="/photography/granada_flower_dithered_bordered.png"
                     alt="Granada Flower"
-                    width = "4896"
-                    height = "3054"
-                    className=""
+                    width={4896}
+                    height={3054}
+                    className="w-full h-full object-cover object-center"
                     priority
                     />
                     <div 
                         className="opacity-0 absolute pt-[5%] pl-[5%] pb-14 look-at-me bg-gradient-to-r from-eggshell/100 to-eggshell/80 bg-clip-text text-transparent"
                         style={{
-                            top: `${imgHeight * 0.27}px`,
+                            top: '27%',
                             left: '10%',
                             fontSize: 'min(8vw, 10rem)',
                         }}
@@ -78,19 +67,19 @@ export default function Page() {
             <div className="h-[120vh]" />
 
             <section className="snap-center">
-                <div className="font-playfair font-bold relative h-[100vh]">
+                <div className="font-playfair font-bold relative h-[100vh] overflow-hidden">
                     <Image 
-                    ref={imgRef}
                     src="/photography/lobster_flowerish_2_dithered_bordered.png"
                     alt="projects"
-                    width = "4896"
-                    height = "3264"
+                    width={4896}
+                    height={3264}
+                    className="w-full h-full object-cover object-center"
                     priority
                     />
                     <div 
                         className="group opacity-0 absolute p-[2%] pb-20 look-at-me cursor-pointer"
                         style={{
-                            top: `${imgHeight * 0.27}px`,
+                            top: '27%',
                             right: '10%',
                             fontSize: 'min(8vw, 10rem)',
                         }}
@@ -106,19 +95,19 @@ export default function Page() {
             <div className="h-[120vh]" />
  
             <section className="snap-center">
-                <div className="font-playfair font-bold relative h-[100vh]">
+                <div className="font-playfair font-bold relative h-[100vh] overflow-hidden">
                     <Image 
-                    ref={imgRef}
                     src="/photography/sky_flower_dith_border.png"
                     alt="photography"
-                    width = "4896"
-                    height = "3264"
+                    width={4896}
+                    height={3264}
+                    className="w-full h-full object-cover object-center"
                     priority
                     />
                     <div 
                         className="group opacity-0 absolute p-[2%] pb-20 look-at-me cursor-pointer"
                         style={{
-                            top: `${imgHeight * 0.27}px`,
+                            top: '27%',
                             left: '10%',
                             fontSize: 'min(8vw, 10rem)',
                         }}
@@ -134,19 +123,19 @@ export default function Page() {
             <div className="h-[120vh]" />
 
             <section className="snap-center">
-                <div className="font-playfair font-bold relative h-[100vh]">
+                <div className="font-playfair font-bold relative h-[100vh] overflow-hidden">
                     <Image 
-                    ref={imgRef}
                     src="/photography/me_studying.png"
                     alt="resume"
-                    width = "4896"
-                    height = "3264"
+                    width={4896}
+                    height={3264}
+                    className="w-full h-full object-cover object-center"
                     priority
                     />
                     <div 
                         className="group opacity-0 absolute p-[2%] pb-20 look-at-me cursor-pointer"
                         style={{
-                            top: `${imgHeight * 0.27}px`,
+                            top: '27%',
                             right: '10%',
                             fontSize: 'min(8vw, 10rem)',
                         }}

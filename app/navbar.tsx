@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
-import './globals.css';
 
 const linkStyle = 'hover:text-cadmium_orange transition duration-200';
 const linkStyleMobile = `${linkStyle} border rounded-full border-nav_border dark:border-dark_nav_border p-1`;
@@ -73,8 +72,8 @@ export default function Navbar() {
                     `}>
                     <Link href="/resume" className={linkStyle}>RESUME</Link>
                     {/* <Link href="/articles" className={linkStyle}>ARTICLES</Link>
-                    <Link href="/photography" className={linkStyle}>PHOTOGRAPHY</Link>
-                    <Link href="/tierlist" className={linkStyle}>MUSIC</Link> */}
+                    <Link href="/photography" className={linkStyle}>PHOTOGRAPHY</Link> */}
+                    <Link href="/tierlist" className={linkStyle}>FUN</Link>
                     <Link href="/projects" className={linkStyle}>PROJECTS</Link>
                 </div>
 
