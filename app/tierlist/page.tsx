@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import Footer from '../footer';
+import Image from 'next/image';
 import resolveConfig from 'tailwindcss/resolveConfig';
 import tailwindConfig from '@/tailwind.config';
 import {
@@ -58,7 +59,7 @@ export default function Tierlist() {
             className="text-5xl lg:text-7xl md:text-6xl font-bold font-playfair tracking-tight"
             style={{ textShadow: "6px 0px rgba(255, 255, 255, 0.3)" }}
           >
-            Albums i've listened to
+            Albums i&apos;ve listened to
           </h1>
           <p className="md:ml-[60vh] italic mt-3 text-xl sm:text-base text-dark_text/70 font-playfair max-w-2xl">
             music rocks
@@ -266,10 +267,11 @@ function AlbumTile({
               aria-hidden="true"
             />
           )}
-          <img
+          <Image
             src={coverUrl(album.mbid)}
             alt={`${album.title} cover`}
-            className={`w-full h-full object-cover hover:opacity-60 transition-opacity duration-500 ease-out ${loaded ? "opacity-100" : "opacity-0"}`}
+            fill
+            className={`object-cover transition-opacity duration-500 ease-out ${loaded ? "opacity-100" : "opacity-0"}`}
             loading="lazy"
             onLoad={() => setLoaded(true)}
             onError={() => setErrored(true)}
@@ -309,7 +311,6 @@ function ReviewPanel({
   }, [album]);
 
   const shown = album ?? displayed;
-  const colours = shown ? TIER_COLOURS[shown.tier] : TIER_COLOURS.S;
 
   const [panelLoaded, setPanelLoaded] = useState(false);
   const [panelErrored, setPanelErrored] = useState(false);
