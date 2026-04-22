@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import "./globals.css";
+import { Analytics } from "@vercel/analytics/react"
 import React from "react";
 import Navbar from "./navbar";
 
@@ -44,6 +44,7 @@ export default function RootLayout({
         </div>
         <div className="min-h-screen">
           {children}
+          <Analytics />
         </div>
       </body>
     </html>

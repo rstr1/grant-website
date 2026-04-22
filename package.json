@@ -13,6 +13,7 @@
     "@heroui/react": "^2.7.10",
     "@heroui/system": "^2.4.16",
     "@heroui/theme": "^2.4.17",
+    "@vercel/analytics": "^2.0.1",
     "@vercel/blob": "^2.3.1",
     "autoprefixer": "^10.4.21",
     "framer-motion": "^12.16.0",
