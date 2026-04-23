@@ -1,13 +1,25 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import Footer from './footer';
 import { dithered_background, gradient_background } from './lib/constants';
 
+// Custom snap configuration
+const SNAP_DURATION_MS = 1800;           // How long each snap animation takes
+const SNAP_COOLDOWN_MS = 0;           // Ignore additional scroll input briefly after snap
+const SCROLL_DELTA_THRESHOLD = 10;      // Minimum wheel delta to trigger a snap
+
 export default function Page() {
     const [scrollTop, setScrollTop] = useState(0);
+    const isSnappingRef = useRef(false);
+    const lastSnapEndRef = useRef(0);
+
+    // Track window height in state so snap targets recalc on resize.
+    const [viewportH, setViewportH] = useState(
+        typeof window !== 'undefined' ? window.innerHeight : 1000
+    );
 
     useEffect(() => {
         let rafId: number | null = null;
@@ -20,9 +32,11 @@ export default function Page() {
             });
         };
 
-        window.addEventListener('scroll', handleScroll, { passive: true });
+        const handleResize = () => setViewportH(window.innerHeight);
 
-        // Intersection Observer (for any remaining .look-at-me elements; Welcome uses it)
+        window.addEventListener('scroll', handleScroll, { passive: true });
+        window.addEventListener('resize', handleResize);
+
         let observer: IntersectionObserver | null = null;
         if ('IntersectionObserver' in window) {
             observer = new IntersectionObserver(
@@ -43,57 +57,176 @@ export default function Page() {
         return () => {
             observer?.disconnect();
             window.removeEventListener('scroll', handleScroll);
+            window.removeEventListener('resize', handleResize);
             if (rafId !== null) cancelAnimationFrame(rafId);
         };
     }, []);
 
-    const viewportH = typeof window !== 'undefined' ? window.innerHeight : 1000;
+    // ---- Custom snap logic ----
+    useEffect(() => {
+        // Snap targets: scroll positions (in pixels) where we want the page to settle.
+        // Computed based on viewport height. Update these if the layout changes.
+        const getSnapTargets = () => {
+            const vh = viewportH;
+            // Snap targets:
+            // 0: top of page (flower hero at animProgress 0)
+            // Projects: section starts at 200vh, is 120vh tall. Middle at 260vh,
+            //   viewport center at 50vh, so snap at 210vh.
+            // Photography: after Projects (120vh) + spacer (120vh) = starts at 440vh.
+            //   Middle at 500vh, snap at 450vh.
+            // Resume: after Photography (120vh) + spacer (120vh) = starts at 680vh.
+            //   Middle at 740vh, snap at 690vh.
+            // Final target: bottom of document (footer).
+            return [
+                0,           // Top / flower
+                2.1 * vh,    // Projects center
+                4.5 * vh,    // Photography center
+                6.9 * vh,    // Resume center
+                // Bottom of document — ensures a snap target exists at the footer.
+                Math.max(6.9 * vh + vh, document.documentElement.scrollHeight - vh),
+            ];
+        };
+
+        // Easing: ease-out cubic — starts fast, slows as it approaches.
+        const easeOutCubic = (t: number) => 1 - Math.pow(1 - t, 3);
+
+        const animateScrollTo = (targetY: number) => {
+            const startY = window.scrollY;
+            const distance = targetY - startY;
+            if (Math.abs(distance) < 1) return;
+
+            isSnappingRef.current = true;
+            const startTime = performance.now();
+
+            const step = (now: number) => {
+                const elapsed = now - startTime;
+                const t = Math.min(elapsed / SNAP_DURATION_MS, 1);
+                const eased = easeOutCubic(t);
+                window.scrollTo(0, startY + distance * eased);
+                if (t < 1) {
+                    requestAnimationFrame(step);
+                } else {
+                    isSnappingRef.current = false;
+                    lastSnapEndRef.current = performance.now();
+                }
+            };
+            requestAnimationFrame(step);
+        };
+
+        const findNextTarget = (currentY: number, direction: 1 | -1) => {
+            const targets = getSnapTargets();
+            if (direction === 1) {
+                // Next target strictly greater than current position.
+                return targets.find((t) => t > currentY + 10) ?? targets[targets.length - 1];
+            } else {
+                // Previous target strictly less than current position.
+                const reversed = [...targets].reverse();
+                return reversed.find((t) => t < currentY - 10) ?? targets[0];
+            }
+        };
+
+        const onWheel = (e: WheelEvent) => {
+            // If currently snapping or within cooldown after a snap, block further input.
+            if (isSnappingRef.current) {
+                e.preventDefault();
+                return;
+            }
+            if (performance.now() - lastSnapEndRef.current < SNAP_COOLDOWN_MS) {
+                e.preventDefault();
+                return;
+            }
+
+            // Require minimum delta to avoid triggering on tiny scroll adjustments.
+            if (Math.abs(e.deltaY) < SCROLL_DELTA_THRESHOLD) return;
+
+            e.preventDefault();
+            const direction = e.deltaY > 0 ? 1 : -1;
+            const target = findNextTarget(window.scrollY, direction);
+            animateScrollTo(target);
+        };
+
+        // Touch support: detect swipe direction.
+        let touchStartY = 0;
+        const onTouchStart = (e: TouchEvent) => {
+            touchStartY = e.touches[0].clientY;
+        };
+        const onTouchEnd = (e: TouchEvent) => {
+            if (isSnappingRef.current) return;
+            if (performance.now() - lastSnapEndRef.current < SNAP_COOLDOWN_MS) return;
+
+            const touchEndY = e.changedTouches[0].clientY;
+            const deltaY = touchStartY - touchEndY;
+            if (Math.abs(deltaY) < 40) return; // Ignore tiny taps
+
+            const direction = deltaY > 0 ? 1 : -1;
+            const target = findNextTarget(window.scrollY, direction);
+            animateScrollTo(target);
+        };
+
+        // Keyboard: Arrow keys, Page Up/Down, Home/End, Space.
+        const onKeyDown = (e: KeyboardEvent) => {
+            if (isSnappingRef.current) {
+                e.preventDefault();
+                return;
+            }
+            let direction: 1 | -1 | null = null;
+            if (e.key === 'ArrowDown' || e.key === 'PageDown' || e.key === ' ') direction = 1;
+            else if (e.key === 'ArrowUp' || e.key === 'PageUp') direction = -1;
+
+            if (direction !== null) {
+                e.preventDefault();
+                const target = findNextTarget(window.scrollY, direction);
+                animateScrollTo(target);
+            }
+        };
+
+        window.addEventListener('wheel', onWheel, { passive: false });
+        window.addEventListener('touchstart', onTouchStart, { passive: true });
+        window.addEventListener('touchend', onTouchEnd, { passive: true });
+        window.addEventListener('keydown', onKeyDown);
+
+        return () => {
+            window.removeEventListener('wheel', onWheel);
+            window.removeEventListener('touchstart', onTouchStart);
+            window.removeEventListener('touchend', onTouchEnd);
+            window.removeEventListener('keydown', onKeyDown);
+        };
+    }, [viewportH]);
+
     const vh = (n: number) => viewportH * n;
 
-    // ---- Zone definitions (in pixels) ----
-    // Welcome:     0     → 1.6vh   (anim 0-1, hold 1-1.5, fade 1.5-1.6)
-    // Projects:    1.5vh → 2.7vh   (fade in 1.5-1.6, hold, fade out 2.6-2.7)
-    // Photography: 2.6vh → 3.8vh
-    // Resume:      3.7vh → 5.0vh
-    // After 5vh: natural scroll into gradient + footer.
+    // ---- Flower hero zones (same as before) ----
+    // Animation progress is tied to raw scroll position, so as the custom snap
+    // animates scroll smoothly, the parallax plays smoothly along with it.
+    const ANIM_END = vh(1.0);
+    const HOLD_END = vh(1.5);
+    const FADE_END = vh(1.6);
 
-    const sectionOpacity = (
-        fadeInStart: number,
-        fullInStart: number,
-        fullOutStart: number,
-        fadeOutEnd: number
-    ) => {
-        if (scrollTop < fadeInStart) return 0;
-        if (scrollTop < fullInStart) return (scrollTop - fadeInStart) / (fullInStart - fadeInStart);
-        if (scrollTop < fullOutStart) return 1;
-        if (scrollTop < fadeOutEnd) return 1 - (scrollTop - fullOutStart) / (fadeOutEnd - fullOutStart);
-        return 0;
-    };
+    const animProgress = Math.min(Math.max(scrollTop / ANIM_END, 0), 1);
 
-    const welcomeOpacity = scrollTop < vh(1.5) ? 1 : sectionOpacity(vh(1.5), vh(1.5), vh(1.5), vh(1.6));
-    const projectsOpacity = sectionOpacity(vh(1.5), vh(1.6), vh(2.6), vh(2.7));
-    const photographyOpacity = sectionOpacity(vh(2.6), vh(2.7), vh(3.7), vh(3.8));
-    const resumeOpacity = sectionOpacity(vh(3.7), vh(3.8), vh(4.9), vh(5.0));
+    let heroOpacity = 1;
+    if (scrollTop > HOLD_END) {
+        heroOpacity = Math.max(0, 1 - (scrollTop - HOLD_END) / (FADE_END - HOLD_END));
+    }
+    const heroVisible = scrollTop < FADE_END;
 
-    // Flower animation progress
-    const animProgress = Math.min(Math.max(scrollTop / vh(1), 0), 1);
-    const bgBrightness = 1 - animProgress * 0.3;
+    const bgBrightness = 1 - animProgress * 0.9;
     const fgScale = 1 + animProgress * 1.0;
     const fgTranslateY = -200 * animProgress;
 
-    const hideIfInvisible = (opacity: number) => ({
-        visibility: opacity === 0 ? ('hidden' as const) : ('visible' as const),
-    });
-
     return (
         <>
-            {/* ============ WELCOME LAYER (flower animation) ============ */}
+            {/* ============ FIXED FLOWER HERO OVERLAY ============ */}
+            {/* Container is 120vh tall, offset -10vh so it overflows equally top and
+                bottom. The image inside fills this larger area with object-cover,
+                meaning less vertical cropping than a 100vh container. */}
             <div
-                className="fixed top-0 left-0 w-screen h-screen overflow-hidden pointer-events-none z-20"
+                className="fixed left-0 w-screen h-[120vh] overflow-hidden pointer-events-none z-20"
                 style={{
-                    opacity: welcomeOpacity,
-                    backgroundColor: '#000',
-                    ...hideIfInvisible(welcomeOpacity),
+                    top: '-10vh',
+                    opacity: heroOpacity,
+                    backgroundColor: dithered_background,
+                    visibility: heroVisible ? 'visible' : 'hidden',
                 }}
             >
                 <div className="relative w-full h-full font-playfair font-bold">
@@ -109,6 +242,25 @@ export default function Page() {
                         }}
                         priority
                     />
+
+                    {/* Welcome text — sits BEHIND the foreground so the scaling flower
+                        passes over it. Placed before the foreground <Image> in the DOM
+                        so it paints first (and gets covered by the foreground). */}
+                    <div
+                        className="opacity-0 absolute pt-[5%] pl-[5%] pb-14 look-at-me bg-gradient-to-r from-eggshell/100 to-eggshell/80 bg-clip-text text-transparent"
+                        style={{
+                            top: '27%',
+                            left: '10%',
+                            fontSize: 'min(8vw, 10rem)',
+                            transform: `translateY(${fgTranslateY}px) scale(${fgScale})`,
+                            transformOrigin: 'center center',
+                            transition: 'transform 0.1s linear',
+                            willChange: 'transform',
+                        }}
+                    >
+                        Welcome
+                    </div>
+
                     <Image
                         src="/photography/granada_flower_dithered_bordered_foreground.png"
                         alt=""
@@ -124,138 +276,108 @@ export default function Page() {
                         }}
                         priority
                     />
-                    <div
-                        className="opacity-0 absolute pt-[5%] pl-[5%] pb-14 look-at-me bg-gradient-to-r from-eggshell/100 to-eggshell/80 bg-clip-text text-transparent"
-                        style={{
-                            top: '27%',
-                            left: '10%',
-                            fontSize: 'min(8vw, 10rem)',
-                            transform: `translateY(${fgTranslateY}px) scale(${fgScale})`,
-                            transformOrigin: 'center center',
-                            transition: 'transform 0.1s linear',
-                            willChange: 'transform',
-                        }}
-                    >
-                        Welcome
-                    </div>
-                </div>
-            </div>
-
-            {/* ============ PROJECTS LAYER ============ */}
-            <div
-                className="fixed top-0 left-0 w-screen h-screen overflow-hidden pointer-events-none z-20"
-                style={{
-                    opacity: projectsOpacity,
-                    backgroundColor: '#000',
-                    ...hideIfInvisible(projectsOpacity),
-                }}
-            >
-                <div className="font-playfair font-bold relative w-full h-full">
-                    <Image
-                        src="/photography/lobster_flowerish_2_dithered_bordered.png"
-                        alt="projects"
-                        width={4896}
-                        height={3264}
-                        className="w-full h-full object-cover object-center"
-                        priority
-                    />
-                    <div
-                        className="group absolute p-[2%] pb-20 cursor-pointer pointer-events-auto"
-                        style={{
-                            top: '27%',
-                            right: '10%',
-                            fontSize: 'min(8vw, 10rem)',
-                        }}
-                    >
-                        <span className="relative bg-gradient-to-r bg-clip-text group-hover:font-extrabold group-hover:from-eggshell/100 group-hover:to-eggshell/80 from-eggshell/80 to-eggshell/60 text-transparent transition-all duration-300">
-                            <Link href="/projects">Projects</Link>
-                        </span>
-                    </div>
-                </div>
-            </div>
-
-            {/* ============ PHOTOGRAPHY LAYER ============ */}
-            <div
-                className="fixed top-0 left-0 w-screen h-screen overflow-hidden pointer-events-none z-20"
-                style={{
-                    opacity: photographyOpacity,
-                    backgroundColor: '#000',
-                    ...hideIfInvisible(photographyOpacity),
-                }}
-            >
-                <div className="font-playfair font-bold relative w-full h-full">
-                    <Image
-                        src="/photography/sky_flower_dith_border.png"
-                        alt="photography"
-                        width={4896}
-                        height={3264}
-                        className="w-full h-full object-cover object-center"
-                        priority
-                    />
-                    <div
-                        className="group absolute p-[2%] pb-20 cursor-pointer pointer-events-auto"
-                        style={{
-                            top: '27%',
-                            left: '10%',
-                            fontSize: 'min(8vw, 10rem)',
-                        }}
-                    >
-                        <span className="relative bg-gradient-to-l bg-clip-text group-hover:font-extrabold group-hover:from-eggshell/100 group-hover:to-eggshell/80 from-eggshell/80 to-eggshell/60 text-transparent transition-all duration-300">
-                            <Link href="/photography">Photography</Link>
-                        </span>
-                    </div>
-                </div>
-            </div>
-
-            {/* ============ RESUME LAYER ============ */}
-            <div
-                className="fixed top-0 left-0 w-screen h-screen overflow-hidden pointer-events-none z-20"
-                style={{
-                    opacity: resumeOpacity,
-                    backgroundColor: '#000',
-                    ...hideIfInvisible(resumeOpacity),
-                }}
-            >
-                <div className="font-playfair font-bold relative w-full h-full">
-                    <Image
-                        src="/photography/me_studying.png"
-                        alt="resume"
-                        width={4896}
-                        height={3264}
-                        className="w-full h-full object-cover object-center"
-                        priority
-                    />
-                    <div
-                        className="group absolute p-[2%] pb-20 cursor-pointer pointer-events-auto"
-                        style={{
-                            top: '27%',
-                            right: '10%',
-                            fontSize: 'min(8vw, 10rem)',
-                        }}
-                    >
-                        <span className="relative bg-gradient-to-r bg-clip-text group-hover:font-extrabold group-hover:from-eggshell/100 group-hover:to-eggshell/80 from-eggshell/80 to-eggshell/60 text-transparent transition-all duration-300">
-                            <Link href="/resume">Resume</Link>
-                        </span>
-                    </div>
                 </div>
             </div>
 
             {/* ============ PAGE FLOW CONTENT ============ */}
-            {/* No inner scroll container. The page's natural window scroll drives
-                everything. The 500vh spacer gives us the full scroll range for
-                the four section transitions above. */}
-            <div className="relative">
-                {/* 500vh spacer — drives all four section transitions. */}
-                <div className="h-[500vh]" aria-hidden="true" />
+            <div>
+                {/* Hero spacer — 160vh of scroll during which the fixed flower is visible. */}
+                <div className="h-[160vh]" aria-hidden="true" />
 
-                {/* Gradient into footer. */}
+                {/* 40vh padding between flower fade-out and Projects. */}
+                <div className="h-[40vh]" aria-hidden="true" />
+
+                {/* Projects */}
+                <section>
+                    <div className="font-playfair font-bold relative h-[120vh] w-screen overflow-hidden">
+                        <Image
+                            src="/photography/lobster_flowerish_2_dithered_bordered.png"
+                            alt="projects"
+                            width={4896}
+                            height={3264}
+                            className="w-full h-full object-cover object-center"
+                            priority
+                        />
+                        <div
+                            className="group opacity-0 absolute p-[2%] pb-20 look-at-me cursor-pointer"
+                            style={{
+                                top: '27%',
+                                right: '10%',
+                                fontSize: 'min(8vw, 10rem)',
+                            }}
+                        >
+                            <span className="relative bg-gradient-to-r bg-clip-text group-hover:font-extrabold group-hover:from-eggshell/100 group-hover:to-eggshell/80 from-eggshell/80 to-eggshell/60 text-transparent transition-all duration-300">
+                                <Link href="/projects">Projects</Link>
+                            </span>
+                        </div>
+                    </div>
+                </section>
+
+                <div className="h-[120vh]" />
+
+                {/* Photography */}
+                <section>
+                    <div className="font-playfair font-bold relative h-[120vh] w-screen overflow-hidden">
+                        <Image
+                            src="/photography/sky_flower_dith_border.png"
+                            alt="photography"
+                            width={4896}
+                            height={3264}
+                            className="w-full h-full object-cover object-center"
+                            priority
+                        />
+                        <div
+                            className="group opacity-0 absolute p-[2%] pb-20 look-at-me cursor-pointer"
+                            style={{
+                                top: '27%',
+                                left: '10%',
+                                fontSize: 'min(8vw, 10rem)',
+                            }}
+                        >
+                            <span className="relative bg-gradient-to-l bg-clip-text group-hover:font-extrabold group-hover:from-eggshell/100 group-hover:to-eggshell/80 from-eggshell/80 to-eggshell/60 text-transparent transition-all duration-300">
+                                <Link href="/photography">Photography</Link>
+                            </span>
+                        </div>
+                    </div>
+                </section>
+
+                <div className="h-[120vh]" />
+
+                {/* Resume */}
+                <section>
+                    <div className="font-playfair font-bold relative h-[120vh] w-screen overflow-hidden">
+                        <Image
+                            src="/photography/me_studying.png"
+                            alt="resume"
+                            width={4896}
+                            height={3264}
+                            className="w-full h-full object-cover object-center"
+                            priority
+                        />
+                        <div
+                            className="group opacity-0 absolute p-[2%] pb-20 look-at-me cursor-pointer"
+                            style={{
+                                top: '27%',
+                                right: '10%',
+                                fontSize: 'min(8vw, 10rem)',
+                            }}
+                        >
+                            <span className="relative bg-gradient-to-r bg-clip-text group-hover:font-extrabold group-hover:from-eggshell/100 group-hover:to-eggshell/80 from-eggshell/80 to-eggshell/60 text-transparent transition-all duration-300">
+                                <Link href="/resume">Resume</Link>
+                            </span>
+                        </div>
+                    </div>
+                </section>
+
                 <div className="h-[40vh]" />
+
                 <div
                     className="h-[60vh]"
                     style={{
                         background: `linear-gradient(to bottom, ${dithered_background}, ${gradient_background})`,
                     }}
                 />
+
                 <Footer />
             </div>
         </>
