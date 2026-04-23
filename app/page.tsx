@@ -63,8 +63,6 @@ export default function Page() {
 
     // ---- Snap Logic ----
     useEffect(() => {
-        // Snap targets: scroll positions (in pixels) where we want the page to settle.
-        // Computed based on viewport height. Update these if the layout changes.
         const getSnapTargets = () => {
             const vh = viewportH;
             return [
@@ -140,7 +138,7 @@ export default function Page() {
             animateScrollTo(target);
         };
 
-        // Keyboard: Arrow keys, Page Up/Down, Home/End, Space.
+        // Keyboard support: Arrow keys, Page Up/Down, Home/End, Space.
         const onKeyDown = (e: KeyboardEvent) => {
             if (isSnappingRef.current) {
                 e.preventDefault();
@@ -172,9 +170,7 @@ export default function Page() {
 
     const vh = (n: number) => viewportH * n;
 
-    // ---- Flower hero zones (same as before) ----
-    // Animation progress is tied to raw scroll position, so as the custom snap
-    // animates scroll smoothly, the parallax plays smoothly along with it.
+    // ---- Hero zones ----
     const ANIM_END = vh(1.0);
     const HOLD_END = vh(1.5);
     const FADE_END = vh(1.6);
