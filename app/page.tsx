@@ -7,8 +7,7 @@ import Footer from './footer';
 import { dithered_background, gradient_background } from './lib/constants';
 
 // Custom snap configuration
-const SNAP_DURATION_MS = 1400;           // How long each snap animation takes
-const SNAP_COOLDOWN_MS = 0;           // Ignore additional scroll input briefly after snap
+const SNAP_DURATION_MS = 1400;          // How long each snap animation takes
 const SCROLL_DELTA_THRESHOLD = 10;      // Minimum wheel delta to trigger a snap
 
 export default function Page() {
@@ -62,27 +61,17 @@ export default function Page() {
         };
     }, []);
 
-    // ---- Custom snap logic ----
+    // ---- Snap Logic ----
     useEffect(() => {
         // Snap targets: scroll positions (in pixels) where we want the page to settle.
         // Computed based on viewport height. Update these if the layout changes.
         const getSnapTargets = () => {
             const vh = viewportH;
-            // Snap targets:
-            // 0: top of page (flower hero at animProgress 0)
-            // Projects: section starts at 200vh, is 120vh tall. Middle at 260vh,
-            //   viewport center at 50vh, so snap at 210vh.
-            // Photography: after Projects (120vh) + spacer (120vh) = starts at 440vh.
-            //   Middle at 500vh, snap at 450vh.
-            // Resume: after Photography (120vh) + spacer (120vh) = starts at 680vh.
-            //   Middle at 740vh, snap at 690vh.
-            // Final target: bottom of document (footer).
             return [
-                0,           // Top / flower
+                0,            // Top / flower
                 2.45 * vh,    // Projects center
                 4.85 * vh,    // Photography center
                 7.25 * vh,    // Resume center
-                // Bottom of document — ensures a snap target exists at the footer.
                 Math.max(7.25 * vh + vh, document.documentElement.scrollHeight - vh),
             ];
         };
@@ -90,6 +79,7 @@ export default function Page() {
         // Easing: ease-out cubic — starts fast, slows as it approaches.
         const easeOutCubic = (t: number) => 1 - Math.pow(1 - t, 3);
 
+        // Animation
         const animateScrollTo = (targetY: number) => {
             const startY = window.scrollY;
             const distance = targetY - startY;
@@ -116,26 +106,14 @@ export default function Page() {
         const findNextTarget = (currentY: number, direction: 1 | -1) => {
             const targets = getSnapTargets();
             if (direction === 1) {
-                // Next target strictly greater than current position.
                 return targets.find((t) => t > currentY + 10) ?? targets[targets.length - 1];
             } else {
-                // Previous target strictly less than current position.
                 const reversed = [...targets].reverse();
                 return reversed.find((t) => t < currentY - 10) ?? targets[0];
             }
         };
 
         const onWheel = (e: WheelEvent) => {
-            // If currently snapping or within cooldown after a snap, block further input.
-            if (isSnappingRef.current) {
-                e.preventDefault();
-                return;
-            }
-            if (performance.now() - lastSnapEndRef.current < SNAP_COOLDOWN_MS) {
-                e.preventDefault();
-                return;
-            }
-
             // Require minimum delta to avoid triggering on tiny scroll adjustments.
             if (Math.abs(e.deltaY) < SCROLL_DELTA_THRESHOLD) return;
 
@@ -152,7 +130,6 @@ export default function Page() {
         };
         const onTouchEnd = (e: TouchEvent) => {
             if (isSnappingRef.current) return;
-            if (performance.now() - lastSnapEndRef.current < SNAP_COOLDOWN_MS) return;
 
             const touchEndY = e.changedTouches[0].clientY;
             const deltaY = touchStartY - touchEndY;
@@ -218,7 +195,7 @@ export default function Page() {
         <>
             {/* ============ FLOWER HERO OVERLAY ============ */}
             <div
-                className="fixed left-0 w-screen h-[120vh] overflow-hidden pointer-events-none z-20"
+                className="fixed left-0 w-screen h-[120vh] overflow-hidden pointer-events-none z-20 pt-24"
                 style={{
                     top: '-10vh',
                     opacity: heroOpacity,
@@ -241,7 +218,7 @@ export default function Page() {
                     />
 
                     <div
-                        className="opacity-0 absolute pt-[5%] pl-[5%] pb-14 look-at-me bg-gradient-to-r from-eggshell/100 to-eggshell/80 bg-clip-text text-transparent"
+                        className="opacity-0 absolute pl-[5%] pb-14 look-at-me bg-gradient-to-r from-eggshell/100 to-eggshell/80 bg-clip-text text-transparent"
                         style={{
                             top: '27%',
                             left: '10%',
