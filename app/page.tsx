@@ -7,7 +7,7 @@ import Footer from './footer';
 import { dithered_background, gradient_background } from './lib/constants';
 
 // Custom snap configuration
-const SNAP_DURATION_MS = 1800;           // How long each snap animation takes
+const SNAP_DURATION_MS = 1400;           // How long each snap animation takes
 const SNAP_COOLDOWN_MS = 0;           // Ignore additional scroll input briefly after snap
 const SCROLL_DELTA_THRESHOLD = 10;      // Minimum wheel delta to trigger a snap
 
@@ -79,11 +79,11 @@ export default function Page() {
             // Final target: bottom of document (footer).
             return [
                 0,           // Top / flower
-                2.1 * vh,    // Projects center
-                4.5 * vh,    // Photography center
-                6.9 * vh,    // Resume center
+                2.45 * vh,    // Projects center
+                4.85 * vh,    // Photography center
+                7.25 * vh,    // Resume center
                 // Bottom of document — ensures a snap target exists at the footer.
-                Math.max(6.9 * vh + vh, document.documentElement.scrollHeight - vh),
+                Math.max(7.25 * vh + vh, document.documentElement.scrollHeight - vh),
             ];
         };
 
@@ -210,16 +210,13 @@ export default function Page() {
     }
     const heroVisible = scrollTop < FADE_END;
 
-    const bgBrightness = 1 - animProgress * 0.9;
+    const bgBrightness = 1 - animProgress * 0.5;
     const fgScale = 1 + animProgress * 1.0;
     const fgTranslateY = -200 * animProgress;
 
     return (
         <>
-            {/* ============ FIXED FLOWER HERO OVERLAY ============ */}
-            {/* Container is 120vh tall, offset -10vh so it overflows equally top and
-                bottom. The image inside fills this larger area with object-cover,
-                meaning less vertical cropping than a 100vh container. */}
+            {/* ============ FLOWER HERO OVERLAY ============ */}
             <div
                 className="fixed left-0 w-screen h-[120vh] overflow-hidden pointer-events-none z-20"
                 style={{
@@ -243,9 +240,6 @@ export default function Page() {
                         priority
                     />
 
-                    {/* Welcome text — sits BEHIND the foreground so the scaling flower
-                        passes over it. Placed before the foreground <Image> in the DOM
-                        so it paints first (and gets covered by the foreground). */}
                     <div
                         className="opacity-0 absolute pt-[5%] pl-[5%] pb-14 look-at-me bg-gradient-to-r from-eggshell/100 to-eggshell/80 bg-clip-text text-transparent"
                         style={{
@@ -285,7 +279,7 @@ export default function Page() {
                 <div className="h-[160vh]" aria-hidden="true" />
 
                 {/* 40vh padding between flower fade-out and Projects. */}
-                <div className="h-[40vh]" aria-hidden="true" />
+                <div className="h-[80vh]" aria-hidden="true" />
 
                 {/* Projects */}
                 <section>
