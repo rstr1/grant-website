@@ -38,9 +38,10 @@ export const albumData: Album[] = [
     artist: "Radiohead",
     year: 2000,
     genre: "Art Rock / Electronic / Ambient",
-    favouriteTrack: "xxxxxx",
+    favouriteTrack: "Everything In Its Right Place",
     review:
-      "",
+      `Very digestible introduction to soundscape works. Favourite album to fall asleep to.
+      'Everything In Its Right Place' has an amazing intro immediately setting the tone for the rest of the album.`,
     tier: "S",
     mbid: "e75c0549-ad55-39e3-8025-c72c5d4a3c5d",
     background: 0x422a27,
@@ -53,23 +54,10 @@ export const albumData: Album[] = [
     genre: "Alternative Rock",
     favouriteTrack: "Weird Fishes / Arpeggi",
     review:
-      "",
+      "15 Step is another great opening song. My entry into Radiohead. Their most jolly album. Got put off this album before listening because I thought the cover was too ugly.",
     tier: "S",
     mbid: "6e335887-60ba-38f0-95af-fae7774336bf",
     background: 0x031725,
-  },
-  {
-    key: "HEAVEN_OR_LAS_VEGAS",
-    title: "Heaven or Las Vegas",
-    artist: "Cocteau Twins",
-    year: 1990,
-    genre: "Dream Pop",
-    favouriteTrack: "",
-    review:
-      "",
-    tier: "A",
-    mbid: "12fab6b9-4eaf-33b0-963e-cae03ac332fe",
-    background: 0x394572,
   },
   {
     key: "EUSEXUA",
@@ -93,7 +81,7 @@ export const albumData: Album[] = [
     favouriteTrack: "Two Horses",
     review:
       "",
-    tier: "S",
+    tier: "A",
     mbid: "23a9b1c2-3dd1-408e-89cb-ca0b81429176",
     background: 0xee8432,
   },
@@ -106,7 +94,7 @@ export const albumData: Album[] = [
     favouriteTrack: "",
     review:
       "",
-    tier: "S",
+    tier: "A",
     mbid: "c2455d4a-3e81-4aba-833c-5119d18a8fc0",
     background: 0xc7b69c,
   },
@@ -119,7 +107,7 @@ export const albumData: Album[] = [
     favouriteTrack: "",
     review:
       "",
-    tier: "S",
+    tier: "B",
     mbid: "594f931f-d19f-4cdb-98aa-fd4c1b52b966",
     background: 0x242f1e,
   },
@@ -132,22 +120,9 @@ export const albumData: Album[] = [
     favouriteTrack: "",
     review:
       "",
-    tier: "S",
+    tier: "A",
     mbid: "38174604-0631-381b-a67b-5ce30e498505",
     background: 0x0062a6,
-  },
-  {
-    key: "THE_DARK_SIDE_OF_THE_MOOD",
-    title: "The Dark Side of the Moon",
-    artist: "Pink Floyd",
-    year: 1973,
-    genre: "Progressive Rock, Psychedelic Rock",
-    favouriteTrack: "",
-    review:
-      "",
-    tier: "S",
-    mbid: "f5093c06-23e3-404f-aeaa-40f72885ee3a",
-    background: 0x000000,
   },
   {
     key: "WISH_YOU_WERE_HERE",
@@ -155,12 +130,56 @@ export const albumData: Album[] = [
     artist: "Pink Floyd",
     year: 1975,
     genre: "Progressive Rock, Art Rock",
+    favouriteTrack: "Wish You Were Here",
+    review:
+      "Amazing listening experience. Unshuffleable. Two 10+ min songs but you don't even notice.",
+    tier: "S",
+    mbid: "1a272023-10d3-38ee-bab3-317b55fcc21d",
+    background: 0xffffff,
+  },
+  {
+    key: "OK_COMPUTER",
+    title: "OK Computer",
+    artist: "Radiohead",
+    year: 1997,
+    genre: "Alternative Rock / Art Rock",
     favouriteTrack: "",
     review:
       "",
     tier: "S",
-    mbid: "1a272023-10d3-38ee-bab3-317b55fcc21d",
-    background: 0xffffff,
+    mbid: "b1392450-e666-3926-a536-22c65f834433",
+    background: 0x94cee4,
+  },
+  {
+    key: "RUMOURS",
+    title: "Rumours",
+    artist: "Fleetwood Mac",
+    year: 1977,
+    genre: "Soft Rock / Folk Pop",
+    favouriteTrack: "",
+    review:
+      `When I first listened to it, it was not my normal listening taste but it's undeniably a masterpiece that perfectly carves out a slice of the 70's. 
+      The behind the scenes drama is an added bonus.`,
+    tier: "S",
+    mbid: "416bb5e5-c7d1-3977-8fd7-7c9daf6c2be6",
+    background: 0xfffdea,
+  },
+  {
+    key: "THE_DARK_SIDE_OF_THE_MOOD",
+    title: "The Dark Side of the Moon",
+    artist: "Pink Floyd",
+    year: 1973,
+    genre: "Progressive Rock, Psychedelic Rock",
+    favouriteTrack: "The Great Gig in the Sky",
+    review:
+      `Didn't understand the hype until my exchange trip. Put it on the speaker in our hostel. 
+      I still get anxiety when the 'Time' intro rolls around. 
+      Probably the sole reason I can't enjoy the album more.
+      I remember studying 'Money' in early high school for its 7/4 time signature, but I couldn't get
+      into the rest of the album (was only listening to EDM back then).`,
+    tier: "S",
+    mbid: "f5093c06-23e3-404f-aeaa-40f72885ee3a",
+    background: 0x000000,
   },
   {
     key: "Pulsar",
@@ -171,7 +190,7 @@ export const albumData: Album[] = [
     favouriteTrack: "",
     review:
       "",
-    tier: "S",
+    tier: "A",
     mbid: "a70b228a-20a9-4d24-8ded-d4ea40d9694c",
     background: 0x2c396a,
   },
@@ -184,7 +203,7 @@ export const albumData: Album[] = [
     favouriteTrack: "",
     review:
       "",
-    tier: "S",
+    tier: "A",
     mbid: "ab570ccb-b06b-3746-8147-4903163ba895",
     background: 0xd6d6d6,
   },
@@ -197,7 +216,7 @@ export const albumData: Album[] = [
     favouriteTrack: "",
     review:
       "",
-    tier: "S",
+    tier: "B",
     mbid: "ec84ab32-eb41-3d91-a099-7a01c72f21d2",
     background: 0xa7ba5e,
   },
@@ -215,19 +234,6 @@ export const albumData: Album[] = [
     background: 0xd62541,
   },
   {
-    key: "OK_COMPUTER",
-    title: "OK Computer",
-    artist: "Radiohead",
-    year: 1997,
-    genre: "Alternative Rock / Art Rock",
-    favouriteTrack: "",
-    review:
-      "",
-    tier: "S",
-    mbid: "b1392450-e666-3926-a536-22c65f834433",
-    background: 0x94cee4,
-  },
-  {
     key: "AMNESIAC",
     title: "Amnesiac",
     artist: "Radiohead",
@@ -241,14 +247,27 @@ export const albumData: Album[] = [
     background: 0x342e30,
   },
   {
+    key: "HEAVEN_OR_LAS_VEGAS",
+    title: "Heaven or Las Vegas",
+    artist: "Cocteau Twins",
+    year: 1990,
+    genre: "Dream Pop",
+    favouriteTrack: "",
+    review:
+      "",
+    tier: "A",
+    mbid: "12fab6b9-4eaf-33b0-963e-cae03ac332fe",
+    background: 0x394572,
+  },
+  {
     key: "HAIL_TO_THE_THIEF",
     title: "Hail to the Thief",
     artist: "Radiohead",
     year: 2003,
     genre: "Alternative Rock / Art Rock",
-    favouriteTrack: "",
+    favouriteTrack: "Backdrifts",
     review:
-      "",
+      "Strong opening and end to the album, but I think I lost a bit of interest around the middle. Good crunch on Backdrifts.",
     tier: "B",
     mbid: "5c14fd50-a2f1-3672-9537-b0dad91bea2f",
     background: 0x4b6d7d,
@@ -278,19 +297,6 @@ export const albumData: Album[] = [
     tier: "A",
     mbid: "bbce0087-d386-4246-a51d-dbcdfdbe8fb2",
     background: 0xe5e4eb,
-  },
-  {
-    key: "RUMOURS",
-    title: "Rumours",
-    artist: "Fleetwood Mac",
-    year: 1977,
-    genre: "Soft Rock / Folk Pop",
-    favouriteTrack: "",
-    review:
-      "",
-    tier: "S",
-    mbid: "416bb5e5-c7d1-3977-8fd7-7c9daf6c2be6",
-    background: 0xfffdea,
   },
   {
     key: "FLEETWOOD_MAC",
