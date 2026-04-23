@@ -54,7 +54,7 @@ export default function Tierlist() {
         style={{ background: `linear-gradient(to top, ${dithered_background}, ${gradient_background})` }}
       >
         {/* Header */}
-        <div className="">
+        <div className="pt-52">
           <h1
             className="text-5xl lg:text-7xl md:text-6xl font-bold font-playfair tracking-tight"
             style={{ textShadow: "6px 0px rgba(255, 255, 255, 0.3)" }}
