@@ -2,58 +2,29 @@
 @tailwind components;
 @tailwind utilities;
 
-/* :root {
-  --background: #ffffff;
-  --foreground: #E3D5CA;
+* {
+  user-select: none;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #ffffff;
-    --foreground: #ededed;
-  }
-} */
 
 @layer base {
-  /* html {
-    @apply m-0 h-full;
-  } */
-
-  /* html::before {
-    content: "";
-    @apply
-    fixed
-    top-0
-    left-0
-    w-full
-    h-full
-    bg-[url('/photography/faded_flower_extended_sky.png')]
-    bg-cover
-    bg-no-repeat
-    -z-10
-    pointer-events-none
-    transition-opacity
-    duration-1000
-    background-image: url('/photography/faded_flower_extended_sky.png');
-    filter: blur(8px);
-  } */
 
   nav {
     @apply
-    w-full 
-    h-12 
-    justify-between 
+    w-full
+    h-12
+    justify-between
     /* bg-nav_background */
     /* text-white */
     /* border-white */
-    fixed border 
+    fixed border
     bg-test_background
     /* dark:bg-dark_nav_background */
   text-dark_nav_text
   border-dark_nav_border
     /* mix-blend-overlay */
     /* dark:mix-blend-lighten */
-    z-50 
+    z-50
     font-jost
     shadow-md
     text-shadow-2xs

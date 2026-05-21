@@ -66,7 +66,7 @@ export default function Tierlist() {
           </p>
         </div>
       </section>
-        
+
       <div className="pt-12 pb-16 md:px-16 px-10 max-w-6xl mx-auto">
 
         {/* Tier rows */}
@@ -153,7 +153,22 @@ function TierRow({ tier, albums, onSelect }: {
     const el = scrollRef.current;
     if (!el) return;
     const handleWheel = (e: WheelEvent) => {
-      if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+      const isMouseWheel = e.deltaX === 0;
+      const canScrollHoriz = el.scrollWidth > el.clientWidth;
+
+      if (isMouseWheel && canScrollHoriz) {
+        // Mouse wheel (no horizontal component): convert vertical scroll into
+        // horizontal scroll within the tier row. Only hand off to the page
+        // scroller once the row has hit its horizontal extent.
+        const atStart = el.scrollLeft <= 0 && e.deltaY < 0;
+        const atEnd = el.scrollLeft + el.clientWidth >= el.scrollWidth - 1 && e.deltaY > 0;
+        if (!atStart && !atEnd) {
+          e.preventDefault();
+          el.scrollBy({ left: e.deltaY });
+          return;
+        }
+      } else if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+        // Trackpad: pure vertical gesture — send to page scroll as before.
         e.preventDefault();
         document.getElementById("scroll-container")?.scrollBy({ top: e.deltaY });
       }
@@ -176,7 +191,6 @@ function TierRow({ tier, albums, onSelect }: {
           boxShadow: `
             inset -4px -4px 0px color-mix(in srgb, ${colours.bg} 50%, black)
           `,
-          
         }}
       >
         <span style={{

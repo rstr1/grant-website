@@ -8,6 +8,7 @@ import { dithered_background, gradient_background } from './lib/constants';
 
 // Custom snap configuration
 const SNAP_DURATION_MS = 1400;          // How long each snap animation takes
+const SNAP_COOLDOWN_MS = 250;           // Ignore scroll input briefly after snap completes (catches trackpad momentum)
 const SCROLL_DELTA_THRESHOLD = 10;      // Minimum wheel delta to trigger a snap
 
 export default function Page() {
@@ -16,11 +17,20 @@ export default function Page() {
     const lastSnapEndRef = useRef(0);
 
     // Track window height in state so snap targets recalc on resize.
-    const [viewportH, setViewportH] = useState(
-        typeof window !== 'undefined' ? window.innerHeight : 1000
-    );
+    // Initialize to 0 — the effect sets the real value on mount before any
+    // snap handlers attach. This prevents first-load snaps from being computed
+    // against a stale fallback viewport (which was the source of the "skip past
+    // Projects" bug).
+    const [viewportH, setViewportH] = useState(0);
 
     useEffect(() => {
+        // Reset scroll to top on mount to override any browser scroll restoration
+        // that might place us in an awkward starting position.
+        window.scrollTo(0, 0);
+
+        // Set the real viewport height immediately on mount.
+        setViewportH(window.innerHeight);
+
         let rafId: number | null = null;
 
         const handleScroll = () => {
@@ -63,6 +73,9 @@ export default function Page() {
 
     // ---- Snap Logic ----
     useEffect(() => {
+        // Don't attach snap handlers until viewportH has been measured on mount.
+        if (viewportH === 0) return;
+
         const getSnapTargets = () => {
             const vh = viewportH;
             return [
@@ -112,6 +125,18 @@ export default function Page() {
         };
 
         const onWheel = (e: WheelEvent) => {
+            // Block any new snap input while a snap is in progress or during the
+            // brief cooldown after one completes. This prevents hard scrolls from
+            // chaining multiple snaps and skipping sections.
+            if (isSnappingRef.current) {
+                e.preventDefault();
+                return;
+            }
+            if (performance.now() - lastSnapEndRef.current < SNAP_COOLDOWN_MS) {
+                e.preventDefault();
+                return;
+            }
+
             // Require minimum delta to avoid triggering on tiny scroll adjustments.
             if (Math.abs(e.deltaY) < SCROLL_DELTA_THRESHOLD) return;
 
@@ -128,6 +153,7 @@ export default function Page() {
         };
         const onTouchEnd = (e: TouchEvent) => {
             if (isSnappingRef.current) return;
+            if (performance.now() - lastSnapEndRef.current < SNAP_COOLDOWN_MS) return;
 
             const touchEndY = e.changedTouches[0].clientY;
             const deltaY = touchStartY - touchEndY;
@@ -141,6 +167,10 @@ export default function Page() {
         // Keyboard support: Arrow keys, Page Up/Down, Home/End, Space.
         const onKeyDown = (e: KeyboardEvent) => {
             if (isSnappingRef.current) {
+                e.preventDefault();
+                return;
+            }
+            if (performance.now() - lastSnapEndRef.current < SNAP_COOLDOWN_MS) {
                 e.preventDefault();
                 return;
             }
@@ -191,7 +221,7 @@ export default function Page() {
         <>
             {/* ============ FLOWER HERO OVERLAY ============ */}
             <div
-                className="fixed left-0 w-screen h-[120vh] overflow-hidden pointer-events-none z-20 pt-24"
+                className="fixed left-0 w-screen h-[140vh] overflow-hidden pointer-events-none z-20"
                 style={{
                     top: '-10vh',
                     opacity: heroOpacity,
@@ -251,7 +281,7 @@ export default function Page() {
                 {/* Hero spacer — 160vh of scroll during which the fixed flower is visible. */}
                 <div className="h-[160vh]" aria-hidden="true" />
 
-                {/* 40vh padding between flower fade-out and Projects. */}
+                {/* 120vh padding between flower fade-out and Projects. */}
                 <div className="h-[80vh]" aria-hidden="true" />
 
                 {/* Projects */}
