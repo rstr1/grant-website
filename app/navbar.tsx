@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 
-const linkStyle = 'hover:text-cadmium_orange transition duration-200';
+const linkStyle = 'hover:text-light_orange transition duration-200';
 const linkStyleMobile = `${linkStyle} border rounded-full border-nav_border dark:border-dark_nav_border p-1`;
 
 export default function Navbar() {

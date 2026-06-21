@@ -23,6 +23,7 @@ export default {
         // MISC COLOURS / HIGHLIGHTS
         eggshell: "#F0EAD6",        // eggshell white
         cadmium_orange: "#F28C28",  // cadmium orange
+        light_orange: "#ffbf00",
         orangey: "#ee8432",
         sky_blue: "#87CEEB",        // sky blue
         other_blue: "#69C3FF",      // other blue

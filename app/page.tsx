@@ -8,7 +8,7 @@ import { dithered_background, gradient_background } from './lib/constants';
 
 // Custom snap configuration
 const SNAP_DURATION_MS = 1400;          // How long each snap animation takes
-const SNAP_COOLDOWN_MS = 250;           // Ignore scroll input briefly after snap completes (catches trackpad momentum)
+const SNAP_COOLDOWN_MS = 200;           // Ignore scroll input briefly after snap completes (catches trackpad momentum)
 const SCROLL_DELTA_THRESHOLD = 10;      // Minimum wheel delta to trigger a snap
 
 export default function Page() {

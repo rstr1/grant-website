@@ -1,30 +1,27 @@
 "use client";
 
-import React, { useState, useEffect, useCallback, useRef } from "react";
-import Footer from '../footer';
-import resolveConfig from 'tailwindcss/resolveConfig';
-import tailwindConfig from '@/tailwind.config';
+import { useState, useEffect, useCallback, useRef } from "react";
 import {
   albumData,
   type Album,
 } from "../data/albums";
 import DiveScene from "./dive/dive-scene";
 
-// Total scroll length of the dive, in viewport-heights. Tune by feel once
-// you can see it running — more albums or a slower pace wants a bigger number.
+// Total scroll length of the dive, in vh.
 const DIVE_VH = 900;
 
-const fullConfig = resolveConfig(tailwindConfig);
-const dithered_background = fullConfig.theme.colors.dithered_background;
-const gradient_background = fullConfig.theme.colors.gradient_background;
 
-/**
- * Use the `release-group` endpoint rather than `release` because a single
- * album has many releases (vinyl, CD, remasters) and release-group resolves
- * to one canonical front cover.
- */
 function coverUrl(mbid: string): string {
   return `https://coverartarchive.org/release-group/${mbid}/front-500.jpg`;
+}
+
+// Stops THREE.Clock deprecation warning
+if (typeof window !== 'undefined') {
+  const originalWarn = console.warn;
+  console.warn = (...args) => {
+    if (args[0]?.toString().includes('THREE.Clock')) return;
+    originalWarn(...args);
+  };
 }
 
 export default function Tierlist() {

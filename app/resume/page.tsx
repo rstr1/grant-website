@@ -11,13 +11,13 @@ export default function Resume() {
 
     return (
         <div id="scroll-container" className="overflow-y-scroll h-screen">
-            <div 
+            <div
             className="h-[20vh]"
             style={{
                 background: `linear-gradient(to top, ${dithered_background}, ${gradient_background})`,
             }}
             />
-            
+
             <div className="flex justify-center items-center px-10 pb-10 ">
                 <a href="/files/Grant_2026_Resume.pdf" download>
                     <Image
@@ -37,7 +37,6 @@ export default function Resume() {
                 background: `linear-gradient(to bottom, ${dithered_background}, ${gradient_background})`,
                 }}
             />
-            
             <Footer/>
         </div>
     );
