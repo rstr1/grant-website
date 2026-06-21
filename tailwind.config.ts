@@ -1,4 +1,3 @@
-import {heroui} from '@heroui/theme';
 import type { Config } from "tailwindcss";
 
 export default {
@@ -6,7 +5,6 @@ export default {
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx,css}",
-    "./node_modules/@heroui/theme/dist/components/(card|ripple).js",
   ],
   theme: {
     extend: {
@@ -45,7 +43,6 @@ export default {
         dark_nav_border: "#eeeeee",
         dark_nav_text: "#eeeeee",
         dark_text: "#eeeeee",
-        
       },
       blur: {
         'xs': '2px',
@@ -63,6 +60,7 @@ export default {
         poppins: ["poppins", "sans-serif"],
         playfair: "var(--font-playfair)",
         inter: "var(--font-inter)",
+        jacquard_12: "var(--font-jacquard)",
       },
     },
     screens: {
@@ -74,5 +72,5 @@ export default {
       '2xl': '1536px',
     }
   },
-  plugins: [require('tailwind-scrollbar-hide'),heroui()],
+  plugins: [require('tailwind-scrollbar-hide')],
 } satisfies Config;

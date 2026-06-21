@@ -53,10 +53,10 @@ const FOG_DISTANCE = 0.005
 
 const STEP_WIDTH = 8
 const STEP_DEPTH = 8
-const STEP_HEIGHT = 1
-const STEPS_PER_SEGMENT = 1
-const NUM_SEGMENTS = 200
-const NUM_STAIRCASES = 30
+const STEP_HEIGHT = 2
+const STEPS_PER_SEGMENT = 2
+const NUM_SEGMENTS = 100
+const NUM_STAIRCASES = 25
 
 const SPREAD = 0
 const SINE_FREQ = 1
@@ -85,10 +85,10 @@ function CameraRig() {
   useFrame(({ clock, camera }) => {
     const t = clock.getElapsedTime()
     const radius = 200
-    camera.position.x = Math.sin(t * 0.5) * radius
-    camera.position.z = Math.cos(t * 0.5) * radius
-    camera.position.y = 0
-    camera.lookAt(0, 0, 0)
+    camera.position.x = Math.sin(t * 0.1) * radius
+    camera.position.z = Math.cos(t * 0.1) * radius
+    camera.position.y = STEP_HEIGHT * STEPS_PER_SEGMENT * NUM_SEGMENTS / 2
+    camera.lookAt(0, STEP_HEIGHT * STEPS_PER_SEGMENT * NUM_SEGMENTS / 2, 0)
   })
   return null
 }

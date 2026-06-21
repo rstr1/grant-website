@@ -2,16 +2,17 @@
 
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import Footer from '../footer';
-import Image from 'next/image';
 import resolveConfig from 'tailwindcss/resolveConfig';
 import tailwindConfig from '@/tailwind.config';
 import {
   albumData,
-  TIERS,
-  TIER_COLOURS,
   type Album,
-  type Tier,
-} from "../data/albums_old";
+} from "../data/albums";
+import DiveScene from "./dive/dive-scene";
+
+// Total scroll length of the dive, in viewport-heights. Tune by feel once
+// you can see it running — more albums or a slower pace wants a bigger number.
+const DIVE_VH = 900;
 
 const fullConfig = resolveConfig(tailwindConfig);
 const dithered_background = fullConfig.theme.colors.dithered_background;
@@ -28,6 +29,7 @@ function coverUrl(mbid: string): string {
 
 export default function Tierlist() {
   const [selected, setSelected] = useState<Album | null>(null);
+  const diveSectionRef = useRef<HTMLDivElement>(null);
 
   // Gentle container fade-in on first mount
   const [mounted, setMounted] = useState(false);
@@ -50,51 +52,21 @@ export default function Tierlist() {
     <div id="scroll-container"
       className={`transition-opacity duration-500 ease-out ${mounted ? "opacity-100" : "opacity-0"} overflow-y-scroll h-screen scrollbar-hide`}
     >
-      <section className="min-h-[25vh] flex flex-col justify-end px-[10%]"
-        style={{ background: `linear-gradient(to top, ${dithered_background}, ${gradient_background})` }}
-      >
-        {/* Header */}
-        <div className="pt-52">
-          <h1
-            className="text-5xl lg:text-7xl md:text-6xl font-bold font-playfair tracking-tight"
-            style={{ textShadow: "6px 0px rgba(255, 255, 255, 0.3)" }}
-          >
-            Albums i&apos;ve listened to
-          </h1>
-          <p className="md:ml-[60vh] italic mt-3 text-xl sm:text-base text-dark_text/70 font-playfair max-w-2xl">
-            music rocks
-          </p>
+      {/* Dive */}
+      <section ref={diveSectionRef} className="relative block" style={{ height: `${DIVE_VH}vh` }}>
+        <div className="sticky top-0 h-screen w-full overflow-hidden">
+          {mounted && (
+            <DiveScene
+              albums={albumData}
+              onSelect={setSelected}
+              sectionRef={diveSectionRef}
+            />
+          )}
         </div>
       </section>
 
-      <div className="pt-12 pb-16 md:px-16 px-10 max-w-6xl mx-auto">
-
-        {/* Tier rows */}
-        <div className="flex flex-col gap-4">
-          {TIERS.map((tier) => (
-            <TierRow
-              key={tier}
-              tier={tier}
-              albums={albumData.filter((a) => a.tier === tier)}
-              onSelect={setSelected}
-            />
-          ))}
-        </div>
-
-        {/* Slide-in review panel */}
-        <ReviewPanel album={selected} onClose={() => setSelected(null)} />
-      </div>
-
-      <div>
-        {/* ── Fade to footer ── */}
-          <div
-              className="h-[20vh]"
-              style={{
-              background: `linear-gradient(to bottom, ${dithered_background}, ${gradient_background})`,
-              }}
-          />
-          <Footer/>
-      </div>
+      {/* Slide-in review panel */}
+      <ReviewPanel album={selected} onClose={() => setSelected(null)} />
 
       {/* Shimmer keyframes for skeleton placeholders */}
       <style jsx global>{`
@@ -117,193 +89,6 @@ export default function Tierlist() {
     </div>
   );
 
-}
-
-/* -------------------------------------------------------------------------- */
-/*  Tier row                                                                  */
-/* -------------------------------------------------------------------------- */
-
-function TierRow({ tier, albums, onSelect }: {
-  tier: Tier;
-  albums: Album[];
-  onSelect: (a: Album) => void;
-}) {
-  const colours = TIER_COLOURS[tier];
-  const scrollRef = useRef<HTMLDivElement>(null);
-  const [canScrollRight, setCanScrollRight] = useState(false);
-
-  useEffect(() => {
-    const el = scrollRef.current;
-    if (!el) return;
-
-    const checkScroll = () => {
-      setCanScrollRight(el.scrollLeft + el.clientWidth < el.scrollWidth - 4);
-    };
-
-    checkScroll();
-    el.addEventListener("scroll", checkScroll);
-    window.addEventListener("resize", checkScroll);
-    return () => {
-      el.removeEventListener("scroll", checkScroll);
-      window.removeEventListener("resize", checkScroll);
-    };
-  }, [albums]);
-
-  useEffect(() => {
-    const el = scrollRef.current;
-    if (!el) return;
-    const handleWheel = (e: WheelEvent) => {
-      const isMouseWheel = e.deltaX === 0;
-      const canScrollHoriz = el.scrollWidth > el.clientWidth;
-
-      if (isMouseWheel && canScrollHoriz) {
-        // Mouse wheel (no horizontal component): convert vertical scroll into
-        // horizontal scroll within the tier row. Only hand off to the page
-        // scroller once the row has hit its horizontal extent.
-        const atStart = el.scrollLeft <= 0 && e.deltaY < 0;
-        const atEnd = el.scrollLeft + el.clientWidth >= el.scrollWidth - 1 && e.deltaY > 0;
-        if (!atStart && !atEnd) {
-          e.preventDefault();
-          el.scrollBy({ left: e.deltaY });
-          return;
-        }
-      } else if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
-        // Trackpad: pure vertical gesture — send to page scroll as before.
-        e.preventDefault();
-        document.getElementById("scroll-container")?.scrollBy({ top: e.deltaY });
-      }
-    };
-    el.addEventListener("wheel", handleWheel, { passive: false });
-    return () => el.removeEventListener("wheel", handleWheel);
-  }, []);
-
-  return (
-    <div
-      className="flex items-stretch rounded-lg min-h-[140px] md:min-h-[180px]"
-    >
-      {/* Tier label */}
-      <div
-        className="shrink-0 w-32 md:w-40 mx-4 my-4 pb-2 flex items-center justify-center font-playfair text-6xl md:text-8xl font-bold m-1 rounded-xl"
-        style={{
-          backgroundColor: colours.bg,
-          color: `color-mix(in srgb, ${colours.bg} 80%, black)`,
-          backgroundImage: `linear-gradient(145deg, color-mix(in srgb, ${colours.bg} 90%, white) 0%, ${colours.bg} 50%, color-mix(in srgb, ${colours.bg} 70%, black) 100%)`,
-          boxShadow: `
-            inset -4px -4px 0px color-mix(in srgb, ${colours.bg} 50%, black)
-          `,
-        }}
-      >
-        <span style={{
-          textShadow: `
-            0 1px 1px color-mix(in srgb, ${colours.bg} 80%, white),
-            0 -1px 1px color-mix(in srgb, ${colours.bg} 20%, black)
-          `
-        }}>
-          {tier}
-        </span>
-      </div>
-
-      {/* Albums + fade indicator */}
-      <div className="relative flex-1 overflow-hidden pl-2 py-2">
-        <div
-          ref={scrollRef}
-          className="flex-1 p-4 flex flex-nowrap gap-4 rounded-xl items-center min-h-[160px] md:min-h-[192px] overflow-x-auto overflow-y-hidden overscroll-none scrollbar-hide"
-          style={{ backgroundColor: `color-mix(in srgb, ${colours.bg} 80%, black)` }}
-        >
-          {albums.length === 0 ? (
-            <span className="text-dark_text/30 text-sm italic font-jost pl-1">
-              nothing here yet
-            </span>
-          ) : (
-            albums.map((album) => (
-              <AlbumTile key={album.key} album={album} onSelect={onSelect} />
-            ))
-          )}
-        </div>
-
-        {/* Fade + chevron */}
-        <div
-          className={`absolute top-2 right-0 h-48 w-24 rounded-xl flex items-center justify-end pr-2 pointer-events-none transition-opacity duration-300 ${canScrollRight ? "opacity-100" : "opacity-0"}`}
-          style={{
-            background: `linear-gradient(to right, transparent, color-mix(in srgb, ${colours.bg} 100%, black))`,
-          }}
-        >
-          <svg className="w-5 h-5 text-white/70" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-          </svg>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-/* -------------------------------------------------------------------------- */
-/*  Album tile                                                                */
-/* -------------------------------------------------------------------------- */
-
-function AlbumTile({
-  album,
-  onSelect,
-}: {
-  album: Album;
-  onSelect: (a: Album) => void;
-}) {
-  const [loaded, setLoaded] = useState(false);
-  const [errored, setErrored] = useState(false);
-  const hasValidMbid = album.mbid && album.mbid.length === 36;
-  const showPlaceholder = !hasValidMbid || errored;
-
-  const fallbackColour =
-    typeof album.background === "number"
-      ? `#${album.background.toString(16).padStart(6, "0")}`
-      : album.background || "#2a2218";
-
-  return (
-    <button
-      onClick={() => onSelect(album)}
-      className="group relative w-32 h-32 md:h-40 md:w-40 shrink-0 rounded-xl overflow-hidden transition-transform duration-200 hover:scale-110 hover:shadow-xl focus:outline-none"
-      style={{
-        backgroundColor: fallbackColour,
-        outline: 'none',
-        boxShadow: `0 4px 12px color-mix(in srgb, ${fallbackColour} 40%, black)`,
-      }}
-      onFocus={e => (e.currentTarget.style.boxShadow = `0 0 0 2px ${fallbackColour}`)}
-      onBlur={e => (e.currentTarget.style.boxShadow = '')}
-      aria-label={`View review of ${album.title} by ${album.artist}`}
-    >
-      {!showPlaceholder ? (
-        <>
-          {/* Skeleton layer — shows until the image load event fires. */}
-          {!loaded && (
-            <div
-              className="absolute inset-0 tierlist-shimmer"
-              style={{ backgroundColor: fallbackColour }}
-              aria-hidden="true"
-            />
-          )}
-          <Image
-            src={coverUrl(album.mbid)}
-            alt={`${album.title} cover`}
-            fill
-            sizes="(min-width:768px) 160px, 128px"
-            className={`object-cover transition-opacity duration-500 ease-out ${loaded ? "opacity-100" : "opacity-0"}`}
-            loading="lazy"
-            onLoad={() => setLoaded(true)}
-            onError={() => setErrored(true)}
-          />
-        </>
-      ) : (
-        <div className="w-full h-full flex flex-col items-center justify-center p-1 text-center font-jost">
-          <span className="text-[9px] leading-tight text-white/90 font-bold">
-            {album.title}
-          </span>
-          <span className="text-[8px] leading-tight text-white/50 mt-0.5">
-            {album.artist}
-          </span>
-        </div>
-      )}
-    </button>
-  );
 }
 
 /* -------------------------------------------------------------------------- */
