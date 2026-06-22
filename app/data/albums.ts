@@ -1,8 +1,3 @@
-// NOTE: `rating` values were auto-generated from the old S/A/B/C/D/F tiers
-// as a starting point (S->9.5, A->8, B->6.5, C->5, D->3.5, F->2, plus a
-// small deterministic jitter so same-tier albums don't sit at an identical
-// depth). These are placeholders — replace with your real opinions.
-
 export type Album = {
   key: string;
   title: string;
@@ -11,7 +6,6 @@ export type Album = {
   genre: string;
   favouriteTrack: string;
   review: string;
-  /** Personal rating out of 10. Drives depth in the dive scene — higher rating sinks deeper. */
   rating: number;
   mbid: string;
 
@@ -46,7 +40,7 @@ export const albumData: Album[] = [
     review:
       `Very digestible introduction to soundscape works. Favourite album to fall asleep to.
       'Everything In Its Right Place' has an amazing intro immediately setting the tone for the rest of the album.`,
-    rating: 9.9,
+    rating: 9.7,
     mbid: "e75c0549-ad55-39e3-8025-c72c5d4a3c5d",
     background: 0x422a27,
   },
@@ -59,7 +53,7 @@ export const albumData: Album[] = [
     favouriteTrack: "Weird Fishes / Arpeggi",
     review:
       "15 Step is another great opening song. My entry into Radiohead. Their most jolly album. Got put off this album before listening because I thought the cover was too ugly.",
-    rating: 9.5,
+    rating: 9.3,
     mbid: "6e335887-60ba-38f0-95af-fae7774336bf",
     background: 0x031725,
   },
@@ -72,7 +66,7 @@ export const albumData: Album[] = [
     favouriteTrack: "",
     review:
       "",
-    rating: 6.2,
+    rating: 7.5,
     mbid: "05c8e133-ba85-48cc-82c3-afcf0cc9e9ff",
     background: 0xd8d4d3,
   },
@@ -111,7 +105,7 @@ export const albumData: Album[] = [
     favouriteTrack: "",
     review:
       "",
-    rating: 6.1,
+    rating: 6.5,
     mbid: "594f931f-d19f-4cdb-98aa-fd4c1b52b966",
     background: 0x242f1e,
   },
@@ -124,7 +118,7 @@ export const albumData: Album[] = [
     favouriteTrack: "",
     review:
       "",
-    rating: 7.7,
+    rating: 7.9,
     mbid: "38174604-0631-381b-a67b-5ce30e498505",
     background: 0x0062a6,
   },
@@ -150,7 +144,7 @@ export const albumData: Album[] = [
     favouriteTrack: "",
     review:
       "",
-    rating: 9.3,
+    rating: 9.5,
     mbid: "b1392450-e666-3926-a536-22c65f834433",
     background: 0x94cee4,
   },
@@ -162,9 +156,9 @@ export const albumData: Album[] = [
     genre: "Soft Rock / Folk Pop",
     favouriteTrack: "",
     review:
-      `When I first listened to it, it was not my normal listening taste but it's undeniably a masterpiece that perfectly carves out a slice of the 70's. 
+      `When I first listened to it, I had the thought that it sounded dated and was perhaps not for me. Over further listens however, my perspective has shifted. It is a masterpiece that perfectly carves out a slice of the 70's.
       The behind the scenes drama is an added bonus.`,
-    rating: 9.2,
+    rating: 9.4,
     mbid: "416bb5e5-c7d1-3977-8fd7-7c9daf6c2be6",
     background: 0xfffdea,
   },
@@ -176,12 +170,12 @@ export const albumData: Album[] = [
     genre: "Progressive Rock, Psychedelic Rock",
     favouriteTrack: "The Great Gig in the Sky",
     review:
-      `Didn't understand the hype until my exchange trip. Put it on the speaker in our hostel. 
-      I still get anxiety when the 'Time' intro rolls around. 
+      `Didn't understand the hype until my exchange trip. Put it on the speaker in our hostel.
+      I still get anxiety when the 'Time' intro rolls around.
       Probably the sole reason I can't enjoy the album more.
       I remember studying 'Money' in early high school for its 7/4 time signature, but I couldn't get
       into the rest of the album (was only listening to EDM back then).`,
-    rating: 9.8,
+    rating: 9.1,
     mbid: "f5093c06-23e3-404f-aeaa-40f72885ee3a",
     background: 0x000000,
   },
@@ -194,7 +188,7 @@ export const albumData: Album[] = [
     favouriteTrack: "",
     review:
       "",
-    rating: 7.7,
+    rating: 7.2,
     mbid: "a70b228a-20a9-4d24-8ded-d4ea40d9694c",
     background: 0x2c396a,
   },
@@ -207,7 +201,7 @@ export const albumData: Album[] = [
     favouriteTrack: "",
     review:
       "",
-    rating: 8.4,
+    rating: 8.3,
     mbid: "ab570ccb-b06b-3746-8147-4903163ba895",
     background: 0xd6d6d6,
   },
@@ -233,7 +227,7 @@ export const albumData: Album[] = [
     favouriteTrack: "",
     review:
       "",
-    rating: 6.4,
+    rating: 7.2,
     mbid: "b8048f24-c026-3398-b23a-b5e50716cbc7",
     background: 0xd62541,
   },
@@ -259,7 +253,7 @@ export const albumData: Album[] = [
     favouriteTrack: "",
     review:
       "",
-    rating: 8.4,
+    rating: 7.9,
     mbid: "12fab6b9-4eaf-33b0-963e-cae03ac332fe",
     background: 0x394572,
   },
@@ -272,7 +266,7 @@ export const albumData: Album[] = [
     favouriteTrack: "Backdrifts",
     review:
       "Strong opening and end to the album, but I think I lost a bit of interest around the middle. Good crunch on Backdrifts.",
-    rating: 6.6,
+    rating: 6.5,
     mbid: "5c14fd50-a2f1-3672-9537-b0dad91bea2f",
     background: 0x4b6d7d,
   },
@@ -285,7 +279,7 @@ export const albumData: Album[] = [
     favouriteTrack: "",
     review:
       "",
-    rating: 8.1,
+    rating: 7.5,
     mbid: "899b6d09-807e-4c18-a6d4-3642e00d6a3d",
     background: 0x263d06,
   },
@@ -298,7 +292,7 @@ export const albumData: Album[] = [
     favouriteTrack: "Art Rock / Ambient Pop",
     review:
       "",
-    rating: 7.9,
+    rating: 7.0,
     mbid: "bbce0087-d386-4246-a51d-dbcdfdbe8fb2",
     background: 0xe5e4eb,
   },
@@ -311,7 +305,7 @@ export const albumData: Album[] = [
     favouriteTrack: "Rhiannon",
     review:
       "",
-    rating: 7.7,
+    rating: 7.1,
     mbid: "6b5d9bf1-f496-34b5-9488-7df2533d6208",
     background: 0xffffff,
   },
@@ -324,7 +318,7 @@ export const albumData: Album[] = [
     favouriteTrack: "",
     review:
       "",
-    rating: 9.5,
+    rating: 8.7,
     mbid: "e6b486b3-68e7-331c-a078-94fd71d61877",
     background: 0x000000,
   },
@@ -350,7 +344,7 @@ export const albumData: Album[] = [
     favouriteTrack: "",
     review:
       "",
-    rating: 7.8,
+    rating: 7.7,
     mbid: "0c9bc273-a9e9-3290-b423-c61b9f8d20bc",
     background: 0xf6f4d8,
   },
@@ -363,7 +357,7 @@ export const albumData: Album[] = [
     favouriteTrack: "",
     review:
       "",
-    rating: 8.0,
+    rating: 7.6,
     mbid: "cd706457-8b16-4809-a61a-cdba1b281d39",
     background: 0xe8e0d5,
   },
@@ -376,7 +370,7 @@ export const albumData: Album[] = [
     favouriteTrack: "",
     review:
       "",
-    rating: 8.4,
+    rating: 7.4,
     mbid: "1bd84b8b-e187-44d9-aff0-e32f9e3de987",
     background: 0x1d1d1d,
   },
@@ -389,7 +383,7 @@ export const albumData: Album[] = [
     favouriteTrack: "",
     review:
       "",
-    rating: 6.6,
+    rating: 6.3,
     mbid: "b21b5309-90b0-4ddb-9ea1-0c7870b10341",
     background: 0xa5d8e8,
   },
@@ -415,7 +409,7 @@ export const albumData: Album[] = [
     favouriteTrack: "",
     review:
       "",
-    rating: 8.3,
+    rating: 7.4,
     mbid: "ae9ad4fb-c840-4e14-aaed-ea319dc3d324",
     background: 0x3c3835,
   },
@@ -428,7 +422,7 @@ export const albumData: Album[] = [
     favouriteTrack: "",
     review:
       "",
-    rating: 7.9,
+    rating: 7.8,
     mbid: "17beaab5-7f01-3511-848a-7b981d4d92ff",
     background: 0xc4c6ca,
   },
@@ -441,7 +435,7 @@ export const albumData: Album[] = [
     favouriteTrack: "",
     review:
       "",
-    rating: 6.2,
+    rating: 6.7,
     mbid: "a09cac39-38c3-4973-8302-7f8210dcbcc7",
     background: 0x1a3151,
   },
@@ -454,7 +448,7 @@ export const albumData: Album[] = [
     favouriteTrack: "",
     review:
       "",
-    rating: 8.2,
+    rating: 7.6,
     mbid: "79abdd44-3e2d-41f8-a65a-8f827eff97d1",
     background: 0xe4dbd3,
   },
@@ -467,7 +461,7 @@ export const albumData: Album[] = [
     favouriteTrack: "",
     review:
       "",
-    rating: 4.7,
+    rating: 4.6,
     mbid: "85961bf4-8be5-4838-a8ba-0deba96efeb0",
     background: 0x8a3d3a,
   },
@@ -493,7 +487,7 @@ export const albumData: Album[] = [
     favouriteTrack: "",
     review:
       "",
-    rating: 6.5,
+    rating: 7.1,
     mbid: "758d7fb2-fa83-4276-aa20-f7e5120e4002",
     background: 0xf15a49,
   },
@@ -506,7 +500,7 @@ export const albumData: Album[] = [
     favouriteTrack: "",
     review:
       "",
-    rating: 7.9,
+    rating: 7.2,
     mbid: "16297acb-896e-48e4-8390-f9ca95c4f0d9",
     background: 0x8adcfb,
   },

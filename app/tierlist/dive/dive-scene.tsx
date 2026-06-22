@@ -16,13 +16,13 @@ import { Html } from "@react-three/drei";
 const BACKGROUND_COLOUR = new THREE.Color("#ffffff")
 
 // Colour stops for the 3-stop underwater gradient.
-const SURFACE_COLOUR = new THREE.Color("#66b2b2");
+const SURFACE_COLOUR = new THREE.Color("#0a73ab");
 const MID_OCEAN_COLOUR = new THREE.Color("#0b3d6b");
 const ABYSS_COLOUR   = new THREE.Color("#020308");
 
 // Sky colours
-const SKY_ZENITH  = new THREE.Color("#0077b6");
-const SKY_HORIZON = new THREE.Color("#ff5400");
+const SKY_ZENITH  = new THREE.Color("#0062ff");
+const SKY_HORIZON = new THREE.Color("#ffce5c");
 
 // Sun colours
 const SUN_COLOUR  = new THREE.Color("#fff8b0");
@@ -34,12 +34,17 @@ const PLANKTON_COLOUR = new THREE.Color("#9fe8d8")
 // Cloud colour
 const CLOUD_COLOUR = new THREE.Color("#f0f8ff")
 
+// Album fallback colour
+const FALLBACK_COLOUR = "#000000"
+
 
 /* -------------------------------------------------------------------------- */
 /*  Tunables                                                                  */
 /* -------------------------------------------------------------------------- */
 
-const LAYOUT_SEED = "7";
+// const LAYOUT_SEED = "7";
+const LAYOUT_SEED = Math.random().toString(36).slice(2);
+
 
 const DEPTH_SCALE    = 40;
 const UNDULATE_RANGE = 0.5;
@@ -58,6 +63,10 @@ const MIN_SEPARATION         = COVER_SIZE * 1.6;
 const COLLISION_Y_WINDOW     = 2 * UNDULATE_RANGE * DEPTH_SCALE;
 const MAX_PLACEMENT_ATTEMPTS = 64;
 const DEFAULT_RATING         = 5;
+
+const SELECTED_DISTANCE = 15;
+const SELECTED_X_OFFSET = -3;
+const SELECTED_Y_OFFSET = 0;
 
 /* -------------------------------------------------------------------------- */
 /*  Water/Surface Tunables                                                    */
@@ -157,7 +166,7 @@ function fallbackColour(album: Album): string {
   if (typeof album.background === "number") {
     return `#${album.background.toString(16).padStart(6, "0")}`;
   }
-  return album.background ?? "#2a2218";
+  return album.background ?? FALLBACK_COLOUR;
 }
 
 function safeRating(album: Album): number {
@@ -165,7 +174,11 @@ function safeRating(album: Album): number {
 }
 
 function coverUrl(mbid: string): string {
-  return `/api/cover/${mbid}`;
+  return `/api/cover/${mbid}?size=500`;
+}
+
+function coverUrlHQ(mbid: string): string {
+  return `/api/cover/${mbid}?size=1200`;
 }
 
 /* -------------------------------------------------------------------------- */
@@ -245,10 +258,14 @@ function usePlacedAlbums(albums: Album[]): Placed[] {
 
 function AlbumMarker({
   placed,
+  isSelected,
   onSelect,
+  onDeselect,
 }: {
   placed: Placed;
+  isSelected: boolean;
   onSelect: (album: Album) => void;
+  onDeselect: () => void;
 }) {
   const { album } = placed;
   const meshRef       = useRef<THREE.Mesh>(null);
@@ -260,10 +277,17 @@ function AlbumMarker({
   );
   const hoverT = useRef(0);
   const [texture, setTexture]   = useState<THREE.Texture | null>(null);
+  const [hqTexture, setHqTexture] = useState<THREE.Texture | null>(null);
   const [errored, setErrored]   = useState(false);
   const [hovered, setHovered]   = useState(false);
   const hasValidMbid = Boolean(album.mbid && album.mbid.length === 36);
+  const lerpedPos   = useRef(new THREE.Vector3());
+  const naturalPos  = useRef(new THREE.Vector3());
+  const selectedPos = useRef(new THREE.Vector3());
+  const camDir      = useRef(new THREE.Vector3());
+  const posInit     = useRef(false);
 
+  // Small album cover fetch
   useEffect(() => {
     if (!hasValidMbid) return;
     let cancelled = false;
@@ -288,46 +312,90 @@ function AlbumMarker({
     return () => { cancelled = true; };
   }, [album.mbid, hasValidMbid, album.title]);
 
+  // Large album cover fetch
+  useEffect(() => {
+  if (!isSelected || !hasValidMbid || hqTexture) return;
+  let cancelled = false;
+  new THREE.TextureLoader().load(
+    coverUrlHQ(album.mbid),
+    (tex) => {
+      if (cancelled) return;
+      tex.colorSpace = THREE.SRGBColorSpace;
+      setHqTexture(tex);
+    },
+    undefined,
+    () => {} // fail silently
+  );
+  return () => { cancelled = true; };
+}, [isSelected, hasValidMbid, album.mbid, hqTexture]);
+
   useFrame(({ clock, camera }, delta) => {
     if (!meshRef.current) return;
     const t = clock.getElapsedTime();
-    const y = placed.baseY + Math.sin(t * placed.speed + placed.phase) * UNDULATE_RANGE * DEPTH_SCALE;
 
+    /* ── Natural position (undulation + drift) ─────────────────────── */
+    const naturalY = placed.baseY + Math.sin(t * placed.speed + placed.phase) * UNDULATE_RANGE * DEPTH_SCALE;
     const perspCam       = camera as THREE.PerspectiveCamera;
     const dist           = perspCam.position.z - placed.z;
     const verticalHalfAngle = THREE.MathUtils.degToRad(perspCam.fov / 2);
     const halfWidth      = dist * Math.tan(verticalHalfAngle) * perspCam.aspect;
     const footprint      = (COVER_SIZE / 2) * (1 + HOVER_SCALE);
     const safeHalfWidth  = Math.max(0, halfWidth - footprint - EDGE_MARGIN);
+    const baseX          = placed.xLane * safeHalfWidth;
+    const drift          = Math.sin(t * placed.driftSpeed + placed.driftPhase) * DRIFT_RANGE;
+    const naturalX       = THREE.MathUtils.clamp(baseX + drift, -safeHalfWidth, safeHalfWidth);
+    naturalPos.current.set(naturalX, naturalY, placed.z);
 
-    const baseX = placed.xLane * safeHalfWidth;
-    const drift = Math.sin(t * placed.driftSpeed + placed.driftPhase) * DRIFT_RANGE;
-    const x     = THREE.MathUtils.clamp(baseX + drift, -safeHalfWidth, safeHalfWidth);
-    meshRef.current.position.set(x, y, placed.z);
+    // Seed the lerped position on first frame so there's no snap from origin.
+    if (!posInit.current) {
+      lerpedPos.current.copy(naturalPos.current);
+      posInit.current = true;
+    }
 
-    const goal = hovered ? 1 : 0;
-    hoverT.current = THREE.MathUtils.lerp(hoverT.current, goal, Math.min(1, delta * HOVER_EASE));
-    const h = hoverT.current;
+    /* ── Selected target: centre of camera view ────────────────────── */
+    if (isSelected) {
+      camera.getWorldDirection(camDir.current);
+      selectedPos.current.copy(camera.position).addScaledVector(camDir.current, SELECTED_DISTANCE);
+      selectedPos.current.y += SELECTED_Y_OFFSET;
+      selectedPos.current.x += SELECTED_X_OFFSET;
+    }
 
-    meshRef.current.scale.setScalar(1 + h * HOVER_SCALE);
+    const target    = isSelected ? selectedPos.current : naturalPos.current;
+    const lerpSpeed = isSelected ? 6 : 4;
+    lerpedPos.current.lerp(target, Math.min(1, delta * lerpSpeed));
+    meshRef.current.position.copy(lerpedPos.current);
 
+    /* ── Hover / scale ─────────────────────────────────────────────── */
+    // No hover scale while selected — the album is already prominent.
+    const hoverGoal = (hovered && !isSelected) ? 1 : 0;
+    hoverT.current  = THREE.MathUtils.lerp(hoverT.current, hoverGoal, Math.min(1, delta * HOVER_EASE));
+    const h         = hoverT.current;
+    meshRef.current.scale.setScalar(isSelected ? 1.0 : 1 + h * HOVER_SCALE);
+
+    /* ── Rotation ──────────────────────────────────────────────────── */
     lookTarget.position.copy(meshRef.current.position);
     lookTarget.lookAt(camera.position);
-    meshRef.current.quaternion.slerpQuaternions(restQuaternion, lookTarget.quaternion, h);
+    if (isSelected) {
+      // Face camera
+      meshRef.current.quaternion.copy(lookTarget.quaternion);
+    } else {
+      meshRef.current.quaternion.slerpQuaternions(restQuaternion, lookTarget.quaternion, h);
+    }
 
+    /* ── Glow (existing) ───────────────────────────────────────────── */
     if (glowRef.current) {
       (glowRef.current.material as THREE.MeshBasicMaterial).opacity = h * 1;
     }
   });
 
-  const showFallback = !hasValidMbid || errored || !texture;
+  const activeTexture = hqTexture ?? texture;
+  const showFallback  = !hasValidMbid || errored || !activeTexture;
   const colour       = fallbackColour(album);
 
   return (
     <mesh
       ref={meshRef}
-      onClick={(e) => { e.stopPropagation(); onSelect(album); }}
-      onPointerOver={(e) => { e.stopPropagation(); setHovered(true); document.body.style.cursor = "pointer"; }}
+      onClick={(e) => { e.stopPropagation(); if (isSelected) { onDeselect(); } else { onSelect(album); } }}      onPointerOver={(e) => { e.stopPropagation(); setHovered(true); document.body.style.cursor = "pointer"; }}
       onPointerOut={() => { setHovered(false); document.body.style.cursor = "auto"; }}
     >
       <planeGeometry args={[5, 5]} />
@@ -337,13 +405,54 @@ function AlbumMarker({
         <meshBasicMaterial key="texture" map={texture} side={THREE.DoubleSide} />
       )}
 
-      {hovered && (
+      {hovered && !isSelected && (
         <Html position={[0, 3.4, 0]} center distanceFactor={18} style={{ pointerEvents: "none" }}>
           <div className="text-center font-jost whitespace-nowrap">
             <div className="text-white font-playfair text-4xl drop-shadow-lg">
               {album.title}
             </div>
             <div className="text-white/70 text-3xl">{album.artist}</div>
+          </div>
+        </Html>
+      )}
+
+      {isSelected && (
+        <Html
+          position={[COVER_SIZE + 1, COVER_SIZE/2+0.3, 0]}
+          distanceFactor={20}
+          style={{ pointerEvents: "auto",
+            transform: "translateX(-50%)",
+          }}
+        >
+          <div
+            className="font-jost"
+            style={{ width: "300px",
+              padding: "20px 22px",
+            }}
+          >
+            <div className="flex justify-between items-start">
+              <div>
+                <h2 className="font-playfair font-bold" style={{ fontSize: "20px", color: "rgba(255,255,255,0.92)"}}>{album.title}</h2>
+              <p style={{ fontSize: "11px", color: "rgba(255,255,255,0.50)" }}>{album.artist} · {album.year}</p>
+              </div>
+              <h2 style={{ fontSize: "24px", fontWeight: 600, color: "rgba(255,255,255,0.85)", textAlign: "right"}}>{album.rating.toFixed(1)}</h2>
+            </div>
+            <div
+            className="scrollbar-none"
+            style={{
+              borderTop: "1px solid rgba(255,255,255,0.08)",
+              paddingTop: "8px",
+              fontSize: "10px",
+              overflowY: "scroll",
+              WebkitOverflowScrolling: "touch",
+              maxHeight: "400px",
+            }}>
+              {album.review ? (
+                <p style={{ lineHeight: "1.65", color: "rgba(255,255,255,0.78)", margin: 0 }}>{album.review}</p>
+              ) : (
+                <p style={{ fontStyle: "italic", color: "rgba(255,255,255,0.28)", margin: 0 }}>Review coming soon.</p>
+              )}
+            </div>
           </div>
         </Html>
       )}
@@ -719,14 +828,11 @@ function DepthRig({
 /*  Scene                                                                     */
 /* -------------------------------------------------------------------------- */
 
-function Scene({
-  albums,
-  progressRef,
-  onSelect,
-}: {
+function Scene({ albums, progressRef, selectedKey, onAlbumSelect }: {
   albums: Album[];
   progressRef: RefObject<number>;
-  onSelect: (album: Album) => void;
+  selectedKey: string | null;
+  onAlbumSelect: (key: string | null) => void;
 }) {
   const placed = usePlacedAlbums(albums);
 
@@ -748,6 +854,14 @@ function Scene({
   );
   const maxDepth = maxRating * DEPTH_SCALE + UNDULATE_RANGE * DEPTH_SCALE;
 
+  // Lock scroll container while album is selected
+  useEffect(() => {
+    const el = document.getElementById("scroll-container") as HTMLElement | null;
+    if (!el) return;
+    el.style.overflowY = selectedKey ? "hidden" : "scroll";
+    return () => { el.style.overflowY = "scroll"; };
+  }, [selectedKey]);
+
   return (
     <>
       {/* ── Camera / fog / colour control ─────────────────────────── */}
@@ -768,7 +882,13 @@ function Scene({
 
       {/* ── Underwater ────────────────────────────────────────────── */}
       {placed.map((p) => (
-        <AlbumMarker key={p.album.key} placed={p} onSelect={onSelect} />
+        <AlbumMarker
+          key={p.album.key}
+          placed={p}
+          isSelected={p.album.key === selectedKey}
+          onSelect={(album) => onAlbumSelect(album.key)}
+          onDeselect={() => onAlbumSelect(null)}
+        />
       ))}
       {/* <Plankton maxDepth={maxDepth} /> */}
 
@@ -786,14 +906,13 @@ function Scene({
 
 export default function DiveScene({
   albums,
-  onSelect,
   sectionRef,
 }: {
   albums: Album[];
-  onSelect: (album: Album) => void;
   sectionRef: RefObject<HTMLElement | null>;
 }) {
   const progressRef = useDiveScroll(sectionRef);
+  const [selectedKey, setSelectedKey] = useState<string | null>(null);
 
   return (
     <Canvas
@@ -807,7 +926,7 @@ export default function DiveScene({
       {/* Initial background matches the sky horizon until DepthRig takes over. */}
       <color attach="background" args={[BACKGROUND_COLOUR]} />
       <Suspense fallback={null}>
-        <Scene albums={albums} progressRef={progressRef} onSelect={onSelect} />
+        <Scene albums={albums} progressRef={progressRef} selectedKey={selectedKey} onAlbumSelect={setSelectedKey} />
       </Suspense>
     </Canvas>
   );

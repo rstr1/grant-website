@@ -10,7 +10,7 @@ import { NextRequest, NextResponse } from "next/server";
  * problem.
  */
 export async function GET(
-  _request: NextRequest,
+  request: NextRequest,
   { params }: { params: Promise<{ mbid: string }> }
 ) {
   const { mbid } = await params;
@@ -19,8 +19,11 @@ export async function GET(
     return new NextResponse(null, { status: 400 });
   }
 
+  const size = request.nextUrl.searchParams.get("size") ?? "250";
+  const safeSize = ["250", "500", "1200"].includes(size) ? size : "250";
+
   const upstream = await fetch(
-    `https://coverartarchive.org/release-group/${mbid}/front-250.jpg`,
+    `https://coverartarchive.org/release-group/${mbid}/front-${safeSize}.jpg`,
     {
       headers: {
         "User-Agent": "grant-website (https://github.com/rstr1/grant-website)",
