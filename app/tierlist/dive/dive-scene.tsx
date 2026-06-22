@@ -517,7 +517,7 @@ function WaterSurface() {
   //            PI/6 around z means the waves move diagonally, less obviously generated.
   // the camera sees in both the above-water and below-water phases.
   return (
-    <mesh rotation={[-Math.PI/2, 0, Math.PI/6]} position={[300, -4, -150]} renderOrder={1}>
+    <mesh rotation={[-Math.PI/2, 0, Math.PI/6]} position={[200, -4, -200]} renderOrder={1}>
       <planeGeometry args={[750, 750, 100, 50]} />
       <shaderMaterial
         ref={matRef}
@@ -817,7 +817,7 @@ function DepthRig({
       }
       if (scene.background instanceof THREE.Color) scene.background.copy(colour);
       fogRef.current.color.copy(colour);
-      fogRef.current.density = 0.010 + depthT * 0.014; // 0.010 → 0.024
+      fogRef.current.density = 0.010 + depthT * 0.01;
     }
   });
 
@@ -923,7 +923,6 @@ export default function DiveScene({
       gl={{ antialias: true }}
       dpr={[1, 1.75]}
     >
-      {/* Initial background matches the sky horizon until DepthRig takes over. */}
       <color attach="background" args={[BACKGROUND_COLOUR]} />
       <Suspense fallback={null}>
         <Scene albums={albums} progressRef={progressRef} selectedKey={selectedKey} onAlbumSelect={setSelectedKey} />
