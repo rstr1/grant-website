@@ -8,7 +8,7 @@ import {
 import DiveScene from "./dive/dive-scene";
 
 // Total scroll length of the dive, in vh.
-const DIVE_VH = 900;
+const DIVE_VH = 1200;
 
 
 function coverUrl(mbid: string): string {
