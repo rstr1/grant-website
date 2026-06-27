@@ -53,9 +53,9 @@ export default function Navbar() {
                     style={{ letterSpacing: '0.4em' }}
                     className={`
                     text-md lg:text-xl
-                    font-bold 
-                    whitespace-nowrap 
-                    px-6 py-3 
+                    font-bold
+                    whitespace-nowrap
+                    px-6 py-3
                     border-dark_nav_border
                 `}>
                 {/* border-r  */}

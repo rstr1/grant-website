@@ -45,18 +45,18 @@ const FALLBACK_COLOUR = "#000000"
 // const LAYOUT_SEED = "7";
 const LAYOUT_SEED = Math.random().toString(36).slice(2);
 
+const COVER_SIZE  = 5;
+const EDGE_MARGIN = 1.5;
 
-const DEPTH_SCALE    = 40;
+const DEPTH_SCALE    = 50;
 const UNDULATE_RANGE = 0.5;
+const DEPTH_OFFSET = UNDULATE_RANGE * DEPTH_SCALE + 15;
 const DRIFT_RANGE    = 5;
 
 const HOVER_EASE  = 8;
 const HOVER_SCALE = 0.5;
 const REST_TILT_X = THREE.MathUtils.degToRad(32);
 const REST_TILT_Z = THREE.MathUtils.degToRad(14);
-
-const COVER_SIZE  = 5;
-const EDGE_MARGIN = 1.5;
 
 const REFERENCE_HALF_WIDTH   = 19;
 const MIN_SEPARATION         = COVER_SIZE * 1.6;
@@ -74,6 +74,9 @@ const SELECTED_Y_OFFSET = 0;
 
 // World-Y of the camera when scroll progress = 0 (above the surface).
 const ABOVE_WATER_HEIGHT = 5;
+
+// offset water from level 0
+const WATER_LEVEL_OFFSET = -4;
 
 // Fraction of total scroll progress consumed by the above-water descent.
 const SURFACE_THRESHOLD = 0.1;
@@ -202,8 +205,8 @@ function usePlacedAlbums(albums: Album[]): Placed[] {
   return useMemo(() => {
     const placed: Placed[] = [];
 
-    albums.forEach((album) => {
-      const baseY = -safeRating(album) * DEPTH_SCALE;
+    albums.filter(a => a.rating !== -1).forEach((album) => {
+      const baseY = -safeRating(album) * DEPTH_SCALE - DEPTH_OFFSET;
 
       const neighbours = placed.filter(
         (p) => Math.abs(p.baseY - baseY) < COLLISION_Y_WINDOW
@@ -448,7 +451,11 @@ function AlbumMarker({
               maxHeight: "400px",
             }}>
               {album.review ? (
-                <p style={{ lineHeight: "1.65", color: "rgba(255,255,255,0.78)", margin: 0 }}>{album.review}</p>
+                album.review.split("\n").filter(Boolean).map((para, i) => (
+                  <p key={i} style={{ lineHeight: "1.65", color: "rgba(255,255,255,0.78)", margin: "0 0 8px 0" }}>
+                    {para}
+                  </p>
+                ))
               ) : (
                 <p style={{ fontStyle: "italic", color: "rgba(255,255,255,0.28)", margin: 0 }}>Review coming soon.</p>
               )}
@@ -517,7 +524,7 @@ function WaterSurface() {
   //            PI/6 around z means the waves move diagonally, less obviously generated.
   // the camera sees in both the above-water and below-water phases.
   return (
-    <mesh rotation={[-Math.PI/2, 0, Math.PI/6]} position={[200, -4, -200]} renderOrder={1}>
+    <mesh rotation={[-Math.PI/2, 0, Math.PI/6]} position={[200, WATER_LEVEL_OFFSET, -200]} renderOrder={1}>
       <planeGeometry args={[750, 750, 100, 50]} />
       <shaderMaterial
         ref={matRef}
@@ -849,10 +856,10 @@ function Scene({ albums, progressRef, selectedKey, onAlbumSelect }: {
   }, [albums]);
 
   const maxRating = useMemo(
-    () => Math.max(...albums.map((a) => safeRating(a)), 1),
+    () => Math.max(...albums.filter(a => a.rating !== -1).map((a) => safeRating(a)), 1),
     [albums]
   );
-  const maxDepth = maxRating * DEPTH_SCALE + UNDULATE_RANGE * DEPTH_SCALE;
+  const maxDepth = maxRating * DEPTH_SCALE + UNDULATE_RANGE * DEPTH_SCALE + DEPTH_OFFSET + WATER_LEVEL_OFFSET;
 
   // Lock scroll container while album is selected
   useEffect(() => {

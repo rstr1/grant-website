@@ -249,10 +249,6 @@ export default function Page() {
                             top: '27%',
                             left: '10%',
                             fontSize: 'min(8vw, 10rem)',
-                            transform: `translateY(${fgTranslateY}px) scale(${fgScale})`,
-                            transformOrigin: 'center center',
-                            transition: 'transform 0.1s linear',
-                            willChange: 'transform',
                         }}
                     >
                         Welcome
