@@ -1,12 +1,13 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState, Suspense, type RefObject } from "react";
+import { useEffect, useMemo, forwardRef, useRef, useState, Suspense, type RefObject } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { EffectComposer, Bloom } from "@react-three/postprocessing";
+import { EffectComposer, Bloom, wrapEffect } from "@react-three/postprocessing";
 import * as THREE from "three";
 import type { Album } from "../../data/albums";
 import { useDiveScroll } from "./use-dive-scroll";
 import { Html } from "@react-three/drei";
+import { HalftoneDitherEffect } from "./HalftoneDitherEffect";
 
 /* -------------------------------------------------------------------------- */
 /*  Colours                                                                   */
@@ -91,6 +92,13 @@ const PITCH_DIVE = -0.55;
 
 // Depth at which Pitch returns to 0
 const PITCH_RECOVER_DEPTH = 40;
+
+/* -------------------------------------------------------------------------- */
+/*  Dithering                                                                 */
+/* -------------------------------------------------------------------------- */
+const HalftoneDither = wrapEffect(HalftoneDitherEffect);
+
+
 
 /* -------------------------------------------------------------------------- */
 /*  GLSL shaders                                                              */
@@ -731,7 +739,7 @@ function ScrollChevrons({ progressRef }: { progressRef: RefObject<number> }) {
   });
 
   return (
-    <group ref={groupRef} position={[0, 13, -5]}>
+    <group ref={groupRef} position={[0, 15, -20]}>
       {[0, 1, 2].map((i) => (
         <mesh
           key={i}
@@ -740,7 +748,7 @@ function ScrollChevrons({ progressRef }: { progressRef: RefObject<number> }) {
           <shapeGeometry args={[shape]} />
           <meshBasicMaterial
             ref={(m) => { matRefs.current[i] = m; }}
-            color="lightblue"
+            color="white"
             transparent
             side={THREE.FrontSide}
             depthWrite={false}
@@ -902,6 +910,7 @@ function Scene({ albums, progressRef, selectedKey, onAlbumSelect }: {
       {/* ── Post-processing ───────────────────────────────────────── */}
       <EffectComposer>
         <Bloom luminanceThreshold={0.25} luminanceSmoothing={0.4} intensity={0.6} mipmapBlur />
+        <HalftoneDither strength={0.5} levels={16} cellSize={8} />
       </EffectComposer>
     </>
   );
