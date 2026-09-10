@@ -29,8 +29,8 @@ export default {
         other_blue: "#69C3FF",      // other blue
         flower_background: 'rgba(174, 181, 168, 1)',
         test_background: 'rgba(255, 255, 255, 0)',
-        dithered_background: 'rgba(49, 43, 29, 1)', // image background believes its 49, 42, 28
-        gradient_background: 'rgb(25, 19, 13)', // header and footer gradients
+        dithered_background: 'rgb(16, 16, 16)',
+        gradient_background: 'rgb(8, 8, 8)', // header and footer gradients
 
         // FINAL PALETTE W/ LIGHT AND DARK MODES
         background: "#ffffff",

@@ -17,9 +17,6 @@ export default function Navbar() {
         // Reset on every page change
         setScrolled(false);
 
-        // Some pages use an inner #scroll-container for their scrolling; others
-        // (like the home page) use the natural window scroll. Support both by
-        // checking for the container first and falling back to window.
         const container = document.getElementById('scroll-container');
 
         const handleScroll = () => {
@@ -27,7 +24,7 @@ export default function Navbar() {
             setScrolled(scrollPosition > 100);
         };
 
-        // Initial check on mount / pathname change.
+        // Initial check on pathname change.
         handleScroll();
 
         if (container) {

@@ -39,7 +39,7 @@ export default function Trail() {
     ].reverse()
 
 
-    
+
     useEffect(() => {
         const handleMouseMove = (e: MouseEvent) => {
             coords.current.x = e.clientX;

@@ -47,3 +47,6 @@ next-env.d.ts
 # custom
 app/admin/
 app/api/albums
+
+# vscode
+.vscode

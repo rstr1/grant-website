@@ -1,8 +1,10 @@
+import { gradient_background } from './lib/constants';
+
 interface FooterProps {
     bgColor?: string;
 }
 
-export default function Footer({ bgColor = 'rgb(25, 19, 13)' }: FooterProps) {
+export default function Footer({ bgColor = gradient_background }: FooterProps) {
     return (
         <footer
             className="font-jost text-eggshell/50"
