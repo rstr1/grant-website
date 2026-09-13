@@ -13,10 +13,20 @@ export default {
           '0%': { opacity: '0', filter: 'blur(5px)' },
           '100%': { opacity: '1', filter: 'blur(0)'},
         },
+        'reveal-line': {
+          '0%': { transform: 'translateY(110%)' },
+          '100%': { transform: 'translateY(0)' },
+        },
+        'page-in': {
+          '0%': { opacity: '0', transform: 'translateY(14px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
       },
       animation: {
         'appearance-in': 'appearance-in 0.5s forwards ease-in-out 200ms',
         'show': 'show 0.5s forwards',
+        'reveal-line': 'reveal-line 1.8s cubic-bezier(0.16, 1, 0.3, 1) both',
+        'page-in': 'page-in 1s cubic-bezier(0.16, 1, 0.3, 1) both',
       },
       colors: {
 
@@ -31,6 +41,11 @@ export default {
         test_background: 'rgba(255, 255, 255, 0)',
         dithered_background: 'rgb(16, 16, 16)',
         gradient_background: 'rgb(8, 8, 8)', // header and footer gradients
+
+        forest: '#14240A',
+        bone: '#DCE7E0',
+        sage: '#8FA79A',
+        mint: '#399E5A',
 
         // FINAL PALETTE W/ LIGHT AND DARK MODES
         background: "#ffffff",
@@ -62,6 +77,8 @@ export default {
         playfair: "var(--font-playfair)",
         inter: "var(--font-inter)",
         jacquard_12: "var(--font-jacquard)",
+        geist: ["var(--font-geist)", "ui-sans-serif", "system-ui", "sans-serif"],
+        mono: ["var(--font-geist-mono)", "ui-monospace", "SFMono-Regular", "Menlo", "monospace"],
       },
     },
     screens: {

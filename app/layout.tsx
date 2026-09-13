@@ -4,13 +4,15 @@ import "./globals.css";
 import React from "react";
 import Navbar from "./navbar";
 
-import { Jost, Poppins, Playfair_Display, Inter, Jacquard_12 } from "next/font/google";
+import { Jost, Poppins, Playfair_Display, Inter, Jacquard_12, Geist, Geist_Mono } from "next/font/google";
 
 const jost = Jost({ subsets: ["latin"], weight: ["400", "700"] });
 const poppins = Poppins({ subsets: ["latin"], weight: ["400", "700"] });
 const playfair = Playfair_Display({ subsets: ["latin"], variable: "--font-playfair" });
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const jacquard = Jacquard_12({ subsets: ["latin"], weight: "400", variable: "--font-jacquard" });
+const geist = Geist({ subsets: ["latin"], variable: "--font-geist" });
+const geistMono = Geist_Mono({ subsets: ["latin"], variable: "--font-geist-mono" });
 
 export const metadata: Metadata = {
   title: "Grant's Website",
@@ -24,7 +26,6 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="
-    overscroll-y-none
     overflow-auto
     bg-dithered_background
     text-dark_text
@@ -37,6 +38,8 @@ export default function RootLayout({
           ${playfair.variable}
           ${inter.variable}
           ${jacquard.variable}
+          ${geist.variable}
+          ${geistMono.variable}
           bg-dithered_background
           text-dark_text
           font-jost

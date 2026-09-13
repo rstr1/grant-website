@@ -1,47 +1,98 @@
 'use client';
 
-import { useEffect, useRef, useState, RefObject } from 'react';
-import Image from 'next/image';
+import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
-import Footer from './footer';
-import { dithered_background, gradient_background } from './lib/constants';
+import dynamic from 'next/dynamic';
+import { IconGitHub, IconLinkedIn, IconMail, IconDisc } from './lib/icons';
 
-const SECTION_HEIGHT_VH = 120;
-const SECTION_GAP_VH = 20;
+const ModelViewer = dynamic(() => import('./lib/model-viewer'), { ssr: false });
 
-const PARALLAX = 0.1;
-const OVERHANG_VH = 14;
+const SECTIONS = [
+    { id: 'about', label: 'About' },
+    { id: 'projects', label: 'Projects' },
+    { id: 'photography', label: 'Photography' },
+    { id: 'resume', label: 'Resume' },
+];
 
-const FADE_BOTH = 'linear-gradient(to bottom, transparent 0%, #000 16%, #000 84%, transparent 100%)';
-const FADE_BOTTOM = 'linear-gradient(to bottom, #000 0%, #000 84%, transparent 100%)';
+const PROJECTS = [
+    {
+        href: '/projects/3d-dungeon-gen',
+        year: '2026',
+        title: '3D Hexagonal Procedural Generation',
+        blurb: 'Procedural dungeon generation sitting on a hexagonal grid. Built to test and explore various dungeon generation algorithms for world-gen in my WIP video game.',
+        tags: ['C#', 'Unity', 'Procedural Gen'],
+    },
+    {
+        href: '/projects/rpicam-mjpeg',
+        year: '2024',
+        title: 'rpicam-mjpeg',
+        blurb: 'Raspberry Pi camera driver reviving and extending the previously deprecated features from RaspiMJPEG, written against V4L2 and the libcamera stack.',
+        tags: ['C++', 'Linux', 'V4L2', 'libcamera'],
+    },
+];
 
-function smoothstep(t: number) {
-    return t * t * (3 - 2 * t);
-}
+const LINKS = [
+    { href: 'https://github.com/rstr1', label: 'GitHub', Icon: IconGitHub },
+    { href: 'https://linkedin.com/in/grant-dong/', label: 'LinkedIn', Icon: IconLinkedIn },
+    { href: 'mailto:grantdong.work@gmail.com', label: 'Email', Icon: IconMail },
+    { href: 'https://open.spotify.com/user/grantdingdong?si=374a5a1946a540e9', label: 'Spotify', Icon:IconDisc },
+];
 
-function useParallax(ref: RefObject<HTMLElement | null>) {
-    const [offset, setOffset] = useState(0);
-
-    const [progress, setProgress] = useState(1);
+function CursorGlow() {
+    const ref = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
+        if (window.matchMedia('(pointer: coarse)').matches) return;
         if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
+        let rafId: number | null = null;
+        let x = 0;
+        let y = 0;
+
+        const paint = () => {
+            rafId = null;
+            const el = ref.current;
+            if (!el) return;
+            el.style.background = `radial-gradient(500px at ${x}px ${y}px, rgba(109, 196, 100, 0.07), transparent 90%)`;
+        };
+
+        const onMove = (e: MouseEvent) => {
+            x = e.clientX;
+            y = e.clientY;
+            if (rafId === null) rafId = requestAnimationFrame(paint);
+        };
+
+        window.addEventListener('mousemove', onMove, { passive: true });
+        return () => {
+            window.removeEventListener('mousemove', onMove);
+            if (rafId !== null) cancelAnimationFrame(rafId);
+        };
+    }, []);
+
+    return <div ref={ref} aria-hidden="true" className="pointer-events-none fixed inset-0 z-10" />;
+}
+
+function useActiveSection() {
+    const [active, setActive] = useState(SECTIONS[0].id);
+
+    useEffect(() => {
         let rafId: number | null = null;
 
         const update = () => {
             rafId = null;
-            const el = ref.current;
-            if (!el) return;
+            const line = window.innerHeight * 0.4;
+            let current = SECTIONS[0].id;
 
-            const rect = el.getBoundingClientRect();
-            const vh = window.innerHeight;
+            SECTIONS.forEach(({ id }) => {
+                const el = document.getElementById(id);
+                if (el && el.getBoundingClientRect().top <= line) current = id;
+            });
 
-            const distance = (rect.top + rect.height / 2 - vh / 2) / vh;
+            const atBottom =
+                window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2;
+            if (atBottom) current = SECTIONS[SECTIONS.length - 1].id;
 
-            const clamped = Math.max(-1.2, Math.min(1.2, distance));
-            setOffset(-clamped * PARALLAX * vh);
-            setProgress(smoothstep(1 - Math.min(Math.abs(distance), 1)));
+            setActive(current);
         };
 
         const onScroll = () => {
@@ -57,190 +108,242 @@ function useParallax(ref: RefObject<HTMLElement | null>) {
             window.removeEventListener('resize', onScroll);
             if (rafId !== null) cancelAnimationFrame(rafId);
         };
-    }, [ref]);
+    }, []);
 
-    return { offset, progress };
+    return active;
 }
 
-type BackdropProps = {
-    src: string;
-    alt: string;
-    width: number;
-    height: number;
-    mask: string;
-    offset: number;
-    priority?: boolean;
-    unoptimized?: boolean;
-};
-
-function Backdrop({ src, alt, width, height, mask, offset, priority = false, unoptimized = false }: BackdropProps) {
+function SideNav({ active }: { active: string }) {
     return (
-        <div
-            className="absolute inset-0 overflow-hidden"
-            style={{ maskImage: mask, WebkitMaskImage: mask }}
+        <nav
+            aria-label="Page sections"
+            className="hidden lg:block static h-auto w-auto border-0 shadow-none font-geist mt-10 mb-4"
         >
-            <div
-                className="absolute inset-x-0"
-                style={{
-                    top: `-${OVERHANG_VH}vh`,
-                    bottom: `-${OVERHANG_VH}vh`,
-                    transform: `translate3d(0, ${offset}px, 0)`,
-                    willChange: 'transform',
-                }}
-            >
-                <Image
-                    src={src}
-                    alt={alt}
-                    width={width}
-                    height={height}
-                    sizes="100vw"
-                    priority={priority}
-                    unoptimized={unoptimized}
-                    className="w-full h-full object-cover object-center"
-                />
-            </div>
-        </div>
+            <ul>
+                {SECTIONS.map(({ id, label }) => {
+                    const on = active === id;
+                    return (
+                        <li key={id}>
+                            <a href={`#${id}`} className="group flex items-center py-3">
+                                <span
+                                    className={`mr-4 h-px transition-all duration-300 ${
+                                        on ? 'w-16 bg-bone' : 'w-8 bg-sage/40 group-hover:w-16 group-hover:bg-bone'
+                                    }`}
+                                />
+                                <span
+                                    className={`font-mono text-xs uppercase tracking-[0.2em] transition-colors duration-300 ${
+                                        on ? 'text-bone' : 'text-sage group-hover:text-bone'
+                                    }`}
+                                >
+                                    {label}
+                                </span>
+                            </a>
+                        </li>
+                    );
+                })}
+            </ul>
+        </nav>
     );
 }
 
-type SectionProps = {
-    src: string;
-    width: number;
-    height: number;
-    title: string;
-    caption: string;
-    href: string;
-    align: 'left' | 'right';
-};
-
-function Section({ src, width, height, title, caption, href, align }: SectionProps) {
-    const ref = useRef<HTMLElement>(null);
-    const { offset, progress } = useParallax(ref);
-
+function Section({
+    id,
+    label,
+    hideHeading = false,
+    children,
+}: {
+    id: string;
+    label: string;
+    hideHeading?: boolean;
+    children: React.ReactNode;
+}) {
     return (
         <section
-            ref={ref}
-            className="relative w-full overflow-hidden"
-            style={{ height: `${SECTION_HEIGHT_VH}vh` }}
+            id={id}
+            aria-label={hideHeading ? label : undefined}
+            aria-labelledby={hideHeading ? undefined : `${id}-heading`}
+            className="block min-h-0 justify-start text-base scroll-mt-24 mb-24 lg:mb-32"
         >
-            <Backdrop
-                src={src}
-                alt={title}
-                width={width}
-                height={height}
-                mask={FADE_BOTH}
-                offset={offset}
-                unoptimized
-            />
-
-            <Link
-                href={href}
-                className="group absolute font-playfair font-bold leading-none p-[2%] pb-20"
-                style={{
-                    top: '27%',
-                    left: align === 'left' ? '10%' : undefined,
-                    right: align === 'right' ? '10%' : undefined,
-                    fontSize: 'min(8vw, 10rem)',
-                    opacity: Math.min(Math.max((progress - 0.3) / 0.4, 0), 1),
-                    textAlign: align,
-                }}
-            >
-                <span className="bg-gradient-to-r from-eggshell to-eggshell/80 bg-clip-text text-transparent opacity-75 transition-opacity duration-300 group-hover:opacity-100">
-                    {title}
-                </span>
-
-                <span className="block mt-5 font-jost text-[0.7rem] sm:text-xs uppercase tracking-[0.25em] text-eggshell/40 transition-colors duration-300 group-hover:text-eggshell/70">
-                    {caption}
-                </span>
-            </Link>
+            {!hideHeading && (
+                <h2
+                    id={`${id}-heading`}
+                    className="mb-6 flex items-center gap-4 font-mono text-xs uppercase tracking-[0.2em] text-bone"
+                >
+                    {label}
+                    <span className="hidden h-px flex-1 bg-sage/15 lg:block" />
+                </h2>
+            )}
+            {children}
         </section>
     );
 }
 
-function Hero() {
-    const ref = useRef<HTMLElement>(null);
-    const { offset } = useParallax(ref);
-
-    return (
-        <section ref={ref} className="relative h-screen w-full overflow-hidden">
-            <Backdrop
-                src="/photography/granada_flower_dithered.png"
-                alt="Granada Flower"
-                width={4896}
-                height={3054}
-                mask={FADE_BOTTOM}
-                offset={offset}
-                priority
-            />
-            <div
-                className="opacity-0 animate-appearance-in absolute font-playfair font-bold leading-none p-[2%] bg-gradient-to-r from-eggshell to-eggshell/80 bg-clip-text text-transparent"
-                style={{
-                    top: '27%',
-                    left: '10%',
-                    fontSize: 'min(8vw, 10rem)',
-                }}
-            >
-                Welcome
-            </div>
-        </section>
-    );
+function Paragraph({ children }: { children: React.ReactNode }) {
+    return <p className="mb-4 max-w-[68ch] text-lg leading-relaxed text-sage">{children}</p>;
 }
 
-function Gap() {
-    return <div style={{ height: `${SECTION_GAP_VH}vh` }} />;
+function Em({ children }: { children: React.ReactNode }) {
+    return <strong className="font-medium text-bone">{children}</strong>;
 }
 
 export default function Page() {
+    const active = useActiveSection();
+
     return (
-        <>
-            <Hero />
+        <div id="home-root" className="relative min-h-screen bg-forest font-geist text-sage selection:bg-mint/25">
+            <CursorGlow />
 
-            <Gap />
+            <div className="relative z-20 mx-auto max-w-6xl px-6 md:px-20 xl:max-w-7xl 2xl:max-w-[96rem] 2xl:px-24 lg:flex lg:gap-16 xl:gap-24">
+                <header className="pt-28 pb-12 lg:sticky lg:top-0 lg:flex lg:h-screen lg:w-[44%] lg:flex-col lg:justify-between lg:py-28">
+                    <div>
+                        <h1 className="text-4xl font-semibold tracking-tight text-bone sm:text-7xl">
+                            <span className="block overflow-clip pb-[0.12em] -mb-[0.12em]">
+                                <span className="block motion-safe:animate-reveal-line">Grant Dong</span>
+                            </span>
+                        </h1>
+                        <p className="mt-3 text-lg font-mono text-bone/80 motion-safe:animate-page-in [animation-delay:200ms]">
+                            Software Engineer
+                        </p>
+                        <p className="mt-2 max-w-xs text-sm leading-relaxed text-sage motion-safe:animate-page-in [animation-delay:320ms]">
+                            Bachelor of Advanced Computing &amp;<br />Bachelor of Commerce
+                        </p>
 
-            <Section
-                src="/photography/lobstah_dith.png"
-                width={4000}
-                height={2666}
-                title="Projects"
-                caption="Procedural generation · Drivers · Unity"
-                href="/projects"
-                align="right"
-            />
+                        <div className="motion-safe:animate-page-in [animation-delay:440ms]">
+                            <SideNav active={active} />
+                        </div>
+                    </div>
 
-            <Gap />
+                    <div className="relative hidden lg:block lg:min-h-0 lg:flex-1 lg:py-4">
+                        <div
+                            aria-hidden="true"
+                            className="pointer-events-none absolute inset-0"
+                            style={{
+                                background:
+                                    'radial-gradient(closest-side, rgba(111,196,155,0.18), rgba(111,196,155,0.07) 55%, transparent 100%)',
+                            }}
+                        />
+                        <div className="relative h-full w-full">
+                            <ModelViewer />
+                        </div>
+                    </div>
 
-            <Section
-                src="/photography/sky_flower_dith.png"
-                width={4896}
-                height={3264}
-                title="Photography"
-                caption="Granada · Lake Como"
-                href="/photography"
-                align="left"
-            />
+                    <ul className="mt-12 flex items-center gap-5 lg:mt-2 motion-safe:animate-page-in [animation-delay:560ms]">
+                        {LINKS.map(({ href, label, Icon }) => (
+                            <li key={label}>
+                                <a
+                                    href={href}
+                                    aria-label={label}
+                                    target={href.startsWith('http') ? '_blank' : undefined}
+                                    rel={href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                                    className="block p-1 text-sage transition-colors duration-300 hover:text-mint"
+                                >
+                                    <Icon className="h-5 w-5" />
+                                </a>
+                            </li>
+                        ))}
+                    </ul>
 
-            <Gap />
+                </header>
 
-            <Section
-                src="/photography/dubrov_rocks_dith.png"
-                width={4896}
-                height={3264}
-                title="Resume"
-                caption="Computer Science &amp; Finance @ USYD"
-                href="/resume"
-                align="right"
-            />
+                <main className="lg:w-[56%] lg:py-28">
+                    <Section id="about" label="About" hideHeading>
+                        <Paragraph>
+                            Hi there! My name is <Em>Grant</Em>. I&apos;m a software engineer — which means I solve problems.
+                            Not the big problems like &apos;What makes a life well-lived?&apos; or
+                            &apos;How do I stop myself from scrolling reels?&apos; Now those are obviously
+                            important issues — they just sit outside of my profession. I solve
+                            practical problems, the kind that involve digging through complex systems to find what broke, communicating it clearly to stakeholders, and then building to avoid potential failures cropping up.
+                        </Paragraph>
+                        <Paragraph>
+                            I&apos;ve recently completed a <Em>Bachelor of Advanced Computing</Em> &amp; <Em>Bachelor of Commerce</Em> at <Em>The University of Sydney</Em>. Throughout my studies, unit selection has been guided predominantly by my thirst for new and challenging material.
+                            On the comp-sci side, I placed a focus on developing skills surrounding machine learning, cybersecurity and cloud computing. These are supported on the commerce side by corporate finance and investment management knowledge.
+                        </Paragraph>
+                        <Paragraph>
+                            In my free time at home, I typically try to work on side-projects (currently a long-term video game project) and also love actively searching for new music. If given the choice, I&apos;d really rather be outdoors — <Em>fishing</Em>, hiking, practising photography, really anything that gets me away from the internet and grounded in the real world.
+                        </Paragraph>
+                    </Section>
 
-            <div className="h-[10vh]" />
+                    <Section id="projects" label="Projects">
+                        <ul className="group/list">
+                            {PROJECTS.map(({ href, year, title, blurb, tags }) => (
+                                <li
+                                    key={href}
+                                    className="mb-3 transition-opacity duration-300 lg:group-hover/list:opacity-50 lg:hover:!opacity-100"
+                                >
+                                    <Link
+                                        href={href}
+                                        className="group block rounded-lg p-4 pl-10 transition-colors duration-300 hover:bg-sage/5 hover:shadow-lg hover:outline-mint"
+                                    >
+                                        <div className="flex items-baseline gap-4">
+                                            <span className="font-mono text-xs uppercase tracking-[0.15em] text-sage/60">
+                                                {year}
+                                            </span>
+                                            <h3 className="font-medium text-bone transition-colors duration-300 group-hover:text-mint">
+                                                {title}
+                                            </h3>
+                                        </div>
+                                        <p className="mt-2 text-sm leading-relaxed text-sage">{blurb}</p>
+                                        <ul className="mt-3 flex flex-wrap gap-2">
+                                            {tags.map((tag) => (
+                                                <li
+                                                    key={tag}
+                                                    className="rounded-full bg-mint/10 px-3 py-1 font-mono text-xs text-mint"
+                                                >
+                                                    {tag}
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </Link>
+                                </li>
+                            ))}
+                        </ul>
 
-            <div
-                className="h-[20vh]"
-                style={{
-                    background: `linear-gradient(to bottom, ${dithered_background}, ${gradient_background})`,
-                }}
-            />
+                        <Link
+                            href="/projects"
+                            className="mt-4 inline-block text-lg font-mono text-bone transition-colors duration-300 hover:text-mint"
+                        >
+                            All projects →
+                        </Link>
+                    </Section>
 
-            <Footer />
-        </>
+                    <Section id="photography" label="Photography">
+                        <Paragraph>
+                            Photography for me is primarily a hobby by which I can record significant periods of my life — where I&apos;ve been, who I was there with, and what else was around us. Carrying around a camera also helps me notice the small details of whatever is happening around me.
+                        </Paragraph>
+                        <Link
+                            href="/photography"
+                            className="inline-block text-lg font-mono text-bone transition-colors duration-300 hover:text-mint"
+                        >
+                            Check out pics →
+                        </Link>
+                    </Section>
+
+                    <Section id="resume" label="Resume">
+                        <Paragraph>
+                            I&apos;m a recent Computer Science and Commerce graduate from The University of Sydney, currently searching for graduate or junior software engineering or finance-adjacent roles where I can kickstart my career whilst learning the ins and outs of the industry.
+                        </Paragraph>
+                        <div className="flex flex-wrap gap-6">
+                            <Link
+                                href="/resume"
+                                className="text-lg font-mono text-bone transition-colors duration-300 hover:text-mint"
+                            >
+                                View resume →
+                            </Link>
+                            <a
+                                href="/files/Grant_2026_Resume.pdf"
+                                download
+                                className="text-lg font-mono text-bone transition-colors duration-300 hover:text-mint ml-auto"
+                            >
+                                Download PDF →
+                            </a>
+                        </div>
+                    </Section>
+
+                    <p className="pb-10 font-mono text-sm text-sage/50">
+                        © Grant Dong {new Date().getFullYear()}
+                    </p>
+                </main>
+            </div>
+        </div>
     );
 }
