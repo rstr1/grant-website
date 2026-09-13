@@ -2,6 +2,17 @@
 @tailwind components;
 @tailwind utilities;
 
+html:has(#home-root) {
+  background-color: #14240A;
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html:has(#home-root) {
+    scroll-behavior: auto;
+  }
+}
+
 @layer base {
 
   nav {

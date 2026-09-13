@@ -36,6 +36,8 @@ export default function Navbar() {
         }
     }, [pathname]);
 
+    if (pathname === '/') return null;
+
     return (
         <div className={""}>
             <nav className={`
@@ -65,13 +67,13 @@ export default function Navbar() {
                     className={`hidden sm:flex
                     gap-6
                     lg:gap-8
-                    ml-auto 
+                    ml-auto
                     text-xs
-                    items-center 
-                    whitespace-nowrap 
-                    scrollbar-hide 
+                    items-center
+                    whitespace-nowrap
+                    scrollbar-hide
                     px-6 py-4
-                    border-nav_border 
+                    border-nav_border
                     dark:border-dark_nav_border
                     [direction:rtl]
                     `}>
