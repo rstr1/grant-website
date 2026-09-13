@@ -45,7 +45,7 @@ export default {
         forest: '#14240A',
         bone: '#DCE7E0',
         sage: '#8FA79A',
-        mint: '#399E5A',
+        light_green: '#39c934',
 
         // FINAL PALETTE W/ LIGHT AND DARK MODES
         background: "#ffffff",

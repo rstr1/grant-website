@@ -190,12 +190,12 @@ export default function Page() {
     const active = useActiveSection();
 
     return (
-        <div id="home-root" className="relative min-h-screen bg-forest font-geist text-sage selection:bg-mint/25">
+        <div id="home-root" className="relative min-h-screen bg-forest font-geist text-sage selection:bg-light_green/25">
             <CursorGlow />
 
             <div className="relative z-20 mx-auto max-w-6xl px-6 md:px-20 xl:max-w-7xl 2xl:max-w-[96rem] 2xl:px-24 lg:flex lg:gap-16 xl:gap-24">
                 <header className="pt-28 pb-12 lg:sticky lg:top-0 lg:flex lg:h-screen lg:w-[44%] lg:flex-col lg:justify-between lg:py-28">
-                    <div>
+                    <div className="relative z-10">
                         <h1 className="text-4xl font-semibold tracking-tight text-bone sm:text-7xl">
                             <span className="block overflow-clip pb-[0.12em] -mb-[0.12em]">
                                 <span className="block motion-safe:animate-reveal-line">Grant Dong</span>
@@ -213,17 +213,19 @@ export default function Page() {
                         </div>
                     </div>
 
-                    <div className="relative hidden lg:block lg:min-h-0 lg:flex-1 lg:py-4">
-                        <div
-                            aria-hidden="true"
-                            className="pointer-events-none absolute inset-0"
-                            style={{
-                                background:
-                                    'radial-gradient(closest-side, rgba(111,196,155,0.18), rgba(111,196,155,0.07) 55%, transparent 100%)',
-                            }}
-                        />
+                    <div className="relative z-0 hidden lg:block lg:min-h-0 lg:flex-1 lg:-mt-24 lg:mr-0 lg:py-0 lg:pr-12">
                         <div className="relative h-full w-full">
-                            <ModelViewer />
+                            <div
+                                aria-hidden="true"
+                                className="pointer-events-none absolute left-1/2 top-1/2 aspect-square h-[95%] -translate-x-1/2 -translate-y-1/2"
+                                style={{
+                                    background:
+                                        'radial-gradient(closest-side, rgba(111,196,155,0.18), rgba(111,196,155,0.07) 55%, transparent 100%)',
+                                }}
+                            />
+                            <div className="relative h-full w-full">
+                                <ModelViewer />
+                            </div>
                         </div>
                     </div>
 
@@ -235,7 +237,7 @@ export default function Page() {
                                     aria-label={label}
                                     target={href.startsWith('http') ? '_blank' : undefined}
                                     rel={href.startsWith('http') ? 'noopener noreferrer' : undefined}
-                                    className="block p-1 text-sage transition-colors duration-300 hover:text-mint"
+                                    className="block p-1 text-sage transition-colors duration-300 hover:text-light_green"
                                 >
                                     <Icon className="h-5 w-5" />
                                 </a>
@@ -272,13 +274,13 @@ export default function Page() {
                                 >
                                     <Link
                                         href={href}
-                                        className="group block rounded-lg p-4 pl-10 transition-colors duration-300 hover:bg-sage/5 hover:shadow-lg hover:outline-mint"
+                                        className="group block rounded-lg p-4 pl-10 transition-colors duration-300 hover:bg-sage/5 hover:shadow-lg hover:outline-light_green"
                                     >
                                         <div className="flex items-baseline gap-4">
                                             <span className="font-mono text-xs uppercase tracking-[0.15em] text-sage/60">
                                                 {year}
                                             </span>
-                                            <h3 className="font-medium text-bone transition-colors duration-300 group-hover:text-mint">
+                                            <h3 className="font-medium text-bone transition-colors duration-300 group-hover:text-light_green">
                                                 {title}
                                             </h3>
                                         </div>
@@ -287,7 +289,7 @@ export default function Page() {
                                             {tags.map((tag) => (
                                                 <li
                                                     key={tag}
-                                                    className="rounded-full bg-mint/10 px-3 py-1 font-mono text-xs text-mint"
+                                                    className="rounded-full bg-light_green/10 px-3 py-1 font-mono text-xs text-light_green"
                                                 >
                                                     {tag}
                                                 </li>
@@ -300,7 +302,7 @@ export default function Page() {
 
                         <Link
                             href="/projects"
-                            className="mt-4 inline-block text-lg font-mono text-bone transition-colors duration-300 hover:text-mint"
+                            className="mt-4 inline-block text-lg font-mono text-bone transition-colors duration-300 hover:text-light_green"
                         >
                             All projects →
                         </Link>
@@ -308,11 +310,11 @@ export default function Page() {
 
                     <Section id="photography" label="Photography">
                         <Paragraph>
-                            Photography for me is primarily a hobby by which I can record significant periods of my life — where I&apos;ve been, who I was there with, and what else was around us. Carrying around a camera also helps me notice the small details of whatever is happening around me.
+                            Photography for me is primarily a hobby through which I can chronicle significant periods of my life — where I&apos;ve been, who I was there with, and what else was around us. Carrying around a camera pushes me to notice the small details of everything happening around me.
                         </Paragraph>
                         <Link
                             href="/photography"
-                            className="inline-block text-lg font-mono text-bone transition-colors duration-300 hover:text-mint"
+                            className="inline-block text-lg font-mono text-bone transition-colors duration-300 hover:text-light_green"
                         >
                             Check out pics →
                         </Link>
@@ -325,14 +327,14 @@ export default function Page() {
                         <div className="flex flex-wrap gap-6">
                             <Link
                                 href="/resume"
-                                className="text-lg font-mono text-bone transition-colors duration-300 hover:text-mint"
+                                className="text-lg font-mono text-bone transition-colors duration-300 hover:text-light_green"
                             >
                                 View resume →
                             </Link>
                             <a
                                 href="/files/Grant_2026_Resume.pdf"
                                 download
-                                className="text-lg font-mono text-bone transition-colors duration-300 hover:text-mint ml-auto"
+                                className="text-lg font-mono text-bone transition-colors duration-300 hover:text-light_green ml-auto"
                             >
                                 Download PDF →
                             </a>
