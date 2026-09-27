@@ -43,6 +43,7 @@ export default {
         gradient_background: 'rgb(8, 8, 8)', // header and footer gradients
 
         forest: '#14240A',
+        forest_deep: '#0A1505',
         bone: '#DCE7E0',
         sage: '#8FA79A',
         light_green: '#39c934',

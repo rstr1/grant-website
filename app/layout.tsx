@@ -3,6 +3,8 @@ import { Analytics } from "@vercel/analytics/react"
 import "./globals.css";
 import React from "react";
 import Navbar from "./navbar";
+import BackLink from "./lib/back-link";
+import CursorGlow from "./lib/cursor-glow";
 
 import { Jost, Poppins, Playfair_Display, Inter, Jacquard_12, Geist, Geist_Mono } from "next/font/google";
 
@@ -27,8 +29,8 @@ export default function RootLayout({
   return (
     <html lang="en" className="
     overflow-auto
-    bg-dithered_background
-    text-dark_text
+    bg-forest
+    text-sage
     scrollbar-hide
     ">
       {/* bg-[url('/photography/faded_flower_extended_sky.png')] */}
@@ -40,13 +42,13 @@ export default function RootLayout({
           ${jacquard.variable}
           ${geist.variable}
           ${geistMono.variable}
-          bg-dithered_background
-          text-dark_text
-          font-jost
+          bg-forest
+          text-sage
+          font-geist
         `}>
-        <div>
-          <Navbar></Navbar>
-        </div>
+        <CursorGlow />
+        <Navbar />
+        <BackLink />
         <div className="min-h-screen">
           {children}
           <Analytics/>

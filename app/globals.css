@@ -13,6 +13,14 @@ html:has(#home-root) {
   }
 }
 
+html:has(#deep-root) {
+  background-color: #0A1505;
+}
+
+html:has([data-overscroll="none"]) {
+  overscroll-behavior-y: none;
+}
+
 @layer base {
 
   nav {
@@ -24,14 +32,14 @@ html:has(#home-root) {
     /* text-white */
     /* border-white */
     fixed border
-    bg-test_background
+    bg-transparent
     /* dark:bg-dark_nav_background */
-  text-dark_nav_text
-  border-dark_nav_border
+  text-sage
+  border-bone/15
     /* mix-blend-overlay */
     /* dark:mix-blend-lighten */
     z-50
-    font-jost
+    font-geist
     shadow-md
     text-shadow-2xs
   }

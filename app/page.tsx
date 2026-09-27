@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
 import { IconGitHub, IconLinkedIn, IconMail, IconDisc } from './lib/icons';
@@ -38,39 +38,6 @@ const LINKS = [
     { href: 'https://open.spotify.com/user/grantdingdong?si=374a5a1946a540e9', label: 'Spotify', Icon:IconDisc },
 ];
 
-function CursorGlow() {
-    const ref = useRef<HTMLDivElement>(null);
-
-    useEffect(() => {
-        if (window.matchMedia('(pointer: coarse)').matches) return;
-        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-
-        let rafId: number | null = null;
-        let x = 0;
-        let y = 0;
-
-        const paint = () => {
-            rafId = null;
-            const el = ref.current;
-            if (!el) return;
-            el.style.background = `radial-gradient(500px at ${x}px ${y}px, rgba(109, 196, 100, 0.07), transparent 90%)`;
-        };
-
-        const onMove = (e: MouseEvent) => {
-            x = e.clientX;
-            y = e.clientY;
-            if (rafId === null) rafId = requestAnimationFrame(paint);
-        };
-
-        window.addEventListener('mousemove', onMove, { passive: true });
-        return () => {
-            window.removeEventListener('mousemove', onMove);
-            if (rafId !== null) cancelAnimationFrame(rafId);
-        };
-    }, []);
-
-    return <div ref={ref} aria-hidden="true" className="pointer-events-none fixed inset-0 z-10" />;
-}
 
 function useActiveSection() {
     const [active, setActive] = useState(SECTIONS[0].id);
@@ -191,7 +158,6 @@ export default function Page() {
 
     return (
         <div id="home-root" className="relative min-h-screen bg-forest font-geist text-sage selection:bg-light_green/25">
-            <CursorGlow />
 
             <div className="relative z-20 mx-auto max-w-6xl px-6 md:px-20 xl:max-w-7xl 2xl:max-w-[96rem] 2xl:px-24 lg:flex lg:gap-16 xl:gap-24">
                 <header className="pt-28 pb-12 lg:sticky lg:top-0 lg:flex lg:h-screen lg:w-[44%] lg:flex-col lg:justify-between lg:py-28">
