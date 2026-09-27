@@ -41,8 +41,8 @@ export default function Tierlist() {
   }, [handleKey]);
 
   return (
-    <div id="scroll-container"
-      className={`transition-opacity duration-500 ease-out ${mounted ? "opacity-100" : "opacity-0"} overflow-y-scroll h-screen scrollbar-hide`}
+    <div id="scroll-container" data-overscroll="none"
+      className={`transition-opacity duration-500 ease-out ${mounted ? "opacity-100" : "opacity-0"} overflow-y-scroll overscroll-y-none h-screen scrollbar-hide`}
     >
       {/* Dive */}
       <section ref={diveSectionRef} className="relative block" style={{ height: `${DIVE_VH}vh` }}>

@@ -16,5 +16,5 @@ export function Block({ children, delay = 0 }: { children: React.ReactNode; dela
 // ─── Divider ──────────────────────────────────────────────────────────────────
 
 export function Divider() {
-  return <div className="border-t border-eggshell/10 my-10" />;
+  return <div className="border-t border-bone/10 my-10" />;
 }

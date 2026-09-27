@@ -26,7 +26,7 @@ export default function HexDungeonPage() {
     useFadeIn();
 
     return (
-        <div id="scroll-container" className="overflow-y-scroll h-screen">
+        <div id="deep-root">
 
             {/* ── Hero ── */}
             <section 
@@ -39,7 +39,7 @@ export default function HexDungeonPage() {
                 <Block delay={0}>
                     <Link
                         href="/projects"
-                        className="font-jost text-xs tracking-[0.3em] uppercase text-eggshell/30 hover:text-cadmium_orange transition-colors duration-300 mb-8 inline-block"
+                        className="font-mono text-xs tracking-[0.3em] uppercase text-sage/60 hover:text-light_green transition-colors duration-300 mb-8 inline-block"
                     >
                         ← Projects
                     </Link>
@@ -48,7 +48,7 @@ export default function HexDungeonPage() {
                 {/* Title */}
                 <Block delay={100}>
                 <h1
-                    className="font-playfair font-bold bg-gradient-to-r from-eggshell/90 to-eggshell/60 bg-clip-text text-transparent"
+                    className="font-playfair font-bold bg-gradient-to-r from-bone/90 to-bone/60 bg-clip-text text-transparent"
                     style={{ 
                         fontSize: 'clamp(2.5rem, 6vw, 5.5rem)', 
                         lineHeight: 1.1 
@@ -66,7 +66,7 @@ export default function HexDungeonPage() {
                     {['C#', 'Unity', 'Algorithms', 'Procedural Gen', 'Game Development'].map((tag) => (
                     <span
                         key={tag}
-                        className="font-jost text-[0.6rem] tracking-[0.18em] uppercase text-eggshell/30 border border-eggshell/10 px-3 py-1"
+                        className="font-mono text-[0.6rem] tracking-[0.18em] uppercase text-sage/60 border border-bone/10 px-3 py-1"
                     >
                         {tag}
                     </span>
@@ -77,7 +77,7 @@ export default function HexDungeonPage() {
 
             {/* Full-width divider */}
             <div
-                className="look-at-me opacity-0 border-t border-eggshell/10 mx-[10%]"
+                className="look-at-me opacity-0 border-t border-bone/10 mx-[10%]"
                 style={{ animationDelay: '250ms' }}
             />
 
@@ -89,12 +89,12 @@ export default function HexDungeonPage() {
                 <Block delay={350}>
                     <div className="grid md:grid-cols-3 gap-12 items-start">
                         <div className="md:col-span-1">
-                            <h2 className="font-playfair text-eggshell/80 text-2xl mb-6">
+                            <h2 className="font-playfair text-bone/80 text-2xl mb-6">
                                 Overview
                             </h2>
                             <p className={`${body_text_classname}`} style={{ fontSize: 'clamp(0.75rem, 2vw, 1rem)' }}>
                             I&apos;m currently in the process of designing and implementing the procedural generation process for
-                            an <span className="text-eggshell/70">underground, cavernous environment.</span>
+                            an <span className="text-bone/70">underground, cavernous environment.</span>
                             </p>
                             <p className={`${body_text_classname}`} style={{ fontSize: 'clamp(0.75rem, 2vw, 1rem)' }}>
                             Existing games that inspired my design direction typically use a square grid when dealing with 
@@ -102,7 +102,7 @@ export default function HexDungeonPage() {
                             organic, cavernous feel by avoiding the use of right-angles in the map.
                             </p>
                             <p className={`${body_text_classname}`} style={{ fontSize: 'clamp(0.75rem, 2vw, 1rem)' }}>
-                            Instead, this project will be using a <span className="text-eggshell/70">hexagonal coordinate 
+                            Instead, this project will be using a <span className="text-bone/70">hexagonal coordinate 
                             system</span>. The grid will be a tesselation of regular hexagons with 120° interior angles.
                             This allows for more variety in hallway/corridor directions, giving the level a less uniform feel.
                             </p>
@@ -114,18 +114,18 @@ export default function HexDungeonPage() {
 
                         <div className="md:col-span-2 ml-10">
                             <div className="[direction:rtl] mr-10">
-                                <h2 className="font-playfair text-eggshell/80 text-2xl mb-2">Design Principles</h2>
-                                <p className="font-jost text-xs tracking-[0.12em] text-eggshell/30 uppercase mb-10">Constraints</p>
+                                <h2 className="font-playfair text-bone/80 text-2xl mb-2">Design Principles</h2>
+                                <p className="font-mono text-xs tracking-[0.12em] text-sage/60 uppercase mb-10">Constraints</p>
                             </div>
                             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-8">
                                 {PRINCIPLES.map(({ label, desc }, i) => (
                                     <div
                                         key={label}
-                                        className="look-at-me opacity-0 border-t-2 border-eggshell/10 pt-5"
+                                        className="look-at-me opacity-0 border-t-2 border-bone/10 pt-5"
                                         style={{ animationDelay: `${i * 60}ms` }}
                                     >
-                                    <div className="font-jost text-xs tracking-[0.15em] uppercase text-eggshell/70 mb-2">{label}</div>
-                                    <div className="font-jost text-sm text-eggshell/35 leading-relaxed">{desc}</div>
+                                    <div className="font-mono text-xs tracking-[0.15em] uppercase text-bone/70 mb-2">{label}</div>
+                                    <div className="font-mono text-sm text-bone/35 leading-relaxed">{desc}</div>
                                     </div>
                                 ))}
                             </div>

@@ -4,8 +4,8 @@ import { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 
-const linkStyle = 'hover:text-light_orange transition duration-200';
-const linkStyleMobile = `${linkStyle} border rounded-full border-nav_border dark:border-dark_nav_border p-1`;
+const linkStyle = 'text-sage hover:text-light_green transition-colors duration-300';
+const linkStyleMobile = `${linkStyle} border rounded-full border-bone/20 p-1`;
 
 export default function Navbar() {
 
@@ -36,11 +36,12 @@ export default function Navbar() {
         }
     }, [pathname]);
 
-    if (pathname === '/') return null;
+    if (pathname === '/' || pathname === '/tierlist') return null;
 
     return (
         <div className={""}>
             <nav className={`
+                bg-forest/0
                 backdrop-blur-sm
                 transition-[padding,height] duration-300 ease-in-out
                 ${scrolled ? 'h-12': 'h-12 lg:h-20'}
@@ -55,10 +56,10 @@ export default function Navbar() {
                     font-bold
                     whitespace-nowrap
                     px-6 py-3
-                    border-dark_nav_border
+                    border-bone/15
                 `}>
                 {/* border-r  */}
-                    <Link href="/" className={linkStyle}>GRANT DONG</Link>
+                    <Link href="/" className="text-bone hover:text-light_green transition-colors duration-300">GRANT DONG</Link>
                 </div>
 
                 {/* Desktop Nav */}
@@ -73,8 +74,8 @@ export default function Navbar() {
                     whitespace-nowrap
                     scrollbar-hide
                     px-6 py-4
-                    border-nav_border
-                    dark:border-dark_nav_border
+                    border-bone/15
+                    dark:border-bone/15
                     [direction:rtl]
                     `}>
                     <Link href="/resume" className={linkStyle}>RESUME</Link>
@@ -85,17 +86,17 @@ export default function Navbar() {
                 </div>
 
                 {/* Hamburger Button */}
-                <div className="flex border-l border-nav_border dark:border-dark_nav_border items-center px-6 py-3 sm:hidden ml-auto text-xl font-bold transition-transform duration-300">
+                <div className="flex border-l border-bone/15 items-center px-6 py-3 sm:hidden ml-auto text-xl font-bold transition-transform duration-300">
                     <button
                     type="button"
                     aria-label="Toggle navigation"
                     onClick={() => setMenuOpen(prev => !prev)}
                     >
                         <div className={`relative w-6 h-6 flex flex-col justify-center items-center`}>
-                        <span className={`absolute left-0 h-[2px] bg-nav_text dark:bg-dark_nav_text transition-all duration-200 ${menuOpen ? 'top-3 left-2 w-2 opacity-0' : 'top-1 left-0 w-6 opacity-100'}`}></span>
-                        <span className={`absolute left-0 w-6 h-[2px] bg-nav_text dark:bg-dark_nav_text transition-all duration-200 ${menuOpen ? 'top-3 rotate-45' : 'top-3'}`}></span>
-                        <span className={`absolute left-0 w-6 h-[2px] bg-nav_text dark:bg-dark_nav_text transition-all duration-200 ${menuOpen ? 'top-3 -rotate-45' : 'top-3'}`}></span>
-                        <span className={`absolute left-0 h-[2px] bg-nav_text dark:bg-dark_nav_text transition-all duration-200 ${menuOpen ? 'top-3 left-2 w-2 opacity-0' : 'top-5 left-0 w-6 opacity-100'}`}></span>
+                        <span className={`absolute left-0 h-[2px] bg-sage transition-all duration-200 ${menuOpen ? 'top-3 left-2 w-2 opacity-0' : 'top-1 left-0 w-6 opacity-100'}`}></span>
+                        <span className={`absolute left-0 w-6 h-[2px] bg-sage transition-all duration-200 ${menuOpen ? 'top-3 rotate-45' : 'top-3'}`}></span>
+                        <span className={`absolute left-0 w-6 h-[2px] bg-sage transition-all duration-200 ${menuOpen ? 'top-3 -rotate-45' : 'top-3'}`}></span>
+                        <span className={`absolute left-0 h-[2px] bg-sage transition-all duration-200 ${menuOpen ? 'top-3 left-2 w-2 opacity-0' : 'top-5 left-0 w-6 opacity-100'}`}></span>
                         </div>
                     </button>
                 </div>
@@ -103,7 +104,7 @@ export default function Navbar() {
 
                 {/* Mobile Menu */}
                 {menuOpen && (
-                <div className={`sm:hidden bg-text border border-nav_border flex flex-col gap-4 p-4 text-xs rounded-xl max-w-[200px] shadow-lg transition-all duration-300 mt-6 ml-auto`}>
+                <div className={`sm:hidden bg-forest_deep border border-bone/15 flex flex-col gap-4 p-4 text-xs rounded-xl max-w-[200px] shadow-lg transition-all duration-300 mt-6 ml-auto`}>
                     <Link href="/tierlist" className={linkStyleMobile} onClick={() => setMenuOpen(false)}>MUSIC</Link>
                     <Link href="/photography" className={linkStyleMobile} onClick={() => setMenuOpen(false)}>PHOTOGRAPHY</Link>
                     <Link href="/articles" className={linkStyleMobile} onClick={() => setMenuOpen(false)}>ARTICLES</Link>

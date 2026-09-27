@@ -1,32 +1,22 @@
-// import Image from "next/image";
-
 export default function Photography() {
     return (
-        <div className="p-10 pt-24">
-            <h1 className="text-4xl font-bold mb-12 font-playfair">Photography</h1>
+        <div className="min-h-screen px-[10%] pb-40 pt-40">
+            <p className="font-mono text-xs tracking-[0.3em] uppercase text-sage/60">Photography</p>
 
-            <div className="grid gap-12">
+            <h1 className="mt-6 font-geist text-4xl font-semibold tracking-tight text-bone sm:text-6xl">
+                Photography
+            </h1>
 
-                Work In Progress
+            <div className="mt-8 h-px w-full max-w-5xl bg-bone/10" />
 
-                {/* <Image
-                    src="/photography/DSCF1616.png"
-                    alt="Lake Como Waterfront"
-                    width="4896"
-                    height="3264"
-                    className="rounded-lg shadow-lg"
-                />
+            <p className="mt-8 max-w-[68ch] font-geist text-lg leading-relaxed text-sage">
+                A record of where I&apos;ve been and who I was there with. Carrying a camera
+                makes me notice the small details of whatever is happening around me.
+            </p>
 
-                <Image
-                    src="/photography/DSCF1745.png"
-                    alt="Bellagio Alley"
-                    width="4528"
-                    height="2547"
-                    className="rounded-lg shadow-lg"
-                /> */}
-
-            </div>
-
+            <p className="mt-10 inline-block border border-bone/10 px-4 py-2 font-mono text-xs uppercase tracking-[0.2em] text-sage/60">
+                Gallery in progress
+            </p>
         </div>
     );
 }
